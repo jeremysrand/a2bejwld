@@ -1,0 +1,208 @@
+#!/bin/sh
+
+if [ $# -lt 5 ]
+then
+    echo USAGE: $0 '<AppleCommander> <machine> <diskimage> <binary>'
+    exit 1
+fi
+
+if [ -z "$JAVA" ]
+then
+    for item in "/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home" /Library/Java/JavaVirtualMachines/*/Contents/Home /usr
+    do
+        if [ -x "$item/bin/java" ]
+        then
+            JAVA="$item/bin/java"
+            break
+        fi
+    done
+fi
+
+if [ -z "$JAVA" ]
+then
+    echo Cannot find a path to a Java runtime.
+    echo Go to https://java.com/download if you do not have Java.
+    echo If you do have Java, you may need to uncomment the JAVA
+    echo line in the Makefile and set it to the path for your
+    echo Java runtime binary.
+    exit 1
+fi
+
+APPLECOMMANDER=$1
+MACHINE=$2
+DISKIMAGE=$3
+PROGRAM=$4
+STARTADDR=`echo $5 | sed 's/^0*//'`
+
+if [ ! -f "$PROGRAM" ]
+then
+    echo "Cannot file executable $PROGRAM"
+    exit 1
+fi
+
+case "$MACHINE" in
+    apple2)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=1
+        RENAMELOADER=0
+        DELETEBASIC=0
+        HASHEADER=1
+        FILETYPE="bin"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=15
+        ;;
+
+    apple2enh)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=1
+        RENAMELOADER=0
+        DELETEBASIC=0
+        HASHEADER=1
+        FILETYPE="bin"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=15
+        ;;
+
+    apple2-dos33)
+        TEMPLATE="make/dos33_template.dsk"
+        DELETELOADER=0
+        RENAMELOADER=0
+        DELETEBASIC=0
+        HASHEADER=1
+        FILETYPE="bin"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=30
+        ;;
+
+    apple2enh-dos33)
+        TEMPLATE="make/dos33_template.dsk"
+        DELETELOADER=0
+        RENAMELOADER=0
+        DELETEBASIC=0
+        HASHEADER=1
+        FILETYPE="bin"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=30
+        ;;
+
+    apple2-system)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=1
+        RENAMELOADER=0
+        DELETEBASIC=1
+        HASHEADER=0
+        FILETYPE="sys"
+        TARGETFILE=`basename $PROGRAM`.system
+        MAXFILENAMELEN=15
+        ;;
+
+    apple2enh-system)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=1
+        RENAMELOADER=0
+        DELETEBASIC=1
+        HASHEADER=0
+        FILETYPE="sys"
+        TARGETFILE=`basename $PROGRAM`.system
+        MAXFILENAMELEN=15
+        ;;
+
+    apple2-loader)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=0
+        RENAMELOADER=1
+        DELETEBASIC=1
+        HASHEADER=1
+        FILETYPE="bin"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=15
+        ;;
+
+    apple2-reboot)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=0
+        RENAMELOADER=1
+        DELETEBASIC=1
+        HASHEADER=1
+        FILETYPE="bin"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=15
+        ;;
+
+    apple2enh-loader)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=0
+        RENAMELOADER=1
+        DELETEBASIC=1
+        HASHEADER=1
+        FILETYPE="bin"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=15
+        ;;
+
+    apple2enh-reboot)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=0
+        RENAMELOADER=1
+        DELETEBASIC=1
+        HASHEADER=1
+        FILETYPE="bin"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=8
+        ;;
+
+    *)
+        echo "Invalid machine type $MACHINE"
+        exit 1
+        ;;
+esac
+
+if [ ${#TARGETFILE} -gt $MAXFILENAMELEN ]
+then
+    echo "The filename $TARGETFILE exceeds the max name length of the filesystem ($MAXFILENAMELEN)"
+    exit 1
+fi
+
+if [ ! -f "$TEMPLATE" ]
+then
+    echo "Cannot file template disk image $TEMPLATE"
+    exit 1
+fi
+
+cp "$TEMPLATE" "$DISKIMAGE"
+
+if [ $DELETELOADER -eq 1 ]
+then
+    "$JAVA" -jar "$APPLECOMMANDER" -d "$DISKIMAGE" LOADER.SYSTEM
+fi
+
+if [ $RENAMELOADER -eq 1 ]
+then
+    LOADERFILE=${TARGETFILE}.system
+    if [ ${#LOADERFILE} -gt $MAXFILENAMELEN ]
+    then
+        echo "The filename $LOADERFILE exceeds the max name length of the filesystem ($MAXFILENAMELEN)"
+        rm -f "$DISKIMAGE"
+        exit 1
+    fi
+    "$JAVA" -jar "$APPLECOMMANDER" -e "$DISKIMAGE" LOADER.SYSTEM | "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$LOADERFILE" sys
+    "$JAVA" -jar "$APPLECOMMANDER" -d "$DISKIMAGE" LOADER.SYSTEM
+fi
+
+if [ $DELETEBASIC -eq 1 ]
+then
+    "$JAVA" -jar "$APPLECOMMANDER" -d "$DISKIMAGE" BASIC.SYSTEM
+fi
+
+if [ $HASHEADER -eq 1 ]
+then
+    HDR_STARTADDR=`od -t x2 -N 2 < "$PROGRAM" | head -1 | awk '{print $2}' | sed 's/^0*//'`
+    if [ "$HDR_STARTADDR" = "$STARTADDR" ]
+    then
+       dd if="$PROGRAM" bs=4 skip=1 | "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE 0x$STARTADDR
+   else
+       "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE 0x$STARTADDR < "$PROGRAM"
+    fi
+else
+    "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE < "$PROGRAM"
+fi
