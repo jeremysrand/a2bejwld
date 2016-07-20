@@ -17,6 +17,10 @@
 		9D6B47361D3FB16F00F6D704 /* prodos_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = prodos_template.dsk; path = make/prodos_template.dsk; sourceTree = "<group>"; };
 		9D6B47371D3FB16F00F6D704 /* tail.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = tail.mk; path = make/tail.mk; sourceTree = "<group>"; };
 		9D6B47381D3FB16F00F6D704 /* V2Make.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = V2Make.scpt; path = make/V2Make.scpt; sourceTree = "<group>"; };
+		9D6B473E1D3FB20000F6D704 /* dbllores.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = dbllores.s; sourceTree = "<group>"; };
+		9D6B473F1D3FB5C800F6D704 /* dbllores.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dbllores.h; sourceTree = "<group>"; };
+		9D6B47401D40098300F6D704 /* game.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
+		9D6B47411D40098300F6D704 /* game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -31,6 +35,10 @@
 			isa = PBXGroup;
 			children = (
 				9D6B472E1D3FB16F00F6D704 /* main.c */,
+				9D6B47401D40098300F6D704 /* game.c */,
+				9D6B47411D40098300F6D704 /* game.h */,
+				9D6B473E1D3FB20000F6D704 /* dbllores.s */,
+				9D6B473F1D3FB5C800F6D704 /* dbllores.h */,
 				9D6B472F1D3FB16F00F6D704 /* Makefile */,
 				9D6B47301D3FB16F00F6D704 /* make */,
 			);

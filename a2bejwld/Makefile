@@ -30,7 +30,7 @@ PGM=a2bejwld
 #    MACHINE = apple2-reboot
 #    MACHINE = apple2enh
 #    MACHINE = apple2enh-dos33
-#    MACHINE = apple2enh-system
+MACHINE = apple2enh-system
 #    MACHINE = apple2enh-loader
 #    MACHINE = apple2enh-reboot
 
@@ -43,7 +43,7 @@ PGM=a2bejwld
 # the one you want below (the first one is the default):
 #    CPU = 6502
 #    CPU = 65SC02
-#    CPU = 65C02
+CPU = 65C02
 #    CPU = 65816
 # Note: You can assemble for 65816 in 16-bit mode but the C compiler
 # will only produce 8-bit code.
