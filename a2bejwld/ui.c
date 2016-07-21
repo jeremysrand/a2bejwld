@@ -120,6 +120,9 @@ static void refreshSquare(tSquare square)
 {
     drawBgSquare(square);
     drawGemAtSquare(square);
+    
+    if (gemIsStarredAtSquare(square))
+        starGem(square);
 }
 
 

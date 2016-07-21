@@ -10,6 +10,7 @@
     .export _drawGreenGem, _drawPurpleGem, _drawYellowGem
     .export _drawBlueGem, _drawRedGem, _drawGreyGem
     .export _drawOrangeGem, _drawBgSquare, _selectSquare
+    .export _starGem
 
     .include "apple2.inc"
 
@@ -413,6 +414,42 @@ square:     .BYTE $0
     ldx #>selectMask
     stx gemmask+1
     jmp _drawGem
+.endproc
+
+.proc _starGem
+; A is the square position (from 0 to 63)
+; 0 through 7 are on the top row
+    sta square
+
+    and #7
+    asl
+    asl
+    inc A
+    inc A
+    sta xPos
+    lda square
+    lsr
+    lsr
+    lsr
+
+; Get line addrs
+    tax
+    lda bgLoLines2,X
+    clc
+    adc xPos
+    sta line2addr
+    lda bgHiLines2,X
+    sta line2addr+1
+    
+    sta HISCR
+    lda #$ff
+    sta (line2addr)
+    rts
+
+; Locals
+
+xPos:       .BYTE $0
+square:     .BYTE $0
 .endproc
 
 

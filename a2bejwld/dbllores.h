@@ -26,6 +26,8 @@ void __fastcall__ drawOrangeGem(tSquare square);
 void __fastcall__ drawGreyGem(tSquare square);
 void __fastcall__ drawPurpleGem(tSquare square);
 
+void __fastcall__ starGem(tSquare square);
+
 void __fastcall__ selectSquare(tSquare square);
 
 

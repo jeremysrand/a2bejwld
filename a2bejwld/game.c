@@ -362,6 +362,9 @@ static bool dropGems(void)
                     GEM_TYPE_AT_SQUARE(destSquare) = gemType;
                     GEM_STARRED_AT_SQUARE(destSquare) = GEM_STARRED_AT_SQUARE(square);
                     gSquareRefresh(destSquare);
+                    GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
+                    GEM_STARRED_AT_SQUARE(square) = false;
+                    gSquareRefresh(square);
                     destY--;
                     destSquare = XY_TO_SQUARE(x, destY);
                 }
@@ -369,18 +372,16 @@ static bool dropGems(void)
         }
         if (destSquare != NUM_SQUARES) {
             // DEBUG
-            if (result)
-                cgetc();
+            cgetc();
             // DBEUG
             for (y = destY; y >= 0; y--) {
                 square = XY_TO_SQUARE(x, y);
                 GEM_TYPE_AT_SQUARE(square) = randomGem();
                 GEM_STARRED_AT_SQUARE(square) = false;
-                gSquareRefresh(destSquare);
+                gSquareRefresh(square);
             }
             // DEBUG
-            if (result)
-                cgetc();
+            cgetc();
             // DBEUG
         }
     }
