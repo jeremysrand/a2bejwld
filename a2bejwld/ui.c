@@ -101,7 +101,6 @@ static void drawGemAtSquare(tSquare square)
             break;
             
         default:
-            asm("brk");
             break;
     }
 }

@@ -15,8 +15,8 @@
 
 #define MIN_MATCHING 3
 
-#define GEM_TYPE_AT_SQUARE(square) gameState.squareStates[square].gemType
-#define GEM_STARRED_AT_SQUARE(square) gameState.squareStates[square].isStarred
+#define GEM_TYPE_AT_SQUARE(square) gGameState.squareStates[square].gemType
+#define GEM_STARRED_AT_SQUARE(square) gGameState.squareStates[square].isStarred
 
 
 typedef struct tSquareState {
@@ -34,7 +34,7 @@ typedef struct tGameState {
 } tGameState;
 
 
-tGameState gameState;
+tGameState gGameState;
 
 
 static tGemType randomGem(void)
@@ -48,7 +48,7 @@ static uint8_t numMatchingUpDownAtSquare(tSquare square, tGemType gemType)
     tPos x = SQUARE_TO_X(square);
     tPos y;
     tPos startY = SQUARE_TO_Y(square);
-    uint8_t result = 0;
+    uint8_t result = 1;
     tPos lowerY = (startY < MIN_MATCHING ? 0 : startY - (MIN_MATCHING - 1));
     tPos upperY = (startY > (BOARD_SIZE - MIN_MATCHING) ? (BOARD_SIZE - 1) : startY + (MIN_MATCHING - 1));
     bool isStarred = GEM_STARRED_AT_SQUARE(square);
@@ -94,7 +94,7 @@ static uint8_t numMatchingRightLeftAtSquare(tSquare square, tGemType gemType)
     tPos x;
     tPos y = SQUARE_TO_Y(square);
     tPos startX = SQUARE_TO_X(square);
-    uint8_t result = 0;
+    uint8_t result = 1;
     tPos leftX = (startX < MIN_MATCHING ? 0 : startX - (MIN_MATCHING - 1));
     tPos rightX = (startX > (BOARD_SIZE - MIN_MATCHING) ? (BOARD_SIZE - 1) : startX + (MIN_MATCHING - 1));
     bool isStarred = GEM_STARRED_AT_SQUARE(square);
@@ -114,7 +114,7 @@ static uint8_t numMatchingRightLeftAtSquare(tSquare square, tGemType gemType)
         }
     }
     
-    if (startX < 7) {
+    if (startX < BOARD_SIZE - 1) {
         for (x = startX + 1; x <= rightX; x++) {
             square = XY_TO_SQUARE(x, y);
             if (gemType != GEM_TYPE_AT_SQUARE(square))
@@ -144,7 +144,7 @@ static void initSquare(tSquare square)
     } while ((numMatchingUpDownAtSquare(square, gemType) != 0) ||
              (numMatchingRightLeftAtSquare(square, gemType) != 0));
     
-    gameState.squareStates[square].gemType = gemType;
+    gGameState.squareStates[square].gemType = gemType;
 }
 
 
@@ -152,9 +152,9 @@ void initGame(void)
 {
     tSquare square;
     
-    memset(&gameState, 0, sizeof(gameState));
+    memset(&gGameState, 0, sizeof(gGameState));
     
-    gameState.level = 1;
+    gGameState.level = 1;
     
     for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
         initSquare(square);
@@ -176,13 +176,13 @@ bool gemIsStarredAtSquare(tSquare square)
 
 tLevel getLevel(void)
 {
-    return gameState.level;
+    return gGameState.level;
 }
 
 
 tScore getScore(void)
 {
-    return gameState.score;
+    return gGameState.score;
 }
 
 
@@ -194,7 +194,7 @@ bool gameIsOver(void)
     tGemType gemType;
     tGemType otherGemType;
     
-    if (gameState.numSpecial > 0)
+    if (gGameState.numSpecial > 0)
         return false;
     
     for (x = 0; x < (BOARD_SIZE - 1); x++) {
