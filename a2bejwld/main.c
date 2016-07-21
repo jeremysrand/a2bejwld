@@ -20,4 +20,6 @@ int main(void)
     while (true) {
         playGame();
     }
+    
+    return 0;
 }

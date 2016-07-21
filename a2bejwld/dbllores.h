@@ -25,10 +25,13 @@ void __fastcall__ drawGreenGem(tSquare square);
 void __fastcall__ drawOrangeGem(tSquare square);
 void __fastcall__ drawGreyGem(tSquare square);
 void __fastcall__ drawPurpleGem(tSquare square);
+void __fastcall__ drawSpecialGem(tSquare square);
 
 void __fastcall__ starGem(tSquare square);
 
 void __fastcall__ selectSquare(tSquare square);
+
+void __fastcall__ drawScore(uint8_t score);
 
 
 #endif /* defined(__a2bejwld__dbllores__) */

@@ -9,8 +9,8 @@
     .export _showDblLoRes, _clearDblLoRes, _unshowDblLoRes
     .export _drawGreenGem, _drawPurpleGem, _drawYellowGem
     .export _drawBlueGem, _drawRedGem, _drawGreyGem
-    .export _drawOrangeGem, _drawBgSquare, _selectSquare
-    .export _starGem
+    .export _drawOrangeGem, _drawSpecialGem, _drawBgSquare
+    .export _drawScore, _selectSquare, _starGem
 
     .include "apple2.inc"
 
@@ -404,6 +404,18 @@ square:     .BYTE $0
     jmp _drawGem
 .endproc
 
+.proc _drawSpecialGem
+    ldx #<specialGem
+    stx gemaddr
+    ldx #>specialGem
+    stx gemaddr+1
+    ldx #<specialMask
+    stx gemmask
+    ldx #>specialMask
+    stx gemmask+1
+    jmp _drawGem
+.endproc
+
 .proc _selectSquare
     ldx #<selectGem
     stx gemaddr
@@ -450,6 +462,43 @@ square:     .BYTE $0
 
 xPos:       .BYTE $0
 square:     .BYTE $0
+.endproc
+
+.proc _drawScore
+; A is a number from 0 to 24
+    tay
+    ldx #24
+    lda #$22
+    sta color
+    sta LOWSCR
+@L1:
+    dex
+    bmi @L2
+    cpy #0
+    bne @L3
+    lda #$aa
+    sta color
+@L3:
+    dey
+
+    lda lineLoAddrs,X
+    clc
+    adc #39
+    sta line1addr
+    lda lineHiAddrs,X
+    sta line1addr+1
+
+    lda color
+    sta (line1addr)
+
+    bra @L1
+
+@L2:
+    rts
+
+; Locals
+
+color:      .BYTE $0
 .endproc
 
 
@@ -632,6 +681,26 @@ orangeMask:
     .BYTE $0f, $00, $f0
     .BYTE $0f, $00, $f0
     .BYTE $ff, $00, $ff
+    .BYTE $ff, $ff, $ff
+
+
+specialGem:
+    .BYTE $00, $00, $00
+    .BYTE $00, $00, $00
+    .BYTE $00, $ff, $00
+    .BYTE $f0, $ff, $0f
+    .BYTE $f0, $ff, $0f
+    .BYTE $00, $ff, $00
+    .BYTE $00, $00, $00
+    .BYTE $00, $00, $00
+specialMask:
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $00, $ff
+    .BYTE $0f, $00, $f0
+    .BYTE $0f, $00, $f0
+    .BYTE $ff, $00, $ff
+    .BYTE $ff, $ff, $ff
     .BYTE $ff, $ff, $ff
 
 

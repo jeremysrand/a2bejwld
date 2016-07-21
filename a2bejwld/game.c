@@ -14,9 +14,14 @@
 #include "game.h"
 
 
+#define DEBUG_MOVES
+
 #define MIN_MATCHING 3
 #define STAR_MATCH 4
 #define SPECIAL_MATCH 5
+
+#define STARTING_GEMS_PER_POINT 3
+#define MAX_GEMS_PER_POINT 10
 
 #define GEM_TYPE_AT_SQUARE(square) gGameState.squareStates[square].gemType
 #define GEM_STARRED_AT_SQUARE(square) gGameState.squareStates[square].isStarred
@@ -30,20 +35,47 @@ typedef struct tSquareState {
 
 typedef struct tGameState {
     tSquareState squareStates[NUM_SQUARES];
-    uint8_t numStarred;
-    uint8_t numSpecial;
-    uint8_t level;
-    uint8_t score;
+    tLevel level;
+    uint8_t numGemsCleared;
+    uint8_t targetGemsToClear;
+    uint8_t gemsPerPoint;
+    tScore  score;
 } tGameState;
 
 
 tGameState gGameState;
 tSquareRefreshCallback gSquareRefresh = NULL;
+tScoreRefreshCallback gScoreRefresh = NULL;
+
+
+static void incrementScore(void)
+{
+    tScore oldScore;
+    
+    if (gGameState.numGemsCleared < gGameState.targetGemsToClear) {
+        gGameState.numGemsCleared++;
+        oldScore = gGameState.score;
+        gGameState.score = gGameState.numGemsCleared / gGameState.gemsPerPoint;
+        
+        if (gGameState.score != oldScore) {
+            gScoreRefresh(gGameState.score);
+        }
+    }
+}
 
 
 static tGemType randomGem(void)
 {
     return (rand() % (GEM_MAX_NORMAL - GEM_MIN_NORMAL)) + GEM_MIN_NORMAL;
+}
+
+
+static void clearSquare(tSquare square)
+{
+    if (GEM_TYPE_AT_SQUARE(square) != GEM_NONE)
+        incrementScore();
+    GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
+    gSquareRefresh(square);
 }
 
 
@@ -61,13 +93,12 @@ static void explodeStarAtSquare(tSquare square)
     for (x = minX; x <= maxX; x++) {
         for (y = minY; y <= maxY; y++) {
             square = XY_TO_SQUARE(x, y);
-            GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
-            gSquareRefresh(square);
+            clearSquare(square);
         }
     }
-    // DEBUG
+#ifdef DEBUG_MOVES
     cgetc();
-    // DBEUG
+#endif
 }
 
 
@@ -77,8 +108,8 @@ static uint8_t numMatchingUpDownAtSquare(tSquare square, tGemType gemType, bool 
     tPos y;
     tPos startY = SQUARE_TO_Y(square);
     uint8_t result = 1;
-    tPos lowerY = (startY < MIN_MATCHING ? 0 : startY - (MIN_MATCHING - 1));
-    tPos upperY = (startY > (BOARD_SIZE - MIN_MATCHING) ? (BOARD_SIZE - 1) : startY + (MIN_MATCHING - 1));
+    tPos lowerY = 0;
+    tPos upperY = BOARD_SIZE - 1;
     
     if (gemType == GEM_NONE)
         gemType = GEM_TYPE_AT_SQUARE(square);
@@ -112,8 +143,7 @@ static uint8_t numMatchingUpDownAtSquare(tSquare square, tGemType gemType, bool 
     } else if (update) {
         for (y = lowerY; y <= upperY; y++) {
             square = XY_TO_SQUARE(x, y);
-            GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
-            gSquareRefresh(square);
+            clearSquare(square);
         }
     }
     
@@ -128,8 +158,8 @@ static uint8_t numMatchingRightLeftAtSquare(tSquare square, tGemType gemType, bo
     tPos y = SQUARE_TO_Y(square);
     tPos startX = SQUARE_TO_X(square);
     uint8_t result = 1;
-    tPos leftX = (startX < MIN_MATCHING ? 0 : startX - (MIN_MATCHING - 1));
-    tPos rightX = (startX > (BOARD_SIZE - MIN_MATCHING) ? (BOARD_SIZE - 1) : startX + (MIN_MATCHING - 1));
+    tPos leftX = 0;
+    tPos rightX = BOARD_SIZE - 1;
     
     if (gemType == GEM_NONE)
         gemType = GEM_TYPE_AT_SQUARE(square);
@@ -163,8 +193,7 @@ static uint8_t numMatchingRightLeftAtSquare(tSquare square, tGemType gemType, bo
     } else if (update) {
         for (x = leftX; x <= rightX; x++) {
             square = XY_TO_SQUARE(x, y);
-            GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
-            gSquareRefresh(square);
+            clearSquare(square);
         }
     }
     
@@ -185,15 +214,20 @@ static void initSquare(tSquare square)
 }
 
 
-void initGame(tSquareRefreshCallback callback)
+void initGame(tSquareRefreshCallback squareCallback, tScoreRefreshCallback scoreCallback)
 {
     tSquare square;
     
-    gSquareRefresh = callback;
+    gSquareRefresh = squareCallback;
+    gScoreRefresh = scoreCallback;
     
     memset(&gGameState, 0, sizeof(gGameState));
     
     gGameState.level = 1;
+    gGameState.numGemsCleared = 0;
+    gGameState.gemsPerPoint = STARTING_GEMS_PER_POINT;
+    gGameState.targetGemsToClear = STARTING_GEMS_PER_POINT * SCORE_PER_LEVEL;
+    gGameState.score = 0;
     
     for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
         initSquare(square);
@@ -209,7 +243,18 @@ tGemType gemTypeAtSquare(tSquare square)
 
 bool gemIsStarredAtSquare(tSquare square)
 {
-    return GEM_STARRED_AT_SQUARE(square);
+    bool result = GEM_STARRED_AT_SQUARE(square);
+    tGemType gemType;
+    
+    if (result) {
+        gemType = GEM_TYPE_AT_SQUARE(square);
+        if ((gemType < GEM_MIN_NORMAL) ||
+            (gemType > GEM_MAX_NORMAL)) {
+            result = false;
+        }
+    }
+    
+    return result;
 }
 
 
@@ -233,16 +278,18 @@ bool gameIsOver(void)
     tGemType gemType;
     tGemType otherGemType;
     
-    if (gGameState.numSpecial > 0)
-        return false;
-    
     for (x = 0; x < (BOARD_SIZE - 1); x++) {
         for (y = 0; y < (BOARD_SIZE - 1); y++) {
             square = XY_TO_SQUARE(x, y);
             otherSquare = XY_TO_SQUARE(x + 1, y);
             
             gemType = GEM_TYPE_AT_SQUARE(square);
+            if (gemType == GEM_SPECIAL)
+                return false;
+            
             otherGemType = GEM_TYPE_AT_SQUARE(otherSquare);
+            if (otherGemType == GEM_SPECIAL)
+                return false;
             
             if (gemType != otherGemType) {
                 if (numMatchingUpDownAtSquare(otherSquare, gemType, false) > 0)
@@ -254,6 +301,8 @@ bool gameIsOver(void)
             
             otherSquare = XY_TO_SQUARE(x, y + 1);
             otherGemType = GEM_TYPE_AT_SQUARE(otherSquare);
+            if (otherGemType == GEM_SPECIAL)
+                return false;
             
             if (gemType != otherGemType) {
                 if (numMatchingRightLeftAtSquare(otherSquare, gemType, false) > 0)
@@ -288,7 +337,7 @@ static bool explodeGems(void)
 }
 
 
-static bool actOnMatchAtSquare(tSquare square)
+static bool actOnMatchAtSquare(tSquare square, bool specialsOnly)
 {
     tGemType gemType = GEM_TYPE_AT_SQUARE(square);
     bool starred = GEM_STARRED_AT_SQUARE(square);
@@ -299,8 +348,8 @@ static bool actOnMatchAtSquare(tSquare square)
     if (gemType == GEM_NONE)
         return result;
     
-    matchesUD = numMatchingUpDownAtSquare(square, gemType, true);
-    matchesRL = numMatchingRightLeftAtSquare(square, gemType, true);
+    matchesUD = numMatchingUpDownAtSquare(square, gemType, !specialsOnly);
+    matchesRL = numMatchingRightLeftAtSquare(square, gemType, !specialsOnly);
     
     if (matchesUD > 0)
         result = true;
@@ -311,26 +360,38 @@ static bool actOnMatchAtSquare(tSquare square)
     if (!starred) {
         if ((matchesUD == SPECIAL_MATCH) ||
             (matchesRL == SPECIAL_MATCH)) {
+            if (specialsOnly) {
+                numMatchingUpDownAtSquare(square, gemType, true);
+                numMatchingRightLeftAtSquare(square, gemType, true);
+            }
             GEM_TYPE_AT_SQUARE(square) = GEM_SPECIAL;
             gSquareRefresh(square);
         } else if ((matchesUD == STAR_MATCH) ||
                    (matchesRL == STAR_MATCH)) {
+            if (specialsOnly) {
+                numMatchingUpDownAtSquare(square, gemType, true);
+                numMatchingRightLeftAtSquare(square, gemType, true);
+            }
             GEM_TYPE_AT_SQUARE(square) = gemType;
             GEM_STARRED_AT_SQUARE(square) = true;
             gSquareRefresh(square);
             
         } else if ((matchesUD == MIN_MATCHING) &&
                    (matchesRL == MIN_MATCHING)) {
+            if (specialsOnly) {
+                numMatchingUpDownAtSquare(square, gemType, true);
+                numMatchingRightLeftAtSquare(square, gemType, true);
+            }
             GEM_TYPE_AT_SQUARE(square) = gemType;
             GEM_STARRED_AT_SQUARE(square) = true;
             gSquareRefresh(square);
         }
     }
     
-    // DEBUG
+#ifdef DEBUG_MOVES
     if (result)
         cgetc();
-    // DBEUG
+#endif
     
     return result;
 }
@@ -371,25 +432,33 @@ static bool dropGems(void)
             }
         }
         if (destSquare != NUM_SQUARES) {
-            // DEBUG
+#ifdef DEBUG_MOVES
             cgetc();
-            // DBEUG
+#endif
             for (y = destY; y >= 0; y--) {
                 square = XY_TO_SQUARE(x, y);
                 GEM_TYPE_AT_SQUARE(square) = randomGem();
                 GEM_STARRED_AT_SQUARE(square) = false;
                 gSquareRefresh(square);
             }
-            // DEBUG
+#ifdef DEBUG_MOVES
             cgetc();
-            // DBEUG
+#endif
         }
     }
     
     for (x = 0; x < BOARD_SIZE; x++) {
         for (y = 0; y < BOARD_SIZE; y++) {
             square = XY_TO_SQUARE(x, y);
-            if (actOnMatchAtSquare(square))
+            if (actOnMatchAtSquare(square, true))
+                result = true;
+        }
+    }
+    
+    for (x = 0; x < BOARD_SIZE; x++) {
+        for (y = 0; y < BOARD_SIZE; y++) {
+            square = XY_TO_SQUARE(x, y);
+            if (actOnMatchAtSquare(square, false))
                 result = true;
         }
     }
@@ -403,6 +472,105 @@ static bool dropGems(void)
 }
 
 
+static tSquare randomSquare(void)
+{
+    return (rand() % NUM_SQUARES);
+}
+
+
+static void checkForNextLevel(void)
+{
+    uint8_t numStarred = 0;
+    uint8_t numSpecial = 0;
+    tSquare square;
+    
+    if (gGameState.numGemsCleared < gGameState.targetGemsToClear)
+        return;
+    
+    for (square = 0; square < NUM_SQUARES; square++) {
+        if (GEM_TYPE_AT_SQUARE(square) == GEM_SPECIAL) {
+            numSpecial++;
+        } else if (GEM_STARRED_AT_SQUARE(square)) {
+            numStarred++;
+        }
+        GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
+        GEM_STARRED_AT_SQUARE(square) = false;
+        gSquareRefresh(square);
+    }
+    
+    gGameState.level++;
+    gGameState.score = 0;
+    gGameState.numGemsCleared = 0;
+    if (gGameState.level > (MAX_GEMS_PER_POINT - STARTING_GEMS_PER_POINT)) {
+        gGameState.gemsPerPoint = MAX_GEMS_PER_POINT;
+    } else {
+        gGameState.gemsPerPoint = STARTING_GEMS_PER_POINT - 1 + gGameState.level;
+    }
+    gGameState.targetGemsToClear = gGameState.gemsPerPoint * SCORE_PER_LEVEL;
+    gScoreRefresh(gGameState.score);
+    
+    for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
+        initSquare(square);
+    }
+    
+    while (numStarred > 0) {
+        square = randomSquare();
+        if (GEM_STARRED_AT_SQUARE(square))
+            continue;
+        
+        GEM_STARRED_AT_SQUARE(square) = true;
+        numStarred--;
+    }
+
+    while (numSpecial > 0) {
+        square = randomSquare();
+        if (GEM_STARRED_AT_SQUARE(square))
+            continue;
+        if (GEM_TYPE_AT_SQUARE(square) == GEM_SPECIAL)
+            continue;
+        
+        GEM_TYPE_AT_SQUARE(square) = GEM_SPECIAL;
+        numSpecial--;
+    }
+    
+    for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
+        gSquareRefresh(square);
+    }
+}
+
+
+static void doSpecialForGemType(tGemType gemType, tSquare square)
+{
+    clearSquare(square);
+    
+    for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
+        if (GEM_TYPE_AT_SQUARE(square) == gemType) {
+            clearSquare(square);
+        }
+    }
+
+    while (explodeGems())
+        ;
+    while (dropGems())
+        ;
+    
+    checkForNextLevel();
+}
+
+
+static void swapSquares(tSquare square, tSquare otherSquare)
+{
+    tSquareState tempState;
+    
+    tempState = gGameState.squareStates[square];
+    gGameState.squareStates[square] = gGameState.squareStates[otherSquare];
+    gGameState.squareStates[otherSquare] = tempState;
+    
+    gSquareRefresh(square);
+    gSquareRefresh(otherSquare);
+}
+
+
 void moveSquareInDir(tSquare square, tDirection dir)
 {
     tPos x = SQUARE_TO_X(square);
@@ -410,8 +578,6 @@ void moveSquareInDir(tSquare square, tDirection dir)
     tSquare otherSquare;
     tGemType gemType = GEM_TYPE_AT_SQUARE(square);
     tGemType otherGemType;
-    bool starred = GEM_STARRED_AT_SQUARE(square);
-    bool otherStarred;
     bool goodMove = false;
     
     switch (dir) {
@@ -434,37 +600,32 @@ void moveSquareInDir(tSquare square, tDirection dir)
     
     otherSquare = XY_TO_SQUARE(x, y);
     otherGemType = GEM_TYPE_AT_SQUARE(otherSquare);
-    otherStarred = GEM_STARRED_AT_SQUARE(otherSquare);
     
     // Actually do the fun stuff here...
+    swapSquares(square, otherSquare);
     
-    GEM_TYPE_AT_SQUARE(square) = otherGemType;
-    GEM_STARRED_AT_SQUARE(square) = otherStarred;
+    if (gemType == GEM_SPECIAL) {
+        doSpecialForGemType(otherGemType, otherSquare);
+        return;
+    }
+    if (otherGemType == GEM_SPECIAL) {
+        doSpecialForGemType(gemType, square);
+        return;
+    }
     
-    GEM_TYPE_AT_SQUARE(otherSquare) = gemType;
-    GEM_STARRED_AT_SQUARE(otherStarred) = starred;
-    
-    gSquareRefresh(square);
-    gSquareRefresh(otherSquare);
-    
-    if (actOnMatchAtSquare(square))
+    if (actOnMatchAtSquare(square, false))
         goodMove = true;
-    if (actOnMatchAtSquare(otherSquare))
+    if (actOnMatchAtSquare(otherSquare, false))
         goodMove = true;
     
     if (!goodMove) {
-        GEM_TYPE_AT_SQUARE(square) = gemType;
-        GEM_STARRED_AT_SQUARE(square) = starred;
-        
-        GEM_TYPE_AT_SQUARE(otherSquare) = otherGemType;
-        GEM_STARRED_AT_SQUARE(otherStarred) = otherStarred;
-        
-        gSquareRefresh(square);
-        gSquareRefresh(otherSquare);
+        swapSquares(square, otherSquare);
     } else {
         while (explodeGems())
             ;
         while (dropGems())
             ;
+        
+        checkForNextLevel();
     }
 }

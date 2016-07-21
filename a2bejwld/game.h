@@ -25,13 +25,14 @@
 #define XY_TO_SQUARE(x, y) ((y << 3) | x)
 
 
-#define SCORE_PER_LEVEL 240
+#define SCORE_PER_LEVEL 24
 
 
 typedef void (*tSquareRefreshCallback)(tSquare square);
+typedef void (*tScoreRefreshCallback)(tScore score);
 
 
-void initGame(tSquareRefreshCallback callback);
+void initGame(tSquareRefreshCallback squareCallback, tScoreRefreshCallback scoreCallback);
 
 void moveSquareInDir(tSquare square, tDirection dir);
 

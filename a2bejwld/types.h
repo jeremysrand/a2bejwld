@@ -35,7 +35,7 @@
 typedef uint8_t tSquare;
 typedef uint8_t tDirection;
 typedef uint8_t tGemType;
-typedef uint8_t tLevel;
+typedef uint16_t tLevel;
 typedef uint8_t tScore;
 
 typedef int8_t tPos;

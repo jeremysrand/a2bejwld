@@ -21,6 +21,7 @@
 
 static tSquare gSelectedSquare = 0;
 static bool gPlaySounds = true;
+static uint8_t gScoreBar = 0;
 
 
 static void initUI(void)
@@ -46,24 +47,30 @@ void printInstructions(void)
     videomode(VIDEOMODE_80x24);
     clrscr();
     printf(
-           //                     0000000001111111111222222222233333333334
-           //                     1234567890123456789012345678901234567890
-           "                                  Apple Jeweled\n"
+          //      0000000001111111111222222222233333333334444444444555555555566666666667
+          //      1234567890123456789012345678901234567890123456789012345678901234567890
+           "                                 Apple Jeweled\n"
+           "                                by Jeremy Rand\n"
            "\n"
-           "                    Use I-J-K-M or the arrow keys to move\n"
-           "                    your selection.  Hold the closed apple key\n"
-           "                    and move your selection to swap two jewels\n"
-           "                    and match 3 or more jewels.\n"
+           "     Use I-J-K-M or the arrow keys to move your selection.  Hold the closed\n"
+           "     apple key and move your selection to swap two jewels and match 3 or\n"
+           "     more jewels.  When you match three jewels, they disappear and new\n"
+           "     jewels will drop from the top.\n"
            "\n"
-           "                    Play ends when no more matches can be\n"
-           "                    made.\n"
+           "     If you match four jewels or three jewels in two directions, then the\n"
+           "     jewel does not disappear.  Match it again and it explodes taking more\n"
+           "     jewels with it.\n"
            "\n"
-           "                    Press escape or Q to quit at any time.\n"
+           "     Match five jewels and a special jewel will appear.  Swap it with any\n"
+           "     other jewel and all jewels of that colour will disappear.\n"
+           "\n"
+           "     When the score bar on the right fills, the board reloads and you level\n"
+           "     up.  Play ends when no more matches can be made.\n"
+           "\n"
+           "                    Press Q or escape to quit at any time.\n"
            "                    Press R to start a new game.\n"
            "                    Press S to toggle sound.\n"
            "                    Press H to see this info again.\n"
-           "\n"
-           "\n"
            "\n"
            "                           Press any key to start");
     
@@ -110,6 +117,10 @@ static void drawGemAtSquare(tSquare square)
             drawBlueGem(square);
             break;
             
+        case GEM_SPECIAL:
+            drawSpecialGem(square);
+            break;
+            
         default:
             break;
     }
@@ -135,6 +146,7 @@ static void drawBoard(void)
     }
     
     selectSquare(gSelectedSquare);
+    drawScore(gScoreBar);
 }
 
 
@@ -296,9 +308,21 @@ static void endGame(void)
 }
 
 
+void refreshScore(tScore score)
+{
+    if (score == gScoreBar)
+        return;
+    
+    gScoreBar = score;
+    drawScore(score);
+}
+
+
 void playGame(void)
 {
-    initGame(refreshSquare);
+    gScoreBar = 0;
+    
+    initGame(refreshSquare, refreshScore);
     
     initUI();
     drawBoard();
