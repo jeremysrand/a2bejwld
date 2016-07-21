@@ -16,6 +16,9 @@
 #include "game.h"
 
 
+#define BTN1  0xC062
+
+
 static tSquare gSelectedSquare = 0;
 static bool gPlaySounds = true;
 
@@ -24,6 +27,13 @@ static void initUI(void)
 {
     showDblLoRes();
     clearDblLoRes();
+}
+
+
+static void badThingHappened(void)
+{
+    if (gPlaySounds)
+        printf("\007");
 }
 
 
@@ -41,8 +51,8 @@ void printInstructions(void)
            "                                  Apple Jeweled\n"
            "\n"
            "                    Use I-J-K-M or the arrow keys to move\n"
-           "                    your selection.  Hold the Apple key and\n"
-           "                    move your selection to swap two jewels\n"
+           "                    your selection.  Hold the closed apple key\n"
+           "                    and move your selection to swap two jewels\n"
            "                    and match 3 or more jewels.\n"
            "\n"
            "                    Play ends when no more matches can be\n"
@@ -106,13 +116,19 @@ static void drawGemAtSquare(tSquare square)
 }
 
 
+static void refreshSquare(tSquare square)
+{
+    drawBgSquare(square);
+    drawGemAtSquare(square);
+}
+
+
 static void drawBoard(void)
 {
     tSquare square;
     
     for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
-        drawBgSquare(square);
-        drawGemAtSquare(square);
+        refreshSquare(square);
     }
     
     selectSquare(gSelectedSquare);
@@ -141,8 +157,7 @@ static void moveUp(void)
     
     gSelectedSquare = XY_TO_SQUARE(x, y);
     
-    drawBgSquare(oldSquare);
-    drawGemAtSquare(oldSquare);
+    refreshSquare(oldSquare);
     selectSquare(gSelectedSquare);
 }
 
@@ -160,8 +175,7 @@ static void moveDown(void)
     
     gSelectedSquare = XY_TO_SQUARE(x, y);
     
-    drawBgSquare(oldSquare);
-    drawGemAtSquare(oldSquare);
+    refreshSquare(oldSquare);
     selectSquare(gSelectedSquare);
 }
 
@@ -179,8 +193,7 @@ static void moveLeft(void)
     
     gSelectedSquare = XY_TO_SQUARE(x, y);
     
-    drawBgSquare(oldSquare);
-    drawGemAtSquare(oldSquare);
+    refreshSquare(oldSquare);
     selectSquare(gSelectedSquare);
 }
 
@@ -198,46 +211,142 @@ static void moveRight(void)
     
     gSelectedSquare = XY_TO_SQUARE(x, y);
     
-    drawBgSquare(oldSquare);
-    drawGemAtSquare(oldSquare);
+    refreshSquare(oldSquare);
     selectSquare(gSelectedSquare);
+}
+
+
+static void swapUp(void)
+{
+    tPos y = SQUARE_TO_Y(gSelectedSquare);
+    
+    if (y == 0) {
+        badThingHappened();
+        return;
+    }
+    
+    moveSquareInDir(gSelectedSquare, DIR_UP);
+    selectSquare(gSelectedSquare);
+}
+
+
+static void swapDown(void)
+{
+    tPos y = SQUARE_TO_Y(gSelectedSquare);
+    
+    if (y == BOARD_SIZE - 1) {
+        badThingHappened();
+        return;
+    }
+    
+    moveSquareInDir(gSelectedSquare, DIR_DOWN);
+    selectSquare(gSelectedSquare);
+}
+
+
+static void swapLeft(void)
+{
+    tPos x = SQUARE_TO_X(gSelectedSquare);
+    
+    if (x == 0) {
+        badThingHappened();
+        return;
+    }
+    
+    moveSquareInDir(gSelectedSquare, DIR_LEFT);
+    selectSquare(gSelectedSquare);
+}
+
+
+static void swapRight(void)
+{
+    tPos x = SQUARE_TO_X(gSelectedSquare);
+    
+    if (x == BOARD_SIZE - 1) {
+        badThingHappened();
+        return;
+    }
+    
+    moveSquareInDir(gSelectedSquare, DIR_RIGHT);
+    selectSquare(gSelectedSquare);
+}
+
+
+static bool isAppleButtonPressed(void)
+{
+    static uint8_t temp;
+    
+    __asm__("LDA %w", BTN1);
+    __asm__("STA %v", temp);
+    
+    return ((temp > 127) ? true : false);
+}
+
+
+static void endGame(void)
+{
+    unshowDblLoRes();
+    videomode(VIDEOMODE_80x24);
+    clrscr();
+    
+    printf("GAME OVER!!!\n");
 }
 
 
 void playGame(void)
 {
-    initGame();
+    initGame(refreshSquare);
     
+    initUI();
     drawBoard();
     while (true) {
+        uint8_t ch;
+        
+        if (gameIsOver()) {
+            endGame();
+            return;
+        }
         
         while (!kbhit()) {
             // Maybe do some animation stuff here...
         }
     
-        switch (cgetc()) {
+        ch = cgetc();
+        switch (ch) {
             case 'i':
             case 'I':
             case CH_CURS_UP:
-                moveUp();
+                if (isAppleButtonPressed())
+                    swapUp();
+                else
+                    moveUp();
                 break;
                 
             case 'j':
             case 'J':
             case CH_CURS_LEFT:
-                moveLeft();
+                if (isAppleButtonPressed())
+                    swapLeft();
+                else
+                    moveLeft();
                 break;
                 
             case 'k':
             case 'K':
             case CH_CURS_RIGHT:
-                moveRight();
+                if (isAppleButtonPressed())
+                    swapRight();
+                else
+                    moveRight();
                 break;
                 
             case 'm':
             case 'M':
             case CH_CURS_DOWN:
-                moveDown();
+                if (isAppleButtonPressed())
+                    swapDown();
+                else
+                    moveDown();
                 break;
                 
             case CH_ESC:
@@ -259,6 +368,10 @@ void playGame(void)
             case 'H':
                 printInstructions();
                 drawBoard();
+                break;
+                
+            default:
+                badThingHappened();
                 break;
         }
     }

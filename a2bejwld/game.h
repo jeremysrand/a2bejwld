@@ -28,7 +28,10 @@
 #define SCORE_PER_LEVEL 240
 
 
-void initGame(void);
+typedef void (*tSquareRefreshCallback)(tSquare square);
+
+
+void initGame(tSquareRefreshCallback callback);
 
 void moveSquareInDir(tSquare square, tDirection dir);
 
