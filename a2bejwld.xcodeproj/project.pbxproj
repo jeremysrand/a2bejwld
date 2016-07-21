@@ -21,6 +21,9 @@
 		9D6B473F1D3FB5C800F6D704 /* dbllores.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = dbllores.h; sourceTree = "<group>"; };
 		9D6B47401D40098300F6D704 /* game.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
 		9D6B47411D40098300F6D704 /* game.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		9D6B47421D400B4900F6D704 /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		9D6B47431D403F5B00F6D704 /* ui.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ui.c; sourceTree = "<group>"; };
+		9D6B47441D403F5B00F6D704 /* ui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -35,8 +38,11 @@
 			isa = PBXGroup;
 			children = (
 				9D6B472E1D3FB16F00F6D704 /* main.c */,
+				9D6B47431D403F5B00F6D704 /* ui.c */,
+				9D6B47441D403F5B00F6D704 /* ui.h */,
 				9D6B47401D40098300F6D704 /* game.c */,
 				9D6B47411D40098300F6D704 /* game.h */,
+				9D6B47421D400B4900F6D704 /* types.h */,
 				9D6B473E1D3FB20000F6D704 /* dbllores.s */,
 				9D6B473F1D3FB5C800F6D704 /* dbllores.h */,
 				9D6B472F1D3FB16F00F6D704 /* Makefile */,

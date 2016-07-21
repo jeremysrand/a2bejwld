@@ -10,6 +10,35 @@
 #define __a2bejwld__game__
 
 
+#include <stdbool.h>
+#include "types.h"
+
+
+#define BOARD_SIZE 8
+#define NUM_SQUARES (BOARD_SIZE * BOARD_SIZE)
+#define MIN_SQUARE 0
+#define MAX_SQUARE (MIN_SQUARE + NUM_SQUARES - 1)
+
+
+#define SQUARE_TO_X(square) ((square) & 0x7)
+#define SQUARE_TO_Y(square) ((square) >> 3)
+#define XY_TO_SQUARE(x, y) ((y << 3) | x)
+
+
+#define SCORE_PER_LEVEL 240
+
+
+void initGame(void);
+
+void moveSquareInDir(tSquare square, tDirection dir);
+
+tGemType gemTypeAtSquare(tSquare square);
+bool gemIsStarredAtSquare(tSquare square);
+
+tLevel getLevel(void);
+tScore getScore(void);
+
+bool gameIsOver(void);
 
 
 #endif /* defined(__a2bejwld__game__) */

@@ -6,10 +6,10 @@
 ;  Copyright © 2016 Jeremy Rand. All rights reserved.
 ;
 
-    .export _showDblLoRes, _clearDblLoRes, _drawBgSquare
+    .export _showDblLoRes, _clearDblLoRes, _unshowDblLoRes
     .export _drawGreenGem, _drawPurpleGem, _drawYellowGem
     .export _drawBlueGem, _drawRedGem, _drawGreyGem
-    .export _drawOrangeGem, _selectSquare
+    .export _drawOrangeGem, _drawBgSquare, _selectSquare
 
     .include "apple2.inc"
 
@@ -59,6 +59,12 @@ gemmask     := $8A
     lda SETAN3
     sta SET80VID
     sta SET80COL
+    rts
+.endproc
+
+
+.proc _unshowDblLoRes
+    lda TXTSET
     rts
 .endproc
 
