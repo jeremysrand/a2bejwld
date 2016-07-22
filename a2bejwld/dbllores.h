@@ -44,4 +44,19 @@ extern void __fastcall__ selectSquare(tSquare square);
 extern void __fastcall__ drawScore(uint8_t score);
 
 
+// The following functions take the Y position (0-23) as
+// their first argument.  The X position (0-39) should
+// be in the X register.
+extern void __fastcall__ drawBlueGemAtXY(uint8_t y);
+extern void __fastcall__ drawYellowGemAtXY(uint8_t y);
+extern void __fastcall__ drawRedGemAtXY(uint8_t y);
+extern void __fastcall__ drawGreenGemAtXY(uint8_t y);
+extern void __fastcall__ drawOrangeGemAtXY(uint8_t y);
+extern void __fastcall__ drawGreyGemAtXY(uint8_t y);
+extern void __fastcall__ drawPurpleGemAtXY(uint8_t y);
+extern void __fastcall__ drawSpecialGemAtXY(uint8_t y);
+
+extern void __fastcall__ starGemAtXY(uint8_t y);
+
+
 #endif /* defined(__a2bejwld__dbllores__) */

@@ -14,6 +14,10 @@
     .export _drawOrangeGem, _drawSpecialGem, _drawBgSquare
     .export _drawScore, _selectSquare, _starGem
 
+    .export _drawGreenGemAtXY, _drawPurpleGemAtXY, _drawYellowGemAtXY
+    .export _drawBlueGemAtXY, _drawRedGemAtXY, _drawGreyGemAtXY
+    .export _drawOrangeGemAtXY, _drawSpecialGemAtXY, _starGemAtXY
+
     .export _explodeGemFrame1, _explodeGemFrame2
     .export _explodeGemFrame3, _explodeGemFrame4
     .export _explodeGemFrame5, _explodeGemFrame6
@@ -236,41 +240,32 @@ color:      .BYTE $0
 .endproc
 
 
-.proc _drawGem
-; A is the square position (from 0 to 63)
-; 0 through 7 are on the top row
-    sta square
-
-    and #7
-    asl
-    asl
-    sta xPos
-    lda square
-    lsr
-    lsr
-    lsr
+.proc _drawGemAtXY
+    stx xPos
+    tax
 
 ; Get line addrs
-    tax
-    lda bgLoLines1,X
+    lda lineLoAddrs,X
     clc
     adc xPos
     sta line1addr
-    lda bgHiLines1,X
+    lda lineHiAddrs,X
     sta line1addr+1
 
-    lda bgLoLines2,X
+    inx
+    lda lineLoAddrs,X
     clc
     adc xPos
     sta line2addr
-    lda bgHiLines2,X
+    lda lineHiAddrs,X
     sta line2addr+1
 
-    lda bgLoLines3,X
+    inx
+    lda lineLoAddrs,X
     clc
     adc xPos
     sta line3addr
-    lda bgHiLines3,X
+    lda lineHiAddrs,X
     sta line3addr+1
 
     ; Draw the gem
@@ -356,115 +351,8 @@ xPos:       .BYTE $0
 square:     .BYTE $0
 .endproc
 
-.proc _drawGreenGem
-    ldx #<greenGem
-    stx gemaddr
-    ldx #>greenGem
-    stx gemaddr+1
-    ldx #<greenMask
-    stx gemmask
-    ldx #>greenMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
 
-.proc _drawPurpleGem
-    ldx #<purpleGem
-    stx gemaddr
-    ldx #>purpleGem
-    stx gemaddr+1
-    ldx #<purpleMask
-    stx gemmask
-    ldx #>purpleMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _drawYellowGem
-    ldx #<yellowGem
-    stx gemaddr
-    ldx #>yellowGem
-    stx gemaddr+1
-    ldx #<yellowMask
-    stx gemmask
-    ldx #>yellowMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _drawBlueGem
-    ldx #<blueGem
-    stx gemaddr
-    ldx #>blueGem
-    stx gemaddr+1
-    ldx #<blueMask
-    stx gemmask
-    ldx #>blueMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _drawRedGem
-    ldx #<redGem
-    stx gemaddr
-    ldx #>redGem
-    stx gemaddr+1
-    ldx #<redMask
-    stx gemmask
-    ldx #>redMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _drawGreyGem
-    ldx #<greyGem
-    stx gemaddr
-    ldx #>greyGem
-    stx gemaddr+1
-    ldx #<greyMask
-    stx gemmask
-    ldx #>greyMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _drawOrangeGem
-    ldx #<orangeGem
-    stx gemaddr
-    ldx #>orangeGem
-    stx gemaddr+1
-    ldx #<orangeMask
-    stx gemmask
-    ldx #>orangeMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _drawSpecialGem
-    ldx #<specialGem
-    stx gemaddr
-    ldx #>specialGem
-    stx gemaddr+1
-    ldx #<specialMask
-    stx gemmask
-    ldx #>specialMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _selectSquare
-    ldx #<selectGem
-    stx gemaddr
-    ldx #>selectGem
-    stx gemaddr+1
-    ldx #<selectMask
-    stx gemmask
-    ldx #>selectMask
-    stx gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _starGem
+.proc _drawGem
 ; A is the square position (from 0 to 63)
 ; 0 through 7 are on the top row
     sta square
@@ -472,16 +360,237 @@ square:     .BYTE $0
     and #7
     asl
     asl
-    inc A
-    inc A
-    sta xPos
+    tax
     lda square
+; Need to divide by 8 to get the y square
+; and then multiply by 3 to get the y
+; position (0-23) on the screen.
     lsr
     lsr
     lsr
+    sta square
+    asl
+    clc
+    adc square
+    jmp _drawGemAtXY
+; Locals
+
+square:     .BYTE $0
+.endproc
+
+
+.proc _drawGreenGem
+    ldy #<greenGem
+    sty gemaddr
+    ldy #>greenGem
+    sty gemaddr+1
+    ldy #<greenMask
+    sty gemmask
+    ldy #>greenMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+.proc _drawGreenGemAtXY
+    ldy #<greenGem
+    sty gemaddr
+    ldy #>greenGem
+    sty gemaddr+1
+    ldy #<greenMask
+    sty gemmask
+    ldy #>greenMask
+    sty gemmask+1
+    jmp _drawGemAtXY
+.endproc
+
+.proc _drawPurpleGem
+    ldy #<purpleGem
+    sty gemaddr
+    ldy #>purpleGem
+    sty gemaddr+1
+    ldy #<purpleMask
+    sty gemmask
+    ldy #>purpleMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+.proc _drawPurpleGemAtXY
+    ldy #<purpleGem
+    sty gemaddr
+    ldy #>purpleGem
+    sty gemaddr+1
+    ldy #<purpleMask
+    sty gemmask
+    ldy #>purpleMask
+    sty gemmask+1
+    jmp _drawGemAtXY
+.endproc
+
+.proc _drawYellowGem
+    ldy #<yellowGem
+    sty gemaddr
+    ldy #>yellowGem
+    sty gemaddr+1
+    ldy #<yellowMask
+    sty gemmask
+    ldy #>yellowMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+.proc _drawYellowGemAtXY
+    ldy #<yellowGem
+    sty gemaddr
+    ldy #>yellowGem
+    sty gemaddr+1
+    ldy #<yellowMask
+    sty gemmask
+    ldy #>yellowMask
+    sty gemmask+1
+    jmp _drawGemAtXY
+.endproc
+
+.proc _drawBlueGem
+    ldy #<blueGem
+    sty gemaddr
+    ldy #>blueGem
+    sty gemaddr+1
+    ldy #<blueMask
+    sty gemmask
+    ldy #>blueMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+.proc _drawBlueGemAtXY
+    ldy #<blueGem
+    sty gemaddr
+    ldy #>blueGem
+    sty gemaddr+1
+    ldy #<blueMask
+    sty gemmask
+    ldy #>blueMask
+    sty gemmask+1
+    jmp _drawGemAtXY
+.endproc
+
+.proc _drawRedGem
+    ldy #<redGem
+    sty gemaddr
+    ldy #>redGem
+    sty gemaddr+1
+    ldy #<redMask
+    sty gemmask
+    ldy #>redMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+.proc _drawRedGemAtXY
+    ldy #<redGem
+    sty gemaddr
+    ldy #>redGem
+    sty gemaddr+1
+    ldy #<redMask
+    sty gemmask
+    ldy #>redMask
+    sty gemmask+1
+    jmp _drawGemAtXY
+.endproc
+
+.proc _drawGreyGem
+    ldy #<greyGem
+    sty gemaddr
+    ldy #>greyGem
+    sty gemaddr+1
+    ldy #<greyMask
+    sty gemmask
+    ldy #>greyMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+.proc _drawGreyGemAtXY
+    ldy #<greyGem
+    sty gemaddr
+    ldy #>greyGem
+    sty gemaddr+1
+    ldy #<greyMask
+    sty gemmask
+    ldy #>greyMask
+    sty gemmask+1
+    jmp _drawGemAtXY
+.endproc
+
+.proc _drawOrangeGem
+    ldy #<orangeGem
+    sty gemaddr
+    ldy #>orangeGem
+    sty gemaddr+1
+    ldy #<orangeMask
+    sty gemmask
+    ldy #>orangeMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+.proc _drawOrangeGemAtXY
+    ldy #<orangeGem
+    sty gemaddr
+    ldy #>orangeGem
+    sty gemaddr+1
+    ldy #<orangeMask
+    sty gemmask
+    ldy #>orangeMask
+    sty gemmask+1
+    jmp _drawGemAtXY
+.endproc
+
+.proc _drawSpecialGem
+    ldy #<specialGem
+    sty gemaddr
+    ldy #>specialGem
+    sty gemaddr+1
+    ldy #<specialMask
+    sty gemmask
+    ldy #>specialMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+.proc _drawSpecialGemAtXY
+    ldy #<specialGem
+    sty gemaddr
+    ldy #>specialGem
+    sty gemaddr+1
+    ldy #<specialMask
+    sty gemmask
+    ldy #>specialMask
+    sty gemmask+1
+    jmp _drawGemAtXY
+.endproc
+
+.proc _selectSquare
+    ldy #<selectGem
+    sty gemaddr
+    ldy #>selectGem
+    sty gemaddr+1
+    ldy #<selectMask
+    sty gemmask
+    ldy #>selectMask
+    sty gemmask+1
+    jmp _drawGem
+.endproc
+
+
+.proc _starGemAtXY
+    inx
+    inx
+    stx xPos
+    tax
 
 ; Get line addrs
-    tax
     lda bgLoLines2,X
     clc
     adc xPos
@@ -493,6 +602,28 @@ square:     .BYTE $0
     lda #$ff
     sta (line2addr)
     rts
+
+; Locals
+
+xPos:       .BYTE $0
+square:     .BYTE $0
+.endproc
+
+
+.proc _starGem
+; A is the square position (from 0 to 63)
+; 0 through 7 are on the top row
+    sta square
+
+    and #7
+    asl
+    asl
+    tax
+    lda square
+    lsr
+    lsr
+    lsr
+    jmp _starGemAtXY
 
 ; Locals
 
@@ -928,10 +1059,6 @@ square:     .BYTE $0
 
 
 .DATA
-lineAddrs:
-    .WORD  LINE1,  LINE2,  LINE3,  LINE4,  LINE5,  LINE6,  LINE7,  LINE8
-    .WORD  LINE9, LINE10, LINE11, LINE12, LINE13, LINE14, LINE15, LINE16
-    .WORD LINE17, LINE18, LINE19, LINE20, LINE21, LINE22, LINE23, LINE24
 
 lineLoAddrs:
     .LOBYTES  LINE1,  LINE2,  LINE3,  LINE4,  LINE5,  LINE6,  LINE7,  LINE8

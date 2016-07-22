@@ -39,6 +39,8 @@ typedef struct tGameCallbacks {
     void (*addClearAtSquare)(tSquare square);
     void (*undoClearAtSquare)(tSquare square);
     void (*endClearGemAnim)(void);
+    void (*swapSquares)(tSquare square1, tGemType gemType1, bool starred1,
+                        tSquare square2, tGemType gemType2, bool starred2);
 } tGameCallbacks;
 
 

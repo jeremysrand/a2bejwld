@@ -304,18 +304,18 @@ tSquare getHintSquare(void)
 }
 
 
-static void swapSquares(tSquare square, tSquare otherSquare, bool update)
+static void doSwapSquares(tSquare square, tSquare otherSquare, bool update)
 {
     tSquareState tempState;
+    
+    if (update) {
+        gGameCallbacks->swapSquares(square, GEM_TYPE_AT_SQUARE(square), GEM_STARRED_AT_SQUARE(square),
+                                    otherSquare, GEM_TYPE_AT_SQUARE(otherSquare), GEM_STARRED_AT_SQUARE(otherSquare));
+    }
     
     tempState = gGameState.squareStates[square];
     gGameState.squareStates[square] = gGameState.squareStates[otherSquare];
     gGameState.squareStates[otherSquare] = tempState;
-    
-    if (update) {
-        gGameCallbacks->squareCallback(square);
-        gGameCallbacks->squareCallback(otherSquare);
-    }
 }
 
 
@@ -345,23 +345,23 @@ bool gameIsOver(void)
                 }
                 
                 if (gemType != otherGemType) {
-                    swapSquares(square, otherSquare, false);
+                    doSwapSquares(square, otherSquare, false);
                     
                     if ((numMatchingUpDownAtSquare(otherSquare, gemType, false) > 0) ||
                         (numMatchingRightLeftAtSquare(otherSquare, gemType, false) > 0)) {
                         gGameState.hintSquare = square;
-                        swapSquares(square, otherSquare, false);
+                        doSwapSquares(square, otherSquare, false);
                         return false;
                     }
                     
                     if ((numMatchingUpDownAtSquare(square, otherGemType, false) > 0) ||
                         (numMatchingRightLeftAtSquare(square, otherGemType, false)  > 0)) {
                         gGameState.hintSquare = otherSquare;
-                        swapSquares(square, otherSquare, false);
+                        doSwapSquares(square, otherSquare, false);
                         return false;
                     }
                     
-                    swapSquares(square, otherSquare, false);
+                    doSwapSquares(square, otherSquare, false);
                 }
             }
             
@@ -374,23 +374,23 @@ bool gameIsOver(void)
                 }
                 
                 if (gemType != otherGemType) {
-                    swapSquares(square, otherSquare, false);
+                    doSwapSquares(square, otherSquare, false);
                     
                     if ((numMatchingUpDownAtSquare(otherSquare, gemType, false) > 0) ||
                         (numMatchingRightLeftAtSquare(otherSquare, gemType, false) > 0)) {
                         gGameState.hintSquare = square;
-                        swapSquares(square, otherSquare, false);
+                        doSwapSquares(square, otherSquare, false);
                         return false;
                     }
                     
                     if ((numMatchingUpDownAtSquare(square, otherGemType, false) > 0) ||
                         (numMatchingRightLeftAtSquare(square, otherGemType, false) > 0)) {
                         gGameState.hintSquare = otherSquare;
-                        swapSquares(square, otherSquare, false);
+                        doSwapSquares(square, otherSquare, false);
                         return false;
                     }
                     
-                    swapSquares(square, otherSquare, false);
+                    doSwapSquares(square, otherSquare, false);
                 }
             }
         }
@@ -674,7 +674,7 @@ bool moveSquareInDir(tSquare square, tDirection dir)
     otherGemType = GEM_TYPE_AT_SQUARE(otherSquare);
     
     // Actually do the fun stuff here...
-    swapSquares(square, otherSquare, true);
+    doSwapSquares(square, otherSquare, true);
     
     if (gemType == GEM_SPECIAL) {
         doSpecialForGemType(otherGemType, otherSquare);
@@ -693,7 +693,7 @@ bool moveSquareInDir(tSquare square, tDirection dir)
     gGameCallbacks->endClearGemAnim();
     
     if (!goodMove) {
-        swapSquares(square, otherSquare, true);
+        doSwapSquares(square, otherSquare, true);
     } else {
         
         while (explodeGems())

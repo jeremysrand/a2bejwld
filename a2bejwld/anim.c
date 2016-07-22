@@ -115,6 +115,62 @@ void drawGemAtSquare(tSquare square)
 }
 
 
+void drawGemAtXY(uint8_t x, uint8_t y, tGemType gemType, bool starred)
+{
+    static uint8_t tempX;
+    
+    tempX = x;
+    switch (gemType) {
+        case GEM_GREEN:
+            __asm__("ldx %v", tempX);
+            drawGreenGemAtXY(y);
+            break;
+            
+        case GEM_RED:
+            __asm__("ldx %v", tempX);
+            drawRedGemAtXY(y);
+            break;
+            
+        case GEM_PURPLE:
+            __asm__("ldx %v", tempX);
+            drawPurpleGemAtXY(y);
+            break;
+            
+        case GEM_ORANGE:
+            __asm__("ldx %v", tempX);
+            drawOrangeGemAtXY(y);
+            break;
+            
+        case GEM_GREY:
+            __asm__("ldx %v", tempX);
+            drawGreyGemAtXY(y);
+            break;
+            
+        case GEM_YELLOW:
+            __asm__("ldx %v", tempX);
+            drawYellowGemAtXY(y);
+            break;
+            
+        case GEM_BLUE:
+            __asm__("ldx %v", tempX);
+            drawBlueGemAtXY(y);
+            break;
+            
+        case GEM_SPECIAL:
+            __asm__("ldx %v", tempX);
+            drawSpecialGemAtXY(y);
+            break;
+            
+        default:
+            break;
+    }
+    if (starred) {
+        __asm__("ldx %v", tempX);
+        starGemAtXY(y);
+    }
+}
+
+
 void beginStarAnim(void)
 {
     gStarAnimState.starVisible = true;
@@ -328,4 +384,81 @@ void endClearGemAnim(void)
 #ifdef DEBUG_CLEAR_ANIM
     cgetc();
 #endif
+}
+
+
+#undef DEBUG_SWAP_ANIM
+void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
+                 tSquare square2, tGemType gemType2, bool starred2)
+{
+    // The x positions are multiplied by 4 to get a number from 0 to 28
+    uint8_t x1 = (SQUARE_TO_X(square1) << 2);
+    uint8_t x2 = (SQUARE_TO_X(square2) << 2);
+    // The y positions are multiplied by 3 to get a number from 0 to 21
+    uint8_t y1 = (SQUARE_TO_Y(square1) * 3);
+    uint8_t y2 = (SQUARE_TO_Y(square2) * 3);
+    uint8_t temp;
+    
+    // If x1 is bigger than x2, then swap.  We want x1 to go up and x2
+    // to go down.  Easier to make that assumption.  Same for y1 and
+    // y2.
+    if ((x1 > x2) ||
+        (y1 > y2)) {
+        temp = x2;
+        x2 = x1;
+        x1 = temp;
+        
+        temp = y2;
+        y2 = y1;
+        y1 = temp;
+
+#if 0
+        // We don't need to swap square numbers.  The code from here on
+        // doesn't distinguish between the two square numbers.  So, save
+        // some time and don't sway.
+        //
+        // Be careful if this assumption is no longer true.
+        temp = square2;
+        square2 = square1;
+        square1 = temp;
+#endif
+        
+        temp = gemType2;
+        gemType2 = gemType1;
+        gemType1 = temp;
+        
+        temp = starred2;
+        starred2 = starred1;
+        starred1 = temp;
+    }
+    
+    if (x1 < x2) {
+        temp = x2;
+        while (x1 < temp) {
+            x1++;
+            x2--;
+            gVblWait();
+            drawBgSquare(square1);
+            drawBgSquare(square2);
+            drawGemAtXY(x1, y1, gemType1, starred1);
+            drawGemAtXY(x2, y2, gemType2, starred2);
+#ifdef DEBUG_SWAP_ANIM
+            cgetc();
+#endif
+        }
+    } else {
+        temp = y2;
+        while (y1 < temp) {
+            y1++;
+            y2--;
+            gVblWait();
+            drawBgSquare(square1);
+            drawBgSquare(square2);
+            drawGemAtXY(x1, y1, gemType1, starred1);
+            drawGemAtXY(x2, y2, gemType2, starred2);
+#ifdef DEBUG_SWAP_ANIM
+            cgetc();
+#endif
+        }
+    }
 }

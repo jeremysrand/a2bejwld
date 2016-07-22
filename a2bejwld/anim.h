@@ -10,6 +10,8 @@
 #define __a2bejwld__anim__
 
 
+#include <stdbool.h>
+
 #include "types.h"
 
 
@@ -27,6 +29,9 @@ extern void beginClearGemAnim(void);
 extern void addClearAtSquare(tSquare square);
 extern void undoClearAtSquare(tSquare square);
 extern void endClearGemAnim(void);
+
+extern void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
+                        tSquare square2, tGemType gemType2, bool starred2);
 
 
 #endif /* defined(__a2bejwld__anim__) */

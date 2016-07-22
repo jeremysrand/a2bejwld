@@ -43,6 +43,7 @@ static tGameCallbacks gCallbacks = {
     addClearAtSquare,
     undoClearAtSquare,
     endClearGemAnim,
+    swapSquares,
 };
 
 
