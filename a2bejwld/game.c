@@ -405,6 +405,7 @@ static bool explodeGems(void)
     tSquare square;
     bool result = false;
     
+    gGameCallbacks->beginClearGemAnim();
     for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
         if (GEM_TYPE_AT_SQUARE(square) != GEM_NONE)
             continue;
@@ -414,6 +415,7 @@ static bool explodeGems(void)
         explodeStarAtSquare(square);
         result = true;
     }
+    gGameCallbacks->endClearGemAnim();
     
     return result;
 }
@@ -542,10 +544,8 @@ static bool dropGems(void)
     gGameCallbacks->endClearGemAnim();
     
     if (result) {
-        gGameCallbacks->beginClearGemAnim();
         while (explodeGems())
             ;
-        gGameCallbacks->endClearGemAnim();
     }
     
     return result;
@@ -633,10 +633,8 @@ static void doSpecialForGemType(tGemType gemType, tSquare square)
     }
     gGameCallbacks->endClearGemAnim();
     
-    gGameCallbacks->beginClearGemAnim();
     while (explodeGems())
         ;
-    gGameCallbacks->endClearGemAnim();
     
     while (dropGems())
         ;
@@ -698,10 +696,8 @@ bool moveSquareInDir(tSquare square, tDirection dir)
         swapSquares(square, otherSquare, true);
     } else {
         
-        gGameCallbacks->beginClearGemAnim();
         while (explodeGems())
             ;
-        gGameCallbacks->endClearGemAnim();
         
         while (dropGems())
             ;
