@@ -15,6 +15,7 @@
 void __fastcall__ showDblLoRes(void);
 void __fastcall__ clearDblLoRes(void);
 void __fastcall__ unshowDblLoRes(void);
+void __fastcall__ mixedTextMode(void);
 
 void __fastcall__ drawBgSquare(tSquare square);
 

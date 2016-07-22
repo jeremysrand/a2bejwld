@@ -7,6 +7,8 @@
 ;
 
     .export _showDblLoRes, _clearDblLoRes, _unshowDblLoRes
+    .export _mixedTextMode
+    
     .export _drawGreenGem, _drawPurpleGem, _drawYellowGem
     .export _drawBlueGem, _drawRedGem, _drawGreyGem
     .export _drawOrangeGem, _drawSpecialGem, _drawBgSquare
@@ -57,6 +59,7 @@ gemmask     := $8A
 
 .proc _showDblLoRes
     lda TXTCLR
+    lda MIXCLR
     lda SETAN3
     sta SET80VID
     sta SET80COL
@@ -66,6 +69,35 @@ gemmask     := $8A
 
 .proc _unshowDblLoRes
     lda TXTSET
+    rts
+.endproc
+
+
+.proc _mixedTextMode
+    lda MIXSET
+    sta LOWSCR
+    ldx #40
+    lda #$a0
+@L1:
+    dex
+    sta LINE21, X
+    sta LINE22, X
+    sta LINE23, X
+    sta LINE24, X
+    cpx #0
+    bne @L1
+
+    sta HISCR
+    ldx #40
+@L2:
+    dex
+    sta LINE21, X
+    sta LINE22, X
+    sta LINE23, X
+    sta LINE24, X
+    cpx #0
+    bne @L2
+
     rts
 .endproc
 

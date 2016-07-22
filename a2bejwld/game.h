@@ -27,12 +27,14 @@
 
 #define SCORE_PER_LEVEL 24
 
+typedef struct tGameCallbacks {
+    void (*squareCallback)(tSquare square);
+    void (*scoreCallback)(tScore score);
+    void (*levelCallback)(tLevel level);
+} tGameCallbacks;
 
-typedef void (*tSquareRefreshCallback)(tSquare square);
-typedef void (*tScoreRefreshCallback)(tScore score);
 
-
-void initGame(tSquareRefreshCallback squareCallback, tScoreRefreshCallback scoreCallback);
+void initGame(tGameCallbacks *callbacks);
 
 void moveSquareInDir(tSquare square, tDirection dir);
 
@@ -41,6 +43,8 @@ bool gemIsStarredAtSquare(tSquare square);
 
 tLevel getLevel(void);
 tScore getScore(void);
+
+tSquare getHintSquare(void);
 
 bool gameIsOver(void);
 
