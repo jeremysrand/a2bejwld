@@ -222,26 +222,13 @@ static void initSquare(tSquare square)
              (numMatchingRightLeftAtSquare(square, gemType, false) != 0));
     
     gGameState.squareStates[square].gemType = gemType;
+    gGameCallbacks->dropSquareFromOffscreen(square, gemType, false);
 }
 
 
 void initGameEngine(tGameCallbacks *gameCallbacks)
 {
-    tSquare square;
-    
     gGameCallbacks = gameCallbacks;
-    
-    memset(&gGameState, 0, sizeof(gGameState));
-    
-    gGameState.level = 1;
-    gGameState.numGemsCleared = 0;
-    gGameState.gemsPerPoint = STARTING_GEMS_PER_POINT;
-    gGameState.targetGemsToClear = STARTING_GEMS_PER_POINT * SCORE_PER_LEVEL;
-    gGameState.score = 0;
-    
-    for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
-        initSquare(square);
-    }
 }
 
 
@@ -257,9 +244,11 @@ void startNewGame(void)
     gGameState.targetGemsToClear = STARTING_GEMS_PER_POINT * SCORE_PER_LEVEL;
     gGameState.score = 0;
     
+    gGameCallbacks->beginDropAnim();
     for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
         initSquare(square);
     }
+    gGameCallbacks->endDropAnim();
 }
 
 
@@ -484,7 +473,9 @@ static bool dropGems(void)
     tSquare square;
     tSquare destSquare;
     tGemType gemType;
+    bool starred;
     
+    gGameCallbacks->beginDropAnim();
     for (x = 0; x < BOARD_SIZE; x++) {
         destSquare = NUM_SQUARES;
         for (y = BOARD_SIZE - 1; y >= 0; y--) {
@@ -499,11 +490,13 @@ static bool dropGems(void)
             } else {
                 if (gemType != GEM_NONE) {
                     GEM_TYPE_AT_SQUARE(destSquare) = gemType;
-                    GEM_STARRED_AT_SQUARE(destSquare) = GEM_STARRED_AT_SQUARE(square);
-                    gGameCallbacks->squareCallback(destSquare);
+                    starred = GEM_STARRED_AT_SQUARE(square);
+                    GEM_STARRED_AT_SQUARE(destSquare) = starred;
                     GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
                     GEM_STARRED_AT_SQUARE(square) = false;
-                    gGameCallbacks->squareCallback(square);
+                    
+                    gGameCallbacks->dropSquareFromTo(square, destSquare, gemType, starred);
+                    
                     destY--;
                     destSquare = XY_TO_SQUARE(x, destY);
                 }
@@ -515,15 +508,17 @@ static bool dropGems(void)
 #endif
             for (y = destY; y >= 0; y--) {
                 square = XY_TO_SQUARE(x, y);
-                GEM_TYPE_AT_SQUARE(square) = randomGem();
+                gemType = randomGem();
+                GEM_TYPE_AT_SQUARE(square) = gemType;
                 GEM_STARRED_AT_SQUARE(square) = false;
-                gGameCallbacks->squareCallback(square);
+                gGameCallbacks->dropSquareFromOffscreen(square, gemType, false);
             }
 #ifdef DEBUG_MOVES
             cgetc();
 #endif
         }
     }
+    gGameCallbacks->endDropAnim();
     
     gGameCallbacks->beginClearGemAnim();
     for (x = 0; x < BOARD_SIZE; x++) {
@@ -591,6 +586,7 @@ static void checkForNextLevel(void)
     gGameState.targetGemsToClear = gGameState.gemsPerPoint * SCORE_PER_LEVEL;
     gGameCallbacks->scoreCallback(gGameState.score);
     
+    gGameCallbacks->beginDropAnim();
     for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
         initSquare(square);
     }
@@ -602,6 +598,7 @@ static void checkForNextLevel(void)
         
         GEM_STARRED_AT_SQUARE(square) = true;
         numStarred--;
+        gGameCallbacks->dropSquareFromOffscreen(square, GEM_TYPE_AT_SQUARE(square), true);
     }
 
     while (numSpecial > 0) {
@@ -613,11 +610,9 @@ static void checkForNextLevel(void)
         
         GEM_TYPE_AT_SQUARE(square) = GEM_SPECIAL;
         numSpecial--;
+        gGameCallbacks->dropSquareFromOffscreen(square, GEM_SPECIAL, false);
     }
-    
-    for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
-        gGameCallbacks->squareCallback(square);
-    }
+    gGameCallbacks->endDropAnim();
 }
 
 

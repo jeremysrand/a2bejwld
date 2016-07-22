@@ -24,6 +24,8 @@
 #define STAR_CYCLES_VISIBLE 3000
 #define STAR_CYCLES_INVISIBLE 1000
 
+#define DROP_ACCELERATION 1
+
 
 // Typedefs
 
@@ -41,6 +43,24 @@ typedef struct tClearGemAnimState
 } tClearGemAnimState;
 
 
+typedef struct tDropGemInfo {
+    uint8_t x;
+    uint8_t y;
+    uint8_t endY;
+    uint8_t speed;
+    tGemType gemType;
+    bool starred;
+    bool visible;
+    bool landed;
+    struct tDropGemInfo *lowerNeighbour;
+} tDropGemInfo;
+
+typedef struct tDropGemAnimState {
+    tDropGemInfo gemState[NUM_SQUARES];
+    bool gotOne;
+} tDropGemAnimState;
+
+
 typedef void (*tVblWaitFunction)(void);
 
 
@@ -50,6 +70,7 @@ static tVblWaitFunction gVblWait = vblWait;
 
 static tStarAnimState gStarAnimState;
 static tClearGemAnimState gClearGemAnimState;
+static tDropGemAnimState gDropGemAnimState;
 
 
 // Implementation
@@ -460,5 +481,168 @@ void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
             cgetc();
 #endif
         }
+    }
+}
+
+
+void beginDropAnim(void)
+{
+    tSquare square;
+    
+    memset(&gDropGemAnimState, 0, sizeof(gDropGemAnimState));
+    for (square = 0; square < NUM_SQUARES; square++) {
+        gDropGemAnimState.gemState[square].landed = true;
+    }
+}
+
+
+void dropSquareFromTo(tSquare srcSquare, tSquare tgtSquare, tGemType gemType, bool starred)
+{
+    tPos x = SQUARE_TO_X(tgtSquare);
+    tPos y = SQUARE_TO_Y(tgtSquare);
+    tDropGemInfo *gemInfo = &(gDropGemAnimState.gemState[tgtSquare]);
+    
+    gDropGemAnimState.gotOne = true;
+    
+    // The x positions are multiplied by 4 to get a number from 0 to 28
+    gemInfo->x = (x << 2);
+    
+    // The y positions are multiplied by 3 to get a number from 0 to 21
+    // We also add 24.  We have 24 lines invisible above the screen.
+    gemInfo->y = (SQUARE_TO_Y(srcSquare) * 3) + 24;
+    gemInfo->endY = (y * 3) + 24;
+    
+    gemInfo->gemType = gemType;
+    gemInfo->starred = starred;
+    gemInfo->visible = true;
+    gemInfo->landed = false;
+    
+    if (y < BOARD_SIZE - 1) {
+        gemInfo->lowerNeighbour = &(gDropGemAnimState.gemState[XY_TO_SQUARE(x, y + 1)]);
+    }
+}
+
+
+void dropSquareFromOffscreen(tSquare tgtSquare, tGemType gemType, bool starred)
+{
+    tPos x = SQUARE_TO_X(tgtSquare);
+    tPos y = SQUARE_TO_Y(tgtSquare);
+    tDropGemInfo *gemInfo = &(gDropGemAnimState.gemState[tgtSquare]);
+    
+    gDropGemAnimState.gotOne = true;
+    
+    // The x positions are multiplied by 4 to get a number from 0 to 28
+    gemInfo->x = (x << 2);
+    
+    // The y positions are multiplied by 3 to get a number from 0 to 21
+    // We also add 24.  We have 24 lines invisible above the screen.
+    // We skip setting the current y position.  For offscreen gems,
+    // we determine the starting y position just before we run the
+    // animation.
+    gemInfo->endY = (y * 3) + 24;
+    
+    gemInfo->gemType = gemType;
+    gemInfo->starred = starred;
+    gemInfo->visible = false;
+    gemInfo->landed = false;
+    
+    if (y < BOARD_SIZE - 1) {
+        gemInfo->lowerNeighbour = &(gDropGemAnimState.gemState[XY_TO_SQUARE(x, y + 1)]);
+    }
+}
+
+
+#undef DEBUG_DROP_ANIM
+void endDropAnim(void)
+{
+    tSquare square;
+    tDropGemInfo *gemInfo;
+    bool done;
+    
+    
+    if (!gDropGemAnimState.gotOne)
+        return;
+    
+    square = NUM_SQUARES;
+    while (square > 0) {
+        square--;
+        
+        gemInfo = &(gDropGemAnimState.gemState[square]);
+        if (gemInfo->landed)
+            continue;
+        
+        if (!gemInfo->visible) {
+            if ((gemInfo->lowerNeighbour == NULL) ||
+                (gemInfo->lowerNeighbour->visible)) {
+                // If I am not visible and I have no lower neighbour, then start right at the top
+                // of the screen.  Also, if I am not visible, I have a lower neighbout and my
+                // lower neighbour is visible, I also start right at the top of the screen.
+                gemInfo->y = 21;
+            } else {
+                // My lower neighbour is also off the screen.  I start three lines above my
+                // lower neighbour.
+                gemInfo->y = gemInfo->lowerNeighbour->y - 3;
+            }
+        }
+    }
+    
+    while (true) {
+        done = true;
+        
+        square = NUM_SQUARES;
+        while (square > 0) {
+            square--;
+            
+            gemInfo = &(gDropGemAnimState.gemState[square]);
+            
+            if (gemInfo->landed)
+                continue;
+            
+            if (gemInfo->y == gemInfo->endY) {
+                gemInfo->landed = true;
+                continue;
+            }
+            
+            done = false;
+            
+            if (gemInfo->lowerNeighbour != NULL) {
+                if (gemInfo->y == gemInfo->lowerNeighbour->y - 3) {
+                    gemInfo->speed = 0;
+                    continue;
+                }
+            }
+            
+            gemInfo->y += gemInfo->speed;
+            if (gemInfo->y > gemInfo->endY) {
+                gemInfo->y = gemInfo->endY;
+            }
+            
+            if (gemInfo->y > 21) {
+                gemInfo->visible = true;
+            }
+            
+            gemInfo->speed += DROP_ACCELERATION;
+        }
+        
+        if (done)
+            break;
+        
+        gVblWait();
+        
+        for (square = 0; square < NUM_SQUARES; square++) {
+            gemInfo = &(gDropGemAnimState.gemState[square]);
+            if (gemInfo->landed)
+                continue;
+            
+            drawBgSquare(square);
+            
+            if (!gemInfo->visible)
+                continue;
+            
+            drawGemAtXY(gemInfo->x, gemInfo->y - 24, gemInfo->gemType, gemInfo->starred);
+        }
+#ifdef DEBUG_DROP_ANIM
+        cgetc();
+#endif
     }
 }

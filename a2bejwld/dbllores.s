@@ -589,13 +589,14 @@ square:     .BYTE $0
     inx
     stx xPos
     tax
+    inx
 
 ; Get line addrs
-    lda bgLoLines2,X
+    lda lineLoAddrs,X
     clc
     adc xPos
     sta line2addr
-    lda bgHiLines2,X
+    lda lineHiAddrs,X
     sta line2addr+1
     
     sta HISCR
@@ -620,9 +621,16 @@ square:     .BYTE $0
     asl
     tax
     lda square
+; Need to divide by 8 to get the y square
+; and then multiply by 3 to get the y
+; position (0-23) on the screen.
     lsr
     lsr
     lsr
+    sta square
+    asl
+    clc
+    adc square
     jmp _starGemAtXY
 
 ; Locals
@@ -1060,11 +1068,25 @@ square:     .BYTE $0
 
 .DATA
 
+; This block of bytes is used for writing to gems "above" the top of the screen.
+; Because we draw gems half off the screen, we have two fake lines above the
+; top of the screen which points to this buffer of 40 bytes (one line).
+FakeLine:
+    .BYTE $0, $0, $0, $0, $0, $0, $0, $0
+    .BYTE $0, $0, $0, $0, $0, $0, $0, $0
+    .BYTE $0, $0, $0, $0, $0, $0, $0, $0
+    .BYTE $0, $0, $0, $0, $0, $0, $0, $0
+    .BYTE $0, $0, $0, $0, $0, $0, $0, $0
+
+; Prefix this array with two pointers to "fake lines"
+    .LOBYTES  FakeLine, FakeLine
 lineLoAddrs:
     .LOBYTES  LINE1,  LINE2,  LINE3,  LINE4,  LINE5,  LINE6,  LINE7,  LINE8
     .LOBYTES  LINE9, LINE10, LINE11, LINE12, LINE13, LINE14, LINE15, LINE16
     .LOBYTES LINE17, LINE18, LINE19, LINE20, LINE21, LINE22, LINE23, LINE24
 
+; Prefix this array with two pointers to "fake lines"
+    .HIBYTES  FakeLine, FakeLine
 lineHiAddrs:
     .HIBYTES  LINE1,  LINE2,  LINE3,  LINE4,  LINE5,  LINE6,  LINE7,  LINE8
     .HIBYTES  LINE9, LINE10, LINE11, LINE12, LINE13, LINE14, LINE15, LINE16

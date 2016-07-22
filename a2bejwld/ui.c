@@ -44,6 +44,10 @@ static tGameCallbacks gCallbacks = {
     undoClearAtSquare,
     endClearGemAnim,
     swapSquares,
+    beginDropAnim,
+    dropSquareFromTo,
+    dropSquareFromOffscreen,
+    endDropAnim
 };
 
 

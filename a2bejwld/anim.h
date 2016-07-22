@@ -33,5 +33,10 @@ extern void endClearGemAnim(void);
 extern void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
                         tSquare square2, tGemType gemType2, bool starred2);
 
+extern void beginDropAnim(void);
+extern void dropSquareFromTo(tSquare srcSquare, tSquare tgtSquare, tGemType gemType, bool starred);
+extern void dropSquareFromOffscreen(tSquare tgtSquare, tGemType gemType, bool starred);
+extern void endDropAnim(void);
+
 
 #endif /* defined(__a2bejwld__anim__) */
