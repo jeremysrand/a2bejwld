@@ -633,7 +633,7 @@ static void doSpecialForGemType(tGemType gemType, tSquare square)
 }
 
 
-void moveSquareInDir(tSquare square, tDirection dir)
+bool moveSquareInDir(tSquare square, tDirection dir)
 {
     tPos x = SQUARE_TO_X(square);
     tPos y = SQUARE_TO_Y(square);
@@ -668,11 +668,11 @@ void moveSquareInDir(tSquare square, tDirection dir)
     
     if (gemType == GEM_SPECIAL) {
         doSpecialForGemType(otherGemType, otherSquare);
-        return;
+        return true;
     }
     if (otherGemType == GEM_SPECIAL) {
         doSpecialForGemType(gemType, square);
-        return;
+        return true;
     }
     
     if (actOnMatchAtSquare(square, false))
@@ -690,6 +690,8 @@ void moveSquareInDir(tSquare square, tDirection dir)
         
         checkForNextLevel();
     }
+    
+    return goodMove;
 }
 
 

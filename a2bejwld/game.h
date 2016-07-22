@@ -37,7 +37,7 @@ typedef struct tGameCallbacks {
 extern void initGameEngine(tGameCallbacks *callbacks);
 extern void startNewGame(void);
 
-extern void moveSquareInDir(tSquare square, tDirection dir);
+extern bool moveSquareInDir(tSquare square, tDirection dir);
 
 extern tGemType gemTypeAtSquare(tSquare square);
 extern bool gemIsStarredAtSquare(tSquare square);

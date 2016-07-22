@@ -241,59 +241,71 @@ static void moveRight(void)
 }
 
 
-static void swapUp(void)
+static bool swapUp(void)
 {
+    bool result = false;
     tPos y = SQUARE_TO_Y(gSelectedSquare);
     
     if (y == 0) {
         badThingHappened();
-        return;
+        return result;
     }
     
-    moveSquareInDir(gSelectedSquare, DIR_UP);
+    result = moveSquareInDir(gSelectedSquare, DIR_UP);
     selectSquare(gSelectedSquare);
+    
+    return result;
 }
 
 
-static void swapDown(void)
+static bool swapDown(void)
 {
+    bool result = false;
     tPos y = SQUARE_TO_Y(gSelectedSquare);
     
     if (y == BOARD_SIZE - 1) {
         badThingHappened();
-        return;
+        return result;
     }
     
-    moveSquareInDir(gSelectedSquare, DIR_DOWN);
+    result = moveSquareInDir(gSelectedSquare, DIR_DOWN);
     selectSquare(gSelectedSquare);
+    
+    return result;
 }
 
 
-static void swapLeft(void)
+static bool swapLeft(void)
 {
+    bool result = false;
     tPos x = SQUARE_TO_X(gSelectedSquare);
     
     if (x == 0) {
         badThingHappened();
-        return;
+        return result;
     }
     
-    moveSquareInDir(gSelectedSquare, DIR_LEFT);
+    result = moveSquareInDir(gSelectedSquare, DIR_LEFT);
     selectSquare(gSelectedSquare);
+    
+    return result;
 }
 
 
-static void swapRight(void)
+static bool swapRight(void)
 {
+    bool result = false;
     tPos x = SQUARE_TO_X(gSelectedSquare);
     
     if (x == BOARD_SIZE - 1) {
         badThingHappened();
-        return;
+        return result;
     }
     
-    moveSquareInDir(gSelectedSquare, DIR_RIGHT);
+    result = moveSquareInDir(gSelectedSquare, DIR_RIGHT);
     selectSquare(gSelectedSquare);
+    
+    return result;
 }
 
 
@@ -395,6 +407,7 @@ void playGame(void)
     static bool firstGame = true;
     bool shouldSave = false;
     bool gameLoaded = false;
+    bool checkForGameOver = false;
     uint8_t ch;
     
     gScoreBar = 0;
@@ -438,11 +451,12 @@ void playGame(void)
     }
     drawBoard();
     while (true) {
-        
-        if (gameIsOver()) {
+        if ((checkForGameOver) &&
+            (gameIsOver())) {
             endGame();
             return;
         }
+        checkForGameOver = false;
         
         while (!kbhit()) {
             // Maybe do some animation stuff here...
@@ -455,7 +469,7 @@ void playGame(void)
             case CH_CURS_UP:
                 shouldSave = true;
                 if (isAppleButtonPressed())
-                    swapUp();
+                    checkForGameOver = swapUp();
                 else
                     moveUp();
                 break;
@@ -465,7 +479,7 @@ void playGame(void)
             case CH_CURS_LEFT:
                 shouldSave = true;
                 if (isAppleButtonPressed())
-                    swapLeft();
+                    checkForGameOver = swapLeft();
                 else
                     moveLeft();
                 break;
@@ -475,7 +489,7 @@ void playGame(void)
             case CH_CURS_RIGHT:
                 shouldSave = true;
                 if (isAppleButtonPressed())
-                    swapRight();
+                    checkForGameOver = swapRight();
                 else
                     moveRight();
                 break;
@@ -485,7 +499,7 @@ void playGame(void)
             case CH_CURS_DOWN:
                 shouldSave = true;
                 if (isAppleButtonPressed())
-                    swapDown();
+                    checkForGameOver = swapDown();
                 else
                     moveDown();
                 break;
