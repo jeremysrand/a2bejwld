@@ -38,5 +38,8 @@ extern void dropSquareFromTo(tSquare srcSquare, tSquare tgtSquare, tGemType gemT
 extern void dropSquareFromOffscreen(tSquare tgtSquare, tGemType gemType, bool starred);
 extern void endDropAnim(void);
 
+extern void toggleSound(void);
+extern void badThingHappened(void);
+
 
 #endif /* defined(__a2bejwld__anim__) */

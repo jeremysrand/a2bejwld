@@ -32,7 +32,6 @@ static void refreshLevel(tLevel level);
 // Globals
 
 static tSquare gSelectedSquare = 0;
-static bool gPlaySounds = true;
 static uint8_t gScoreBar = 0;
 
 static tGameCallbacks gCallbacks = {
@@ -57,13 +56,6 @@ static void showAndClearDblLoRes(void)
 {
     showDblLoRes();
     clearDblLoRes();
-}
-
-
-static void badThingHappened(void)
-{
-    if (gPlaySounds)
-        printf("\007");
 }
 
 
@@ -301,9 +293,9 @@ static void endGame(void)
 {
     mixedTextMode();
     videomode(VIDEOMODE_80x24);
-    cputsxy(0, 20, "                    No more moves  -  GAME OVER!!");
+    cputsxy(0, 20, "               No more moves  -  GAME OVER!!");
     gotoxy(0,21);
-    cprintf(       "                    You made it to level %u", getLevel());
+    cprintf(       "               You made it to level %u", getLevel());
     cputsxy(0,23,  "                    Play again (Y/N)?");
     
     while (true) {
@@ -345,8 +337,8 @@ static void refreshLevel(tLevel level)
     mixedTextMode();
     videomode(VIDEOMODE_80x24);
     gotoxy(0, 20);
-    cprintf(      "                    Completed level %u!!", level);
-    cputsxy(0,22, "                    Press space to continue to the next level...");
+    cprintf(      "               Completed level %u!!", level);
+    cputsxy(0,22, "               Press space to continue to the next level...");
     
     while (waiting) {
         switch (cgetc()) {
@@ -503,7 +495,7 @@ void playGame(void)
                 
             case 's':
             case 'S':
-                gPlaySounds = !gPlaySounds;
+                toggleSound();
                 break;
                 
             case 'h':

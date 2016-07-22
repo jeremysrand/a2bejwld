@@ -11,6 +11,7 @@
 #include <conio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "anim.h"
@@ -67,6 +68,7 @@ typedef void (*tVblWaitFunction)(void);
 // Globals
 
 static tVblWaitFunction gVblWait = vblWait;
+static bool gPlaySounds = true;
 
 static tStarAnimState gStarAnimState;
 static tClearGemAnimState gClearGemAnimState;
@@ -91,6 +93,37 @@ void animInit(void)
         case APPLE_IIGS3:
             vblInit2gs();
             break;
+    }
+}
+
+
+void toggleSound(void)
+{
+    gPlaySounds = !gPlaySounds;
+}
+
+
+void badThingHappened(void)
+{
+    if (gPlaySounds)
+        printf("\007");
+}
+
+
+void playSound(int8_t startFreq, int8_t duration)
+{
+    int8_t freq;
+    
+    if (!gPlaySounds)
+        return;
+    
+    while (duration > 0) {
+        asm ("STA %w", 0xc030);
+        freq = startFreq;
+        while (freq > 0) {
+            freq--;
+        }
+        duration--;
     }
 }
 
@@ -289,6 +322,7 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
+    playSound(30, 10);
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -306,6 +340,7 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
+    playSound(25, 15);
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -323,6 +358,7 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
+    playSound(20, 20);
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -340,6 +376,7 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
+    playSound(30, 10);
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -357,6 +394,7 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
+    playSound(30, 10);
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -374,6 +412,7 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
+    playSound(30, 10);
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -391,6 +430,7 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
+    playSound(30, 10);
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -600,6 +640,7 @@ void endDropAnim(void)
             
             if (gemInfo->y == gemInfo->endY) {
                 gemInfo->landed = true;
+                playSound(1, 1);
                 continue;
             }
             
