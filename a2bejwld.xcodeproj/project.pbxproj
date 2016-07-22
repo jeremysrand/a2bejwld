@@ -24,6 +24,10 @@
 		9D6B47421D400B4900F6D704 /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
 		9D6B47431D403F5B00F6D704 /* ui.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ui.c; sourceTree = "<group>"; };
 		9D6B47441D403F5B00F6D704 /* ui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
+		9D6B47451D426E6300F6D704 /* vbl.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = vbl.s; sourceTree = "<group>"; };
+		9D6B47471D42709200F6D704 /* vbl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vbl.h; sourceTree = "<group>"; };
+		9D6B47481D4270EC00F6D704 /* anim.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = anim.c; sourceTree = "<group>"; };
+		9D6B47491D4270EC00F6D704 /* anim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = anim.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -45,6 +49,10 @@
 				9D6B47421D400B4900F6D704 /* types.h */,
 				9D6B473E1D3FB20000F6D704 /* dbllores.s */,
 				9D6B473F1D3FB5C800F6D704 /* dbllores.h */,
+				9D6B47451D426E6300F6D704 /* vbl.s */,
+				9D6B47471D42709200F6D704 /* vbl.h */,
+				9D6B47481D4270EC00F6D704 /* anim.c */,
+				9D6B47491D4270EC00F6D704 /* anim.h */,
 				9D6B472F1D3FB16F00F6D704 /* Makefile */,
 				9D6B47301D3FB16F00F6D704 /* make */,
 			);

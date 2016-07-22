@@ -12,6 +12,7 @@
 #include <stdlib.h>
 
 #include "ui.h"
+#include "anim.h"
 #include "dbllores.h"
 #include "game.h"
 
@@ -93,47 +94,6 @@ void printInstructions(void)
     srand(seed);
     
     clrscr();
-}
-
-
-static void drawGemAtSquare(tSquare square)
-{
-    switch (gemTypeAtSquare(square)) {
-        case GEM_GREEN:
-            drawGreenGem(square);
-            break;
-            
-        case GEM_RED:
-            drawRedGem(square);
-            break;
-            
-        case GEM_PURPLE:
-            drawPurpleGem(square);
-            break;
-            
-        case GEM_ORANGE:
-            drawOrangeGem(square);
-            break;
-            
-        case GEM_GREY:
-            drawGreyGem(square);
-            break;
-            
-        case GEM_YELLOW:
-            drawYellowGem(square);
-            break;
-            
-        case GEM_BLUE:
-            drawBlueGem(square);
-            break;
-            
-        case GEM_SPECIAL:
-            drawSpecialGem(square);
-            break;
-            
-        default:
-            break;
-    }
 }
 
 
@@ -399,6 +359,7 @@ static void getHint(void)
 void initUI(void)
 {
     initGameEngine(&gCallbacks);
+    animInit();
 }
 
 
@@ -458,9 +419,11 @@ void playGame(void)
         }
         checkForGameOver = false;
         
+        beginStarAnim();
         while (!kbhit()) {
-            // Maybe do some animation stuff here...
+            doStarAnim();
         }
+        endStarAnim();
     
         ch = cgetc();
         switch (ch) {
