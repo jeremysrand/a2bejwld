@@ -10,6 +10,8 @@
 #define __a2bejwld__ui__
 
 
+// API
+
 extern void initUI(void);
 
 extern void printInstructions(void);

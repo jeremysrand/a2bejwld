@@ -14,6 +14,10 @@
     .export _drawOrangeGem, _drawSpecialGem, _drawBgSquare
     .export _drawScore, _selectSquare, _starGem
 
+    .export _explodeGemFrame1, _explodeGemFrame2
+    .export _explodeGemFrame3, _explodeGemFrame4
+    .export _explodeGemFrame5, _explodeGemFrame6
+
     .include "apple2.inc"
 
 SETAN3      :=  $C05E
@@ -527,10 +531,399 @@ square:     .BYTE $0
 
 @L2:
     rts
-
+    
 ; Locals
 
 color:      .BYTE $0
+.endproc
+    
+.proc _explodeGemFrame1
+; A is the square position (from 0 to 63)
+; 0 through 7 are on the top row
+    sta square
+
+    and #7
+    asl
+    asl
+    sta xPos
+    lda square
+    lsr
+    lsr
+    lsr
+
+; Get line addrs
+    tax
+    lda bgLoLines2,X
+    clc
+    adc xPos
+    sta line2addr
+    lda bgHiLines2,X
+    sta line2addr+1
+
+    ; Draw the frame
+    sta HISCR
+    lda (line2addr)
+    ora #$0f
+    sta (line2addr)
+    sta LOWSCR
+    lda (line2addr)
+    ora #$0f
+    sta (line2addr)
+    inc line2addr
+
+    sta HISCR
+    lda (line2addr)
+    ora #$0f
+    sta (line2addr)
+    sta LOWSCR
+    lda (line2addr)
+    ora #$0f
+    sta (line2addr)
+    inc line2addr
+
+    sta HISCR
+    lda (line2addr)
+    ora #$0f
+    sta (line2addr)
+    sta LOWSCR
+    lda (line2addr)
+    ora #$0f
+    sta (line2addr)
+    inc line2addr
+
+    sta HISCR
+    lda (line2addr)
+    ora #$0f
+    sta (line2addr)
+    sta LOWSCR
+    lda (line2addr)
+    ora #$0f
+    sta (line2addr)
+
+    rts
+
+; Locals
+
+xPos:       .BYTE $0
+square:     .BYTE $0
+.endproc
+
+
+.proc _explodeGemFrame2
+; A is the square position (from 0 to 63)
+; 0 through 7 are on the top row
+    sta square
+
+    and #7
+    asl
+    asl
+    sta xPos
+    lda square
+    lsr
+    lsr
+    lsr
+
+; Get line addrs
+    tax
+    lda bgLoLines2,X
+    clc
+    adc xPos
+    sta line2addr
+    lda bgHiLines2,X
+    sta line2addr+1
+
+    ; Draw the frame
+    lda #$ff
+
+    sta HISCR
+    sta (line2addr)
+    sta LOWSCR
+    sta (line2addr)
+    inc line2addr
+
+    sta HISCR
+    sta (line2addr)
+    sta LOWSCR
+    sta (line2addr)
+    inc line2addr
+
+    sta HISCR
+    sta (line2addr)
+    sta LOWSCR
+    sta (line2addr)
+    inc line2addr
+
+    sta HISCR
+    sta (line2addr)
+    sta LOWSCR
+    sta (line2addr)
+
+    rts
+
+; Locals
+
+xPos:       .BYTE $0
+square:     .BYTE $0
+.endproc
+
+
+.proc _explodeGemFrame3
+; A is the square position (from 0 to 63)
+; 0 through 7 are on the top row
+    sta square
+
+    and #7
+    asl
+    asl
+    sta xPos
+    lda square
+    lsr
+    lsr
+    lsr
+
+; Get line addrs
+    tax
+    lda bgLoLines1,X
+    clc
+    adc xPos
+    sta line1addr
+    lda bgHiLines1,X
+    sta line1addr+1
+
+    ; Draw the frame
+    sta HISCR
+    lda (line1addr)
+    ora #$f0
+    sta (line1addr)
+    sta LOWSCR
+    lda (line1addr)
+    ora #$f0
+    sta (line1addr)
+    inc line1addr
+
+    sta HISCR
+    lda (line1addr)
+    ora #$f0
+    sta (line1addr)
+    sta LOWSCR
+    lda (line1addr)
+    ora #$f0
+    sta (line1addr)
+    inc line1addr
+
+    sta HISCR
+    lda (line1addr)
+    ora #$f0
+    sta (line1addr)
+    sta LOWSCR
+    lda (line1addr)
+    ora #$f0
+    sta (line1addr)
+    inc line1addr
+
+    sta HISCR
+    lda (line1addr)
+    ora #$f0
+    sta (line1addr)
+    sta LOWSCR
+    lda (line1addr)
+    ora #$f0
+    sta (line1addr)
+
+    rts
+
+; Locals
+
+xPos:       .BYTE $0
+square:     .BYTE $0
+.endproc
+
+
+.proc _explodeGemFrame4
+; A is the square position (from 0 to 63)
+; 0 through 7 are on the top row
+    sta square
+
+    and #7
+    asl
+    asl
+    sta xPos
+    lda square
+    lsr
+    lsr
+    lsr
+
+; Get line addrs
+    tax
+    lda bgLoLines3,X
+    clc
+    adc xPos
+    sta line3addr
+    lda bgHiLines3,X
+    sta line3addr+1
+
+    ; Draw the frame
+    sta HISCR
+    lda (line3addr)
+    ora #$0f
+    sta (line3addr)
+    sta LOWSCR
+    lda (line3addr)
+    ora #$0f
+    sta (line3addr)
+    inc line3addr
+
+    sta HISCR
+    lda (line3addr)
+    ora #$0f
+    sta (line3addr)
+    sta LOWSCR
+    lda (line3addr)
+    ora #$0f
+    sta (line3addr)
+    inc line3addr
+
+    sta HISCR
+    lda (line3addr)
+    ora #$0f
+    sta (line3addr)
+    sta LOWSCR
+    lda (line3addr)
+    ora #$0f
+    sta (line3addr)
+    inc line3addr
+
+    sta HISCR
+    lda (line3addr)
+    ora #$0f
+    sta (line3addr)
+    sta LOWSCR
+    lda (line3addr)
+    ora #$0f
+    sta (line3addr)
+
+    rts
+
+; Locals
+
+xPos:       .BYTE $0
+square:     .BYTE $0
+.endproc
+
+
+.proc _explodeGemFrame5
+; A is the square position (from 0 to 63)
+; 0 through 7 are on the top row
+    sta square
+
+    and #7
+    asl
+    asl
+    sta xPos
+    lda square
+    lsr
+    lsr
+    lsr
+
+; Get line addrs
+    tax
+    lda bgLoLines1,X
+    clc
+    adc xPos
+    sta line1addr
+    lda bgHiLines1,X
+    sta line1addr+1
+
+    ; Draw the frame
+    lda #$ff
+
+    sta HISCR
+    sta (line1addr)
+    sta LOWSCR
+    sta (line1addr)
+    inc line1addr
+
+    sta HISCR
+    sta (line1addr)
+    sta LOWSCR
+    sta (line1addr)
+    inc line1addr
+
+    sta HISCR
+    sta (line1addr)
+    sta LOWSCR
+    sta (line1addr)
+    inc line1addr
+
+    sta HISCR
+    sta (line1addr)
+    sta LOWSCR
+    sta (line1addr)
+
+    rts
+
+; Locals
+
+xPos:       .BYTE $0
+square:     .BYTE $0
+.endproc
+
+
+.proc _explodeGemFrame6
+; A is the square position (from 0 to 63)
+; 0 through 7 are on the top row
+    sta square
+
+    and #7
+    asl
+    asl
+    sta xPos
+    lda square
+    lsr
+    lsr
+    lsr
+
+; Get line addrs
+    tax
+    lda bgLoLines3,X
+    clc
+    adc xPos
+    sta line3addr
+    lda bgHiLines3,X
+    sta line3addr+1
+
+    ; Draw the frame
+    lda #$ff
+
+    sta HISCR
+    sta (line3addr)
+    sta LOWSCR
+    sta (line3addr)
+    inc line3addr
+
+    sta HISCR
+    sta (line3addr)
+    sta LOWSCR
+    sta (line3addr)
+    inc line3addr
+
+    sta HISCR
+    sta (line3addr)
+    sta LOWSCR
+    sta (line3addr)
+    inc line3addr
+
+    sta HISCR
+    sta (line3addr)
+    sta LOWSCR
+    sta (line3addr)
+
+    rts
+
+; Locals
+
+xPos:       .BYTE $0
+square:     .BYTE $0
 .endproc
 
 

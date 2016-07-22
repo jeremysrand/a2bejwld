@@ -13,6 +13,8 @@
 #include <stdint.h>
 
 
+// Defines
+
 #define DIR_UP    0
 #define DIR_DOWN  1
 #define DIR_LEFT  2
@@ -31,6 +33,8 @@
 #define GEM_MIN_NORMAL GEM_GREEN
 #define GEM_MAX_NORMAL GEM_BLUE
 
+
+// Typedefs
 
 typedef uint8_t tSquare;
 typedef uint8_t tDirection;

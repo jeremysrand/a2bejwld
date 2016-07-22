@@ -10,6 +10,8 @@
 #define __a2bejwld__vbl__
 
 
+// API
+
 extern void __fastcall__ vblInit2gs(void);
 extern void __fastcall__ vblWait(void);
 extern void __fastcall__ vblWait2c(void);

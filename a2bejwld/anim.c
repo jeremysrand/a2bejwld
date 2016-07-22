@@ -8,8 +8,10 @@
 
 
 #include <apple2.h>
+#include <conio.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "anim.h"
 #include "dbllores.h"
@@ -17,9 +19,13 @@
 #include "vbl.h"
 
 
+// Defines
+
 #define STAR_CYCLES_VISIBLE 3000
 #define STAR_CYCLES_INVISIBLE 1000
 
+
+// Typedefs
 
 typedef struct tStarAnimState
 {
@@ -27,12 +33,26 @@ typedef struct tStarAnimState
     bool starVisible;
 } tStarAnimState;
 
+
+typedef struct tClearGemAnimState
+{
+    uint8_t squaresToClear[NUM_SQUARES / 8];
+    bool gotOne;
+} tClearGemAnimState;
+
+
 typedef void (*tVblWaitFunction)(void);
 
-tVblWaitFunction gVblWait = vblWait;
 
-tStarAnimState gStarAnimState;
+// Globals
 
+static tVblWaitFunction gVblWait = vblWait;
+
+static tStarAnimState gStarAnimState;
+static tClearGemAnimState gClearGemAnimState;
+
+
+// Implementation
 
 void animInit(void)
 {
@@ -152,4 +172,160 @@ void doStarAnim(void)
             showStars();
         }
     }
+}
+
+
+void beginClearGemAnim(void)
+{
+    memset(&gClearGemAnimState, 0, sizeof(gClearGemAnimState));
+}
+
+
+void addClearAtSquare(tSquare square)
+{
+    uint8_t bit = (1 << (square & 0x7));
+    uint8_t offset = (square >> 3);
+    
+    gClearGemAnimState.squaresToClear[offset] |= bit;
+    gClearGemAnimState.gotOne = true;
+}
+
+
+void undoClearAtSquare(tSquare square)
+{
+    uint8_t bit = (1 << (square & 0x7));
+    uint8_t offset = (square >> 3);
+    
+    gClearGemAnimState.squaresToClear[offset] &= (~bit);
+}
+
+
+#undef DEBUG_CLEAR_ANIM
+void endClearGemAnim(void)
+{
+    tSquare square;
+    uint8_t bit;
+    uint8_t offset;
+    
+    if (!gClearGemAnimState.gotOne)
+        return;
+    
+    bit = 1;
+    offset = 0;
+    gVblWait();
+    for (square = 0; square < NUM_SQUARES; square++) {
+        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
+            explodeGemFrame1(square);
+        }
+        bit <<= 1;
+        if (bit == 0) {
+            bit = 1;
+            offset++;
+        }
+    }
+#ifdef DEBUG_CLEAR_ANIM
+    cgetc();
+#endif
+    
+    bit = 1;
+    offset = 0;
+    gVblWait();
+    for (square = 0; square < NUM_SQUARES; square++) {
+        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
+            explodeGemFrame2(square);
+        }
+        bit <<= 1;
+        if (bit == 0) {
+            bit = 1;
+            offset++;
+        }
+    }
+#ifdef DEBUG_CLEAR_ANIM
+    cgetc();
+#endif
+    
+    bit = 1;
+    offset = 0;
+    gVblWait();
+    for (square = 0; square < NUM_SQUARES; square++) {
+        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
+            explodeGemFrame3(square);
+        }
+        bit <<= 1;
+        if (bit == 0) {
+            bit = 1;
+            offset++;
+        }
+    }
+#ifdef DEBUG_CLEAR_ANIM
+    cgetc();
+#endif
+    
+    bit = 1;
+    offset = 0;
+    gVblWait();
+    for (square = 0; square < NUM_SQUARES; square++) {
+        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
+            explodeGemFrame4(square);
+        }
+        bit <<= 1;
+        if (bit == 0) {
+            bit = 1;
+            offset++;
+        }
+    }
+#ifdef DEBUG_CLEAR_ANIM
+    cgetc();
+#endif
+    
+    bit = 1;
+    offset = 0;
+    gVblWait();
+    for (square = 0; square < NUM_SQUARES; square++) {
+        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
+            explodeGemFrame5(square);
+        }
+        bit <<= 1;
+        if (bit == 0) {
+            bit = 1;
+            offset++;
+        }
+    }
+#ifdef DEBUG_CLEAR_ANIM
+    cgetc();
+#endif
+    
+    bit = 1;
+    offset = 0;
+    gVblWait();
+    for (square = 0; square < NUM_SQUARES; square++) {
+        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
+            explodeGemFrame6(square);
+        }
+        bit <<= 1;
+        if (bit == 0) {
+            bit = 1;
+            offset++;
+        }
+    }
+#ifdef DEBUG_CLEAR_ANIM
+    cgetc();
+#endif
+    
+    bit = 1;
+    offset = 0;
+    gVblWait();
+    for (square = 0; square < NUM_SQUARES; square++) {
+        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
+            drawBgSquare(square);
+        }
+        bit <<= 1;
+        if (bit == 0) {
+            bit = 1;
+            offset++;
+        }
+    }
+#ifdef DEBUG_CLEAR_ANIM
+    cgetc();
+#endif
 }

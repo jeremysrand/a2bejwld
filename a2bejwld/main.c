@@ -13,6 +13,8 @@
 #include "ui.h"
 
 
+// Implementation
+
 int main(void)
 {
     initUI();

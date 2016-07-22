@@ -14,25 +14,35 @@
 #include "types.h"
 
 
+// Defines
+
 #define BOARD_SIZE 8
 #define NUM_SQUARES (BOARD_SIZE * BOARD_SIZE)
 #define MIN_SQUARE 0
 #define MAX_SQUARE (MIN_SQUARE + NUM_SQUARES - 1)
 
-
 #define SQUARE_TO_X(square) ((square) & 0x7)
 #define SQUARE_TO_Y(square) ((square) >> 3)
 #define XY_TO_SQUARE(x, y) ((y << 3) | x)
 
-
 #define SCORE_PER_LEVEL 24
+
+
+// Typedefs
 
 typedef struct tGameCallbacks {
     void (*squareCallback)(tSquare square);
     void (*scoreCallback)(tScore score);
     void (*levelCallback)(tLevel level);
+    
+    void (*beginClearGemAnim)(void);
+    void (*addClearAtSquare)(tSquare square);
+    void (*undoClearAtSquare)(tSquare square);
+    void (*endClearGemAnim)(void);
 } tGameCallbacks;
 
+
+// API
 
 extern void initGameEngine(tGameCallbacks *callbacks);
 extern void startNewGame(void);

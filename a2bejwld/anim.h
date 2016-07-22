@@ -13,6 +13,8 @@
 #include "types.h"
 
 
+// API
+
 extern void animInit(void);
 
 extern void drawGemAtSquare(tSquare square);
@@ -20,6 +22,11 @@ extern void drawGemAtSquare(tSquare square);
 extern void beginStarAnim(void);
 extern void endStarAnim(void);
 extern void doStarAnim(void);
+
+extern void beginClearGemAnim(void);
+extern void addClearAtSquare(tSquare square);
+extern void undoClearAtSquare(tSquare square);
+extern void endClearGemAnim(void);
 
 
 #endif /* defined(__a2bejwld__anim__) */

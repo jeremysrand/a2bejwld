@@ -17,13 +17,19 @@
 #include "game.h"
 
 
+// Defines
+
 #define BTN1  0xC062
 
+
+// Forward delcarations
 
 static void refreshSquare(tSquare square);
 static void refreshScore(tScore score);
 static void refreshLevel(tLevel level);
 
+
+// Globals
 
 static tSquare gSelectedSquare = 0;
 static bool gPlaySounds = true;
@@ -32,9 +38,15 @@ static uint8_t gScoreBar = 0;
 static tGameCallbacks gCallbacks = {
     refreshSquare,
     refreshScore,
-    refreshLevel
+    refreshLevel,
+    beginClearGemAnim,
+    addClearAtSquare,
+    undoClearAtSquare,
+    endClearGemAnim,
 };
 
+
+// Implementation
 
 static void showAndClearDblLoRes(void)
 {

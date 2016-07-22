@@ -15,6 +15,8 @@
 #include "game.h"
 
 
+// Defines
+
 #undef DEBUG_MOVES
 
 #define MIN_MATCHING 3
@@ -29,6 +31,8 @@
 
 #define SAVE_GAME_FILE "a2bejwld.game"
 
+
+// Typedefs
 
 typedef struct tSquareState {
     tGemType gemType;
@@ -47,9 +51,13 @@ typedef struct tGameState {
 } tGameState;
 
 
-tGameState gGameState;
-tGameCallbacks *gGameCallbacks = NULL;
+// Globals
 
+static tGameState gGameState;
+static tGameCallbacks *gGameCallbacks = NULL;
+
+
+// Implementation
 
 static void incrementScore(void)
 {
@@ -78,7 +86,7 @@ static void clearSquare(tSquare square)
     if (GEM_TYPE_AT_SQUARE(square) != GEM_NONE)
         incrementScore();
     GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
-    gGameCallbacks->squareCallback(square);
+    gGameCallbacks->addClearAtSquare(square);
 }
 
 
@@ -99,6 +107,7 @@ static void explodeStarAtSquare(tSquare square)
             clearSquare(square);
         }
     }
+    
 #ifdef DEBUG_MOVES
     cgetc();
 #endif
@@ -438,25 +447,19 @@ static bool actOnMatchAtSquare(tSquare square, bool specialsOnly)
                 numMatchingRightLeftAtSquare(square, gemType, true);
             }
             GEM_TYPE_AT_SQUARE(square) = GEM_SPECIAL;
+            gGameCallbacks->undoClearAtSquare(square);
             gGameCallbacks->squareCallback(square);
         } else if ((matchesUD == STAR_MATCH) ||
-                   (matchesRL == STAR_MATCH)) {
+                   (matchesRL == STAR_MATCH) ||
+                   ((matchesUD == MIN_MATCHING) &&
+                    (matchesRL == MIN_MATCHING))) {
             if (specialsOnly) {
                 numMatchingUpDownAtSquare(square, gemType, true);
                 numMatchingRightLeftAtSquare(square, gemType, true);
             }
             GEM_TYPE_AT_SQUARE(square) = gemType;
             GEM_STARRED_AT_SQUARE(square) = true;
-            gGameCallbacks->squareCallback(square);
-            
-        } else if ((matchesUD == MIN_MATCHING) &&
-                   (matchesRL == MIN_MATCHING)) {
-            if (specialsOnly) {
-                numMatchingUpDownAtSquare(square, gemType, true);
-                numMatchingRightLeftAtSquare(square, gemType, true);
-            }
-            GEM_TYPE_AT_SQUARE(square) = gemType;
-            GEM_STARRED_AT_SQUARE(square) = true;
+            gGameCallbacks->undoClearAtSquare(square);
             gGameCallbacks->squareCallback(square);
         }
     }
@@ -520,6 +523,7 @@ static bool dropGems(void)
         }
     }
     
+    gGameCallbacks->beginClearGemAnim();
     for (x = 0; x < BOARD_SIZE; x++) {
         for (y = 0; y < BOARD_SIZE; y++) {
             square = XY_TO_SQUARE(x, y);
@@ -535,10 +539,13 @@ static bool dropGems(void)
                 result = true;
         }
     }
+    gGameCallbacks->endClearGemAnim();
     
     if (result) {
+        gGameCallbacks->beginClearGemAnim();
         while (explodeGems())
             ;
+        gGameCallbacks->endClearGemAnim();
     }
     
     return result;
@@ -570,7 +577,7 @@ static void checkForNextLevel(void)
         }
         GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
         GEM_STARRED_AT_SQUARE(square) = false;
-        gGameCallbacks->squareCallback(square);
+        gGameCallbacks->addClearAtSquare(square);
     }
     
     gGameState.level++;
@@ -616,6 +623,7 @@ static void checkForNextLevel(void)
 
 static void doSpecialForGemType(tGemType gemType, tSquare square)
 {
+    gGameCallbacks->beginClearGemAnim();
     clearSquare(square);
     
     for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
@@ -623,9 +631,13 @@ static void doSpecialForGemType(tGemType gemType, tSquare square)
             clearSquare(square);
         }
     }
-
+    gGameCallbacks->endClearGemAnim();
+    
+    gGameCallbacks->beginClearGemAnim();
     while (explodeGems())
         ;
+    gGameCallbacks->endClearGemAnim();
+    
     while (dropGems())
         ;
     
@@ -675,16 +687,22 @@ bool moveSquareInDir(tSquare square, tDirection dir)
         return true;
     }
     
+    gGameCallbacks->beginClearGemAnim();
     if (actOnMatchAtSquare(square, false))
         goodMove = true;
     if (actOnMatchAtSquare(otherSquare, false))
         goodMove = true;
+    gGameCallbacks->endClearGemAnim();
     
     if (!goodMove) {
         swapSquares(square, otherSquare, true);
     } else {
+        
+        gGameCallbacks->beginClearGemAnim();
         while (explodeGems())
             ;
+        gGameCallbacks->endClearGemAnim();
+        
         while (dropGems())
             ;
         
