@@ -10,9 +10,11 @@
 #define __a2bejwld__ui__
 
 
-void printInstructions(void);
+extern void initUI(void);
 
-void playGame(void);
+extern void printInstructions(void);
+
+extern void playGame(void);
 
 
 #endif /* defined(__a2bejwld__ui__) */

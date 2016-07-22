@@ -34,19 +34,24 @@ typedef struct tGameCallbacks {
 } tGameCallbacks;
 
 
-void initGame(tGameCallbacks *callbacks);
+extern void initGameEngine(tGameCallbacks *callbacks);
+extern void startNewGame(void);
 
-void moveSquareInDir(tSquare square, tDirection dir);
+extern void moveSquareInDir(tSquare square, tDirection dir);
 
-tGemType gemTypeAtSquare(tSquare square);
-bool gemIsStarredAtSquare(tSquare square);
+extern tGemType gemTypeAtSquare(tSquare square);
+extern bool gemIsStarredAtSquare(tSquare square);
 
-tLevel getLevel(void);
-tScore getScore(void);
+extern tLevel getLevel(void);
+extern tScore getScore(void);
 
-tSquare getHintSquare(void);
+extern tSquare getHintSquare(void);
 
-bool gameIsOver(void);
+extern bool gameIsOver(void);
+
+extern void saveGame(void);
+
+extern bool loadGame(void);
 
 
 #endif /* defined(__a2bejwld__game__) */

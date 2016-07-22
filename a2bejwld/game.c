@@ -27,6 +27,8 @@
 #define GEM_TYPE_AT_SQUARE(square) gGameState.squareStates[square].gemType
 #define GEM_STARRED_AT_SQUARE(square) gGameState.squareStates[square].isStarred
 
+#define SAVE_GAME_FILE "a2bejwld.game"
+
 
 typedef struct tSquareState {
     tGemType gemType;
@@ -36,12 +38,12 @@ typedef struct tSquareState {
 
 typedef struct tGameState {
     tSquareState squareStates[NUM_SQUARES];
-    tLevel level;
-    uint16_t numGemsCleared;
-    uint16_t targetGemsToClear;
-    uint8_t gemsPerPoint;
-    tScore  score;
-    tSquare hintSquare;
+    tLevel       level;
+    uint16_t     numGemsCleared;
+    uint16_t     targetGemsToClear;
+    uint8_t      gemsPerPoint;
+    tScore       score;
+    tSquare      hintSquare;
 } tGameState;
 
 
@@ -214,11 +216,29 @@ static void initSquare(tSquare square)
 }
 
 
-void initGame(tGameCallbacks *gameCallbacks)
+void initGameEngine(tGameCallbacks *gameCallbacks)
 {
     tSquare square;
     
     gGameCallbacks = gameCallbacks;
+    
+    memset(&gGameState, 0, sizeof(gGameState));
+    
+    gGameState.level = 1;
+    gGameState.numGemsCleared = 0;
+    gGameState.gemsPerPoint = STARTING_GEMS_PER_POINT;
+    gGameState.targetGemsToClear = STARTING_GEMS_PER_POINT * SCORE_PER_LEVEL;
+    gGameState.score = 0;
+    
+    for (square = MIN_SQUARE; square <= MAX_SQUARE; square++) {
+        initSquare(square);
+    }
+}
+
+
+void startNewGame(void)
+{
+    tSquare square;
     
     memset(&gGameState, 0, sizeof(gGameState));
     
@@ -670,4 +690,61 @@ void moveSquareInDir(tSquare square, tDirection dir)
         
         checkForNextLevel();
     }
+}
+
+
+void saveGame(void)
+{
+    FILE *saveFile = fopen(SAVE_GAME_FILE, "wb");
+    if (saveFile != NULL) {
+        bool isValid = true;
+        fwrite(&isValid, sizeof(isValid), 1, saveFile);
+        fwrite(&gGameState, sizeof(gGameState), 1, saveFile);
+        fclose(saveFile);
+    }
+}
+
+
+static void deleteGame(void)
+{
+    // So, I tried using unlink() from unistd.h but it seems it
+    // does nothing on an Apple // with cc65.  Instead, I will
+    // just open the file for writing and close it again which
+    // will leave it empty.  That way, there won't be a saved
+    // game in the file.
+    FILE *saveFile = fopen(SAVE_GAME_FILE, "wb");
+    if (saveFile != NULL) {
+        bool isValid = false;
+        fwrite(&isValid, sizeof(isValid), 1, saveFile);
+        fclose(saveFile);
+    }
+}
+
+
+bool loadGame(void)
+{
+    bool isValid = false;
+    bool result = false;
+    FILE *saveFile= fopen(SAVE_GAME_FILE, "rb");
+    
+    if (saveFile == NULL) {
+        return false;
+    }
+    
+    if ((fread(&isValid, sizeof(isValid), 1, saveFile) != 1) ||
+        (!isValid)) {
+        fclose(saveFile);
+        return false;
+    }
+    
+    if (fread(&gGameState, sizeof(gGameState), 1, saveFile) != 1) {
+        fclose(saveFile);
+        deleteGame();
+        return false;
+    }
+    
+    fclose(saveFile);
+    deleteGame();
+    
+    return true;
 }

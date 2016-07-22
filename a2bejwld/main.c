@@ -15,6 +15,8 @@
 
 int main(void)
 {
+    initUI();
+    
     printInstructions();
     
     while (true) {

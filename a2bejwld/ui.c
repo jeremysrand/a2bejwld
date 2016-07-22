@@ -35,7 +35,7 @@ static tGameCallbacks gCallbacks = {
 };
 
 
-static void initUI(void)
+static void showAndClearDblLoRes(void)
 {
     showDblLoRes();
     clearDblLoRes();
@@ -93,7 +93,6 @@ void printInstructions(void)
     srand(seed);
     
     clrscr();
-    initUI();
 }
 
 
@@ -372,7 +371,7 @@ static void refreshLevel(tLevel level)
         }
     }
     
-    initUI();
+    showAndClearDblLoRes();
 }
 
 
@@ -385,16 +384,60 @@ static void getHint(void)
 }
 
 
+void initUI(void)
+{
+    initGameEngine(&gCallbacks);
+}
+
+
 void playGame(void)
 {
+    static bool firstGame = true;
+    bool shouldSave = false;
+    bool gameLoaded = false;
+    uint8_t ch;
+    
     gScoreBar = 0;
     
-    initGame(&gCallbacks);
+    if (firstGame) {
+        firstGame = false;
+        printf("\n\nChecking for a saved game...");
+        
+        if (loadGame()) {
+            bool gotAnswer = false;
+            
+            printf("\n\nYou have a saved game!\n    Would you like to continue it (Y/N)");
+            
+            while (!gotAnswer) {
+                ch = cgetc();
+                switch (ch) {
+                    case 'y':
+                    case 'Y':
+                        printf("\n\nLoading your saved puzzle");
+                        gotAnswer = true;
+                        shouldSave = true;
+                        gameLoaded = true;
+                        break;
+                        
+                    case 'n':
+                    case 'N':
+                        gotAnswer = true;
+                        break;
+                        
+                    default:
+                        badThingHappened();
+                        break;
+                }
+            }
+        }
+    }
     
-    initUI();
+    showAndClearDblLoRes();
+    if (!gameLoaded) {
+        startNewGame();
+    }
     drawBoard();
     while (true) {
-        uint8_t ch;
         
         if (gameIsOver()) {
             endGame();
@@ -410,6 +453,7 @@ void playGame(void)
             case 'i':
             case 'I':
             case CH_CURS_UP:
+                shouldSave = true;
                 if (isAppleButtonPressed())
                     swapUp();
                 else
@@ -419,6 +463,7 @@ void playGame(void)
             case 'j':
             case 'J':
             case CH_CURS_LEFT:
+                shouldSave = true;
                 if (isAppleButtonPressed())
                     swapLeft();
                 else
@@ -428,6 +473,7 @@ void playGame(void)
             case 'k':
             case 'K':
             case CH_CURS_RIGHT:
+                shouldSave = true;
                 if (isAppleButtonPressed())
                     swapRight();
                 else
@@ -437,6 +483,7 @@ void playGame(void)
             case 'm':
             case 'M':
             case CH_CURS_DOWN:
+                shouldSave = true;
                 if (isAppleButtonPressed())
                     swapDown();
                 else
@@ -446,6 +493,13 @@ void playGame(void)
             case CH_ESC:
             case 'q':
             case 'Q':
+                if (shouldSave) {
+                    mixedTextMode();
+                    videomode(VIDEOMODE_80x24);
+                    gotoxy(0, 20);
+                    cprintf("\n\nSaving your game so you can continue\r\n    later...");
+                    saveGame();
+                }
                 quitGame();
                 break;
                 
@@ -465,6 +519,7 @@ void playGame(void)
                 
             case '?':
                 printInstructions();
+                showAndClearDblLoRes();
                 drawBoard();
                 break;
                 
