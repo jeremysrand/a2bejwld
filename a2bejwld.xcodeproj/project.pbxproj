@@ -29,7 +29,7 @@
 		9D6B47481D4270EC00F6D704 /* anim.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = anim.c; sourceTree = "<group>"; };
 		9D6B47491D4270EC00F6D704 /* anim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = anim.h; sourceTree = "<group>"; };
 		9D6B474A1D42DEB600F6D704 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		9D6B474C1D43BBAC00F6D704 /* a2jbejwld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a2jbejwld.png; sourceTree = "<group>"; };
+		9D6B474C1D43BBAC00F6D704 /* a2bejwld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a2bejwld.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -81,7 +81,7 @@
 		9D6B474B1D43BB9100F6D704 /* screenshots */ = {
 			isa = PBXGroup;
 			children = (
-				9D6B474C1D43BBAC00F6D704 /* a2jbejwld.png */,
+				9D6B474C1D43BBAC00F6D704 /* a2bejwld.png */,
 			);
 			name = screenshots;
 			sourceTree = "<group>";
