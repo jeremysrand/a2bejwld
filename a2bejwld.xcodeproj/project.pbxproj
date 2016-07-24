@@ -48,6 +48,15 @@
 			name = mouse;
 			sourceTree = "<group>";
 		};
+		9D3A9FBE1D457973004C5897 /* joystick */ = {
+			isa = PBXGroup;
+			children = (
+				9D3A9FB91D455CD8004C5897 /* joystick.c */,
+				9D3A9FB81D455CCF004C5897 /* joystick.h */,
+			);
+			name = joystick;
+			sourceTree = "<group>";
+		};
 		9D6B47271D3FB16F00F6D704 = {
 			isa = PBXGroup;
 			children = (
@@ -60,7 +69,6 @@
 		9D6B472D1D3FB16F00F6D704 /* a2bejwld */ = {
 			isa = PBXGroup;
 			children = (
-				9D3A9FBA1D4578B4004C5897 /* mouse */,
 				9D6B472E1D3FB16F00F6D704 /* main.c */,
 				9D6B47431D403F5B00F6D704 /* ui.c */,
 				9D6B47441D403F5B00F6D704 /* ui.h */,
@@ -73,9 +81,9 @@
 				9D6B47471D42709200F6D704 /* vbl.h */,
 				9D6B47481D4270EC00F6D704 /* anim.c */,
 				9D6B47491D4270EC00F6D704 /* anim.h */,
-				9D3A9FB91D455CD8004C5897 /* joystick.c */,
-				9D3A9FB81D455CCF004C5897 /* joystick.h */,
 				9D6B472F1D3FB16F00F6D704 /* Makefile */,
+				9D3A9FBE1D457973004C5897 /* joystick */,
+				9D3A9FBA1D4578B4004C5897 /* mouse */,
 				9D6B47301D3FB16F00F6D704 /* make */,
 			);
 			path = a2bejwld;
