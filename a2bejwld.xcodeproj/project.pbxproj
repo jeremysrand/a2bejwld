@@ -9,6 +9,9 @@
 /* Begin PBXFileReference section */
 		9D3A9FB81D455CCF004C5897 /* joystick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = joystick.h; sourceTree = "<group>"; };
 		9D3A9FB91D455CD8004C5897 /* joystick.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = joystick.c; sourceTree = "<group>"; };
+		9D3A9FBB1D457900004C5897 /* macros.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = macros.s; sourceTree = "<group>"; };
+		9D3A9FBC1D457900004C5897 /* mouse.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = mouse.s; sourceTree = "<group>"; };
+		9D3A9FBD1D457900004C5897 /* switches.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = switches.s; sourceTree = "<group>"; };
 		9D6B472E1D3FB16F00F6D704 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		9D6B472F1D3FB16F00F6D704 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		9D6B47311D3FB16F00F6D704 /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
@@ -35,6 +38,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		9D3A9FBA1D4578B4004C5897 /* mouse */ = {
+			isa = PBXGroup;
+			children = (
+				9D3A9FBB1D457900004C5897 /* macros.s */,
+				9D3A9FBC1D457900004C5897 /* mouse.s */,
+				9D3A9FBD1D457900004C5897 /* switches.s */,
+			);
+			name = mouse;
+			sourceTree = "<group>";
+		};
 		9D6B47271D3FB16F00F6D704 = {
 			isa = PBXGroup;
 			children = (
@@ -47,6 +60,7 @@
 		9D6B472D1D3FB16F00F6D704 /* a2bejwld */ = {
 			isa = PBXGroup;
 			children = (
+				9D3A9FBA1D4578B4004C5897 /* mouse */,
 				9D6B472E1D3FB16F00F6D704 /* main.c */,
 				9D6B47431D403F5B00F6D704 /* ui.c */,
 				9D6B47441D403F5B00F6D704 /* ui.h */,
