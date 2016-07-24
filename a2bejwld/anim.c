@@ -225,14 +225,7 @@ void drawGemAtXY(uint8_t x, uint8_t y, tGemType gemType, bool starred)
 }
 
 
-void beginStarAnim(void)
-{
-    gStarAnimState.starVisible = true;
-    gStarAnimState.counter = STAR_CYCLES_VISIBLE;
-}
-
-
-void hideStars(void)
+static void hideStars(void)
 {
     tSquare square;
     
@@ -246,7 +239,7 @@ void hideStars(void)
 }
 
 
-void showStars(void)
+static void showStars(void)
 {
     tSquare square;
     
@@ -260,11 +253,13 @@ void showStars(void)
 }
 
 
-void endStarAnim(void)
+void resetStarAnim(void)
 {
     if (!gStarAnimState.starVisible) {
         showStars();
     }
+    gStarAnimState.starVisible = true;
+    gStarAnimState.counter = STAR_CYCLES_VISIBLE;
 }
 
 

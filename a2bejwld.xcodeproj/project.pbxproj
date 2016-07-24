@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		9D3A9FB81D455CCF004C5897 /* joystick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = joystick.h; sourceTree = "<group>"; };
+		9D3A9FB91D455CD8004C5897 /* joystick.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = joystick.c; sourceTree = "<group>"; };
 		9D6B472E1D3FB16F00F6D704 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		9D6B472F1D3FB16F00F6D704 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		9D6B47311D3FB16F00F6D704 /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
@@ -57,6 +59,8 @@
 				9D6B47471D42709200F6D704 /* vbl.h */,
 				9D6B47481D4270EC00F6D704 /* anim.c */,
 				9D6B47491D4270EC00F6D704 /* anim.h */,
+				9D3A9FB91D455CD8004C5897 /* joystick.c */,
+				9D3A9FB81D455CCF004C5897 /* joystick.h */,
 				9D6B472F1D3FB16F00F6D704 /* Makefile */,
 				9D6B47301D3FB16F00F6D704 /* make */,
 			);
@@ -250,6 +254,7 @@
 				9D6B473D1D3FB16F00F6D704 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

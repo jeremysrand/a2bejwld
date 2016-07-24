@@ -21,9 +21,7 @@ int main(void)
     
     printInstructions();
     
-    while (true) {
-        playGame();
-    }
+    playGame();
     
     return 0;
 }

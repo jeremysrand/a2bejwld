@@ -15,11 +15,7 @@
 #include "anim.h"
 #include "dbllores.h"
 #include "game.h"
-
-
-// Defines
-
-#define BTN1  0xC062
+#include "joystick.h"
 
 
 // Forward delcarations
@@ -27,6 +23,9 @@
 static void refreshSquare(tSquare square);
 static void refreshScore(tScore score);
 static void refreshLevel(tLevel level);
+
+static bool joystickChangedCallback(tJoyState *oldState, tJoyState *newState);
+static bool joystickNoChangeCallback(tJoyState *oldState);
 
 
 // Globals
@@ -48,6 +47,17 @@ static tGameCallbacks gCallbacks = {
     dropSquareFromOffscreen,
     endDropAnim
 };
+
+
+static tJoyCallbacks gJoyCallbacks = {
+    joystickChangedCallback,
+    joystickNoChangeCallback,
+    25,             // Read poll time
+    40,             // Initial no change poll time
+    10              // Subsequent no change poll time
+};
+
+static bool gShouldSave = false;
 
 
 // Implementation
@@ -73,7 +83,7 @@ void printInstructions(void)
            "                                 Apple Jeweled\n"
            "                                by Jeremy Rand\n"
            "\n"
-           "     Use I-J-K-M or the arrow keys to move your selection.  Hold the closed\n"
+           "     Use I-J-K-M or the arrow keys to move your selection.  Hold the either\n"
            "     apple key and move your selection to swap two jewels and match 3 or\n"
            "     more jewels.  When you match three jewels, they disappear and new\n"
            "     jewels will drop from the top.\n"
@@ -156,6 +166,53 @@ static void moveUp(void)
 }
 
 
+static void moveUpLeft(void)
+{
+    tSquare oldSquare = gSelectedSquare;
+    tPos x = SQUARE_TO_X(gSelectedSquare);
+    tPos y = SQUARE_TO_Y(gSelectedSquare);
+    
+    if (y == 0)
+        y = BOARD_SIZE - 1;
+    else
+        y--;
+    
+    if (x == 0)
+        x = BOARD_SIZE - 1;
+    else
+        x--;
+    
+    gSelectedSquare = XY_TO_SQUARE(x, y);
+    
+    refreshSquare(oldSquare);
+    selectSquare(gSelectedSquare);
+}
+
+
+
+static void moveUpRight(void)
+{
+    tSquare oldSquare = gSelectedSquare;
+    tPos x = SQUARE_TO_X(gSelectedSquare);
+    tPos y = SQUARE_TO_Y(gSelectedSquare);
+    
+    if (y == 0)
+        y = BOARD_SIZE - 1;
+    else
+        y--;
+    
+    if (x == BOARD_SIZE - 1)
+        x = 0;
+    else
+        x++;
+    
+    gSelectedSquare = XY_TO_SQUARE(x, y);
+    
+    refreshSquare(oldSquare);
+    selectSquare(gSelectedSquare);
+}
+
+
 static void moveDown(void)
 {
     tSquare oldSquare = gSelectedSquare;
@@ -166,6 +223,52 @@ static void moveDown(void)
         y = 0;
     else
         y++;
+    
+    gSelectedSquare = XY_TO_SQUARE(x, y);
+    
+    refreshSquare(oldSquare);
+    selectSquare(gSelectedSquare);
+}
+
+
+static void moveDownLeft(void)
+{
+    tSquare oldSquare = gSelectedSquare;
+    tPos x = SQUARE_TO_X(gSelectedSquare);
+    tPos y = SQUARE_TO_Y(gSelectedSquare);
+    
+    if (y == BOARD_SIZE - 1)
+        y = 0;
+    else
+        y++;
+    
+    if (x == 0)
+        x = BOARD_SIZE - 1;
+    else
+        x--;
+    
+    gSelectedSquare = XY_TO_SQUARE(x, y);
+    
+    refreshSquare(oldSquare);
+    selectSquare(gSelectedSquare);
+}
+
+
+static void moveDownRight(void)
+{
+    tSquare oldSquare = gSelectedSquare;
+    tPos x = SQUARE_TO_X(gSelectedSquare);
+    tPos y = SQUARE_TO_Y(gSelectedSquare);
+    
+    if (y == BOARD_SIZE - 1)
+        y = 0;
+    else
+        y++;
+    
+    if (x == BOARD_SIZE - 1)
+        x = 0;
+    else
+        x++;
     
     gSelectedSquare = XY_TO_SQUARE(x, y);
     
@@ -220,8 +323,12 @@ static bool swapUp(void)
         return result;
     }
     
+    resetStarAnim();
     result = moveSquareInDir(gSelectedSquare, DIR_UP);
     selectSquare(gSelectedSquare);
+    
+    if (result)
+        gShouldSave = true;
     
     return result;
 }
@@ -237,8 +344,12 @@ static bool swapDown(void)
         return result;
     }
     
+    resetStarAnim();
     result = moveSquareInDir(gSelectedSquare, DIR_DOWN);
     selectSquare(gSelectedSquare);
+    
+    if (result)
+        gShouldSave = true;
     
     return result;
 }
@@ -254,8 +365,12 @@ static bool swapLeft(void)
         return result;
     }
     
+    resetStarAnim();
     result = moveSquareInDir(gSelectedSquare, DIR_LEFT);
     selectSquare(gSelectedSquare);
+    
+    if (result)
+        gShouldSave = true;
     
     return result;
 }
@@ -271,8 +386,12 @@ static bool swapRight(void)
         return result;
     }
     
+    resetStarAnim();
     result = moveSquareInDir(gSelectedSquare, DIR_RIGHT);
     selectSquare(gSelectedSquare);
+    
+    if (result)
+        gShouldSave = true;
     
     return result;
 }
@@ -280,12 +399,7 @@ static bool swapRight(void)
 
 static bool isAppleButtonPressed(void)
 {
-    static uint8_t temp;
-    
-    __asm__("LDA %w", BTN1);
-    __asm__("STA %v", temp);
-    
-    return ((temp > 127) ? true : false);
+    return (isButtonPressed(JOY_BUTTON_0) || isButtonPressed(JOY_BUTTON_1));
 }
 
 
@@ -369,48 +483,224 @@ void initUI(void)
 {
     initGameEngine(&gCallbacks);
     animInit();
+    initJoystick(&gJoyCallbacks);
 }
+
+
+static void joystickMove(tJoyPos position)
+{
+    switch (position) {
+        case JOY_POS_DOWN:
+            moveDown();
+            break;
+            
+        case JOY_POS_DOWN_LEFT:
+            moveDownLeft();
+            break;
+            
+        case JOY_POS_LEFT:
+            moveLeft();
+            break;
+            
+        case JOY_POS_UP_LEFT:
+            moveUpLeft();
+            break;
+            
+        case JOY_POS_UP:
+            moveUp();
+            break;
+            
+        case JOY_POS_UP_RIGHT:
+            moveUpRight();
+            break;
+            
+        case JOY_POS_RIGHT:
+            moveRight();
+            break;
+            
+        case JOY_POS_DOWN_RIGHT:
+            moveDownRight();
+            break;
+            
+        default:
+        case JOY_POS_CENTER:
+            break;
+    }
+}
+
+
+static bool joystickChangedCallback(tJoyState *oldState, tJoyState *newState)
+{
+    
+    if (oldState->position != JOY_POS_CENTER)
+        return false;
+    
+    if ((newState->button0) ||
+        (newState->button1)) {
+        switch (newState->position) {
+            case JOY_POS_UP:
+                return swapUp();
+                
+            case JOY_POS_DOWN:
+                return swapDown();
+                
+            case JOY_POS_LEFT:
+                return swapLeft();
+                
+            case JOY_POS_RIGHT:
+                return swapRight();
+                
+            default:
+                break;
+        }
+        return false;
+    }
+    
+    joystickMove(newState->position);
+    
+    return false;
+}
+
+
+static bool joystickNoChangeCallback(tJoyState *oldState)
+{
+    if (oldState->button0)
+        return false;
+    
+    if (oldState->button1)
+        return false;
+    
+    joystickMove(oldState->position);
+    return false;
+}
+
+
+static bool pollKeyboard(void)
+{
+    bool result = false;
+    uint8_t ch;
+    
+    if (!kbhit())
+        return result;
+    
+    ch = cgetc();
+    switch (ch) {
+        case 'i':
+        case 'I':
+        case CH_CURS_UP:
+            if (isAppleButtonPressed())
+                result = swapUp();
+            else
+                moveUp();
+            break;
+            
+        case 'j':
+        case 'J':
+        case CH_CURS_LEFT:
+            if (isAppleButtonPressed())
+                result = swapLeft();
+            else
+                moveLeft();
+            break;
+            
+        case 'k':
+        case 'K':
+        case CH_CURS_RIGHT:
+            if (isAppleButtonPressed())
+                result = swapRight();
+            else
+                moveRight();
+            break;
+            
+        case 'm':
+        case 'M':
+        case CH_CURS_DOWN:
+            if (isAppleButtonPressed())
+                result = swapDown();
+            else
+                moveDown();
+            break;
+            
+        case CH_ESC:
+        case 'q':
+        case 'Q':
+            if (gShouldSave) {
+                mixedTextMode();
+                videomode(VIDEOMODE_80x24);
+                gotoxy(0, 20);
+                cprintf("\n\nSaving your game so you can continue\r\n    later...");
+                saveGame();
+            }
+            quitGame();
+            break;
+            
+        case 'r':
+        case 'R':
+            refreshScore(0);
+            startNewGame();
+            gShouldSave = false;
+            return true;
+            
+        case 's':
+        case 'S':
+            toggleSound();
+            break;
+            
+        case 'h':
+        case 'H':
+            getHint();
+            break;
+            
+        case '?':
+            printInstructions();
+            showAndClearDblLoRes();
+            drawBoard();
+            break;
+            
+        default:
+            badThingHappened();
+            break;
+    }
+    
+    return result;
+}
+
 
 
 void playGame(void)
 {
-    static bool firstGame = true;
-    bool shouldSave = false;
     bool gameLoaded = false;
-    bool checkForGameOver = false;
     uint8_t ch;
     
     gScoreBar = 0;
+    gShouldSave = false;
     
-    if (firstGame) {
-        firstGame = false;
-        printf("\n\nChecking for a saved game...");
+    printf("\n\nChecking for a saved game...");
+    
+    if (loadGame()) {
+        bool gotAnswer = false;
         
-        if (loadGame()) {
-            bool gotAnswer = false;
-            
-            printf("\n\nYou have a saved game!\n    Would you like to continue it (Y/N)");
-            
-            while (!gotAnswer) {
-                ch = cgetc();
-                switch (ch) {
-                    case 'y':
-                    case 'Y':
-                        printf("\n\nLoading your saved puzzle");
-                        gotAnswer = true;
-                        shouldSave = true;
-                        gameLoaded = true;
-                        break;
-                        
-                    case 'n':
-                    case 'N':
-                        gotAnswer = true;
-                        break;
-                        
-                    default:
-                        badThingHappened();
-                        break;
-                }
+        printf("\n\nYou have a saved game!\n    Would you like to continue it (Y/N)");
+        
+        while (!gotAnswer) {
+            ch = cgetc();
+            switch (ch) {
+                case 'y':
+                case 'Y':
+                    printf("\n\nLoading your saved puzzle");
+                    gotAnswer = true;
+                    gShouldSave = true;
+                    gameLoaded = true;
+                    break;
+                    
+                case 'n':
+                case 'N':
+                    gotAnswer = true;
+                    break;
+                    
+                default:
+                    badThingHappened();
+                    break;
             }
         }
     }
@@ -421,97 +711,26 @@ void playGame(void)
     }
     drawBoard();
     while (true) {
-        if ((checkForGameOver) &&
-            (gameIsOver())) {
-            endGame();
-            return;
-        }
-        checkForGameOver = false;
+        resetStarAnim();
         
-        beginStarAnim();
-        while (!kbhit()) {
+        while (true) {
             doStarAnim();
+            
+            if (pollKeyboard()) {
+                break;
+            }
+            
+            if (pollJoystick()) {
+                break;
+            }
         }
-        endStarAnim();
-    
-        ch = cgetc();
-        switch (ch) {
-            case 'i':
-            case 'I':
-            case CH_CURS_UP:
-                shouldSave = true;
-                if (isAppleButtonPressed())
-                    checkForGameOver = swapUp();
-                else
-                    moveUp();
-                break;
-                
-            case 'j':
-            case 'J':
-            case CH_CURS_LEFT:
-                shouldSave = true;
-                if (isAppleButtonPressed())
-                    checkForGameOver = swapLeft();
-                else
-                    moveLeft();
-                break;
-                
-            case 'k':
-            case 'K':
-            case CH_CURS_RIGHT:
-                shouldSave = true;
-                if (isAppleButtonPressed())
-                    checkForGameOver = swapRight();
-                else
-                    moveRight();
-                break;
-                
-            case 'm':
-            case 'M':
-            case CH_CURS_DOWN:
-                shouldSave = true;
-                if (isAppleButtonPressed())
-                    checkForGameOver = swapDown();
-                else
-                    moveDown();
-                break;
-                
-            case CH_ESC:
-            case 'q':
-            case 'Q':
-                if (shouldSave) {
-                    mixedTextMode();
-                    videomode(VIDEOMODE_80x24);
-                    gotoxy(0, 20);
-                    cprintf("\n\nSaving your game so you can continue\r\n    later...");
-                    saveGame();
-                }
-                quitGame();
-                break;
-                
-            case 'r':
-            case 'R':
-                return;
-                
-            case 's':
-            case 'S':
-                toggleSound();
-                break;
-                
-            case 'h':
-            case 'H':
-                getHint();
-                break;
-                
-            case '?':
-                printInstructions();
-                showAndClearDblLoRes();
-                drawBoard();
-                break;
-                
-            default:
-                badThingHappened();
-                break;
+        
+        if (gameIsOver()) {
+            endGame();
+            showAndClearDblLoRes();
+            refreshScore(0);
+            startNewGame();
+            gShouldSave = false;
         }
     }
 }

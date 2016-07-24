@@ -21,8 +21,7 @@ extern void animInit(void);
 
 extern void drawGemAtSquare(tSquare square);
 
-extern void beginStarAnim(void);
-extern void endStarAnim(void);
+extern void resetStarAnim(void);
 extern void doStarAnim(void);
 
 extern void beginClearGemAnim(void);
