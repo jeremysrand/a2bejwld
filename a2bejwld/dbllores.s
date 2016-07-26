@@ -180,6 +180,8 @@ gemmask     := $8A
     tax
     lda bgColor,X
     sta color
+    lda bgAuxColor,X
+    sta colorAux
 
     txa
     sta square
@@ -213,14 +215,15 @@ gemmask     := $8A
     asl
     asl
     tay
-    lda color
     ldx #4
 @L1:
+    lda color
     sta LOWSCR
     sta (line1addr),Y
     sta (line2addr),Y
     sta (line3addr),Y
 
+    lda colorAux
     sta HISCR
     sta (line1addr),Y
     sta (line2addr),Y
@@ -237,6 +240,7 @@ gemmask     := $8A
 xPos:       .BYTE $0
 square:     .BYTE $0
 color:      .BYTE $0
+colorAux:   .BYTE $0
 .endproc
 
 
@@ -1103,6 +1107,17 @@ bgColor:
     .BYTE   $0, $55, $0, $55, $0, $55, $0, $55
     .BYTE   $55, $0, $55, $0, $55, $0, $55, $0
 
+; Index this with (xPos << 3) + yPos
+bgAuxColor:
+    .BYTE   $0, $aa, $0, $aa, $0, $aa, $0, $aa
+    .BYTE   $aa, $0, $aa, $0, $aa, $0, $aa, $0
+    .BYTE   $0, $aa, $0, $aa, $0, $aa, $0, $aa
+    .BYTE   $aa, $0, $aa, $0, $aa, $0, $aa, $0
+    .BYTE   $0, $aa, $0, $aa, $0, $aa, $0, $aa
+    .BYTE   $aa, $0, $aa, $0, $aa, $0, $aa, $0
+    .BYTE   $0, $aa, $0, $aa, $0, $aa, $0, $aa
+    .BYTE   $aa, $0, $aa, $0, $aa, $0, $aa, $0
+
 bgLoLines1:
     .LOBYTES LINE1, LINE4, LINE7, LINE10, LINE13, LINE16, LINE19, LINE22
 bgLoLines2:
@@ -1121,11 +1136,11 @@ bgHiLines3:
 greenGem:
     .BYTE $00, $00, $00
     .BYTE $00, $cc, $00
+    .BYTE $60, $66, $06
     .BYTE $c0, $cc, $0c
+    .BYTE $60, $66, $06
     .BYTE $c0, $cc, $0c
-    .BYTE $c0, $cc, $0c
-    .BYTE $c0, $cc, $0c
-    .BYTE $00, $cc, $00
+    .BYTE $00, $66, $00
     .BYTE $00, $00, $00
 greenMask:
     .BYTE $ff, $ff, $ff
@@ -1141,11 +1156,11 @@ greenMask:
 purpleGem:
     .BYTE $00, $00, $00
     .BYTE $00, $30, $03
-    .BYTE $00, $33, $03
+    .BYTE $00, $99, $09
     .BYTE $30, $33, $03
-    .BYTE $30, $33, $03
+    .BYTE $90, $99, $09
     .BYTE $00, $33, $03
-    .BYTE $00, $30, $03
+    .BYTE $00, $90, $09
     .BYTE $00, $00, $00
 purpleMask:
     .BYTE $ff, $ff, $ff
@@ -1161,9 +1176,9 @@ purpleMask:
 yellowGem:
     .BYTE $00, $00, $00
     .BYTE $00, $00, $00
-    .BYTE $00, $dd, $00
+    .BYTE $00, $ee, $00
     .BYTE $d0, $dd, $0d
-    .BYTE $d0, $dd, $0d
+    .BYTE $e0, $ee, $0e
     .BYTE $00, $dd, $00
     .BYTE $00, $00, $00
     .BYTE $00, $00, $00
@@ -1181,11 +1196,11 @@ yellowMask:
 blueGem:
     .BYTE $00, $00, $00
     .BYTE $00, $06, $00
-    .BYTE $60, $66, $00
+    .BYTE $30, $33, $00
     .BYTE $60, $66, $06
-    .BYTE $60, $66, $06
+    .BYTE $30, $33, $03
     .BYTE $60, $66, $00
-    .BYTE $00, $06, $00
+    .BYTE $00, $03, $00
     .BYTE $00, $00, $00
 blueMask:
     .BYTE $ff, $ff, $ff
@@ -1201,11 +1216,11 @@ blueMask:
 redGem:
     .BYTE $00, $00, $00
     .BYTE $10, $11, $01
+    .BYTE $80, $88, $08
     .BYTE $10, $11, $01
+    .BYTE $80, $88, $08
     .BYTE $10, $11, $01
-    .BYTE $10, $11, $01
-    .BYTE $10, $11, $01
-    .BYTE $10, $11, $01
+    .BYTE $80, $88, $08
     .BYTE $00, $00, $00
 redMask:
     .BYTE $ff, $ff, $ff
@@ -1220,32 +1235,32 @@ redMask:
 
 greyGem:
     .BYTE $00, $00, $00
-    .BYTE $00, $aa, $00
-    .BYTE $a0, $aa, $0a
-    .BYTE $a0, $aa, $0a
-    .BYTE $a0, $aa, $0a
-    .BYTE $a0, $aa, $0a
-    .BYTE $00, $aa, $00
+    .BYTE $00, $20, $02
+    .BYTE $00, $11, $01
+    .BYTE $20, $22, $02
+    .BYTE $10, $11, $01
+    .BYTE $00, $22, $02
+    .BYTE $00, $10, $01
     .BYTE $00, $00, $00
 greyMask:
     .BYTE $ff, $ff, $ff
-    .BYTE $ff, $00, $ff
+    .BYTE $ff, $0f, $f0
+    .BYTE $ff, $00, $f0
     .BYTE $0f, $00, $f0
     .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $00, $ff
+    .BYTE $ff, $00, $f0
+    .BYTE $ff, $0f, $f0
     .BYTE $ff, $ff, $ff
 
 
 orangeGem:
     .BYTE $00, $00, $00
     .BYTE $00, $99, $00
+    .BYTE $c0, $cc, $0c
     .BYTE $90, $99, $09
+    .BYTE $c0, $cc, $0c
     .BYTE $90, $99, $09
-    .BYTE $90, $99, $09
-    .BYTE $90, $99, $09
-    .BYTE $00, $99, $00
+    .BYTE $00, $cc, $00
     .BYTE $00, $00, $00
 orangeMask:
     .BYTE $ff, $ff, $ff

@@ -77,7 +77,7 @@ static void incrementScore(void)
 
 static tGemType randomGem(void)
 {
-    return (rand() % (GEM_MAX_NORMAL - GEM_MIN_NORMAL)) + GEM_MIN_NORMAL;
+    return (rand() % (GEM_MAX_NORMAL - GEM_MIN_NORMAL + 1)) + GEM_MIN_NORMAL;
 }
 
 

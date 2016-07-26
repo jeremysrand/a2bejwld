@@ -83,10 +83,10 @@ void printInstructions(void)
            "                                 Apple Jeweled\n"
            "                                by Jeremy Rand\n"
            "\n"
-           "     Use I-J-K-M or the arrow keys to move your selection.  Hold the either\n"
-           "     apple key and move your selection to swap two jewels and match 3 or\n"
-           "     more jewels.  When you match three jewels, they disappear and new\n"
-           "     jewels will drop from the top.\n"
+           "     Use I-J-K-M, the arrow keys or the joystick to move your selection.\n"
+           "     Hold either apple key or joystick button and move your selection to\n"
+           "     swap two jewels and match 3 or more jewels.  When you match three\n"
+           "     jewels, they disappear and new jewels will drop from the top.\n"
            "\n"
            "     If you match four jewels or three jewels in two directions, then the\n"
            "     jewel does not disappear.  Match it again and it explodes taking more\n"
@@ -588,37 +588,49 @@ static bool pollKeyboard(void)
         case 'i':
         case 'I':
         case CH_CURS_UP:
-            if (isAppleButtonPressed())
-                result = swapUp();
-            else
+            if (!isAppleButtonPressed()) {
                 moveUp();
+                break;
+            }
+            // Fallthrough...
+        case 139:
+            result = swapUp();
             break;
             
         case 'j':
         case 'J':
         case CH_CURS_LEFT:
-            if (isAppleButtonPressed())
-                result = swapLeft();
-            else
+            if (!isAppleButtonPressed()) {
                 moveLeft();
+                break;
+            }
+            // Fallthrough...
+        case 136:
+            result = swapLeft();
             break;
             
         case 'k':
         case 'K':
         case CH_CURS_RIGHT:
-            if (isAppleButtonPressed())
-                result = swapRight();
-            else
+            if (!isAppleButtonPressed()) {
                 moveRight();
+                break;
+            }
+            // Fallthrough...
+        case 149:
+            result = swapRight();
             break;
             
         case 'm':
         case 'M':
         case CH_CURS_DOWN:
-            if (isAppleButtonPressed())
-                result = swapDown();
-            else
+            if (!isAppleButtonPressed()) {
                 moveDown();
+                break;
+            }
+            // Fallthrough...
+        case 138:
+            result = swapDown();
             break;
             
         case CH_ESC:
