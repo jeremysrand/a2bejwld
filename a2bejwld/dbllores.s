@@ -604,7 +604,8 @@ square:     .BYTE $0
     sta line2addr+1
     
     sta HISCR
-    lda #$ff
+    lda #$0f
+    ora (line2addr)
     sta (line2addr)
     rts
 

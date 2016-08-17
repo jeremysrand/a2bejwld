@@ -27,6 +27,12 @@
 
 #define DROP_ACCELERATION 1
 
+#define CLEAR_GEM_SOUND_NORMAL  0
+#define CLEAR_GEM_SOUND_STAR    1
+#define CLEAR_GEM_SOUND_SPECIAL 2
+#define CLEAR_GEM_SOUND_EXPLODE 3
+#define NUM_CLEAR_GEM_SOUNDS
+
 
 // Typedefs
 
@@ -40,6 +46,7 @@ typedef struct tStarAnimState
 typedef struct tClearGemAnimState
 {
     uint8_t squaresToClear[NUM_SQUARES / 8];
+    uint8_t clearGemSound;
     bool gotOne;
 } tClearGemAnimState;
 
@@ -73,6 +80,28 @@ static bool gPlaySounds = true;
 static tStarAnimState gStarAnimState;
 static tClearGemAnimState gClearGemAnimState;
 static tDropGemAnimState gDropGemAnimState;
+
+static uint8_t gClearGemSoundFreq[NUM_CLEAR_GEM_SOUNDS][8] = {
+    { // CLEAR_GEM_SOUND_NORMAL
+        30, 25, 20, 30, 30, 30, 30, 0 },
+    { // CLEAR_GEM_SOUND_STAR
+        10,  9,  8,  7,  6,  5,  4, 0 },
+    { // CLEAR_GEM_SOUND_SPECIAL
+         4,  6,  8, 10,  8,  6,  4, 0 },
+    { // CLEAR_GEM_SOUND_EXPLODE
+        50, 60, 50, 60, 50, 60, 50, 0 }
+};
+
+static uint8_t gClearGemSoundDuration[NUM_CLEAR_GEM_SOUNDS][8] = {
+    { // CLEAR_GEM_SOUND_NORMAL
+        10, 15, 20, 10, 10, 10, 10, 0 },
+    { // CLEAR_GEM_SOUND_STAR
+        30, 31, 32, 33, 34, 35, 36, 0 },
+    { // CLEAR_GEM_SOUND_SPECIAL
+        36, 34, 32, 30, 32, 34, 36, 0 },
+    { // CLEAR_GEM_SOUND_EXPLODE
+         8,  8,  8,  8,  8,  8,  8, 0 },
+};
 
 
 // Implementation
@@ -305,19 +334,49 @@ void undoClearAtSquare(tSquare square)
 }
 
 
+void playSoundForExplodingGem(void)
+{
+    if (gClearGemAnimState.clearGemSound < CLEAR_GEM_SOUND_EXPLODE)
+        gClearGemAnimState.clearGemSound = CLEAR_GEM_SOUND_EXPLODE;
+}
+
+
+void playSoundForStarringGem(void)
+{
+    if (gClearGemAnimState.clearGemSound < CLEAR_GEM_SOUND_STAR)
+        gClearGemAnimState.clearGemSound = CLEAR_GEM_SOUND_STAR;
+}
+
+
+void playSoundForSpecialGem(void)
+{
+    if (gClearGemAnimState.clearGemSound < CLEAR_GEM_SOUND_SPECIAL)
+        gClearGemAnimState.clearGemSound = CLEAR_GEM_SOUND_SPECIAL;
+}
+
+
 #undef DEBUG_CLEAR_ANIM
 void endClearGemAnim(void)
 {
     tSquare square;
     uint8_t bit;
     uint8_t offset;
+    uint8_t *clearGemSoundFreq;
+    uint8_t *clearGemSoundDuration;
     
     if (!gClearGemAnimState.gotOne)
         return;
     
+    clearGemSoundFreq = &(gClearGemSoundFreq[gClearGemAnimState.clearGemSound][0]);
+    clearGemSoundDuration = &(gClearGemSoundDuration[gClearGemAnimState.clearGemSound][0]);
+    
     bit = 1;
     offset = 0;
-    playSound(30, 10);
+    
+    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
+    clearGemSoundFreq++;
+    clearGemSoundDuration++;
+    
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -335,7 +394,11 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
-    playSound(25, 15);
+    
+    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
+    clearGemSoundFreq++;
+    clearGemSoundDuration++;
+    
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -353,7 +416,11 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
-    playSound(20, 20);
+    
+    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
+    clearGemSoundFreq++;
+    clearGemSoundDuration++;
+    
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -371,7 +438,11 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
-    playSound(30, 10);
+    
+    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
+    clearGemSoundFreq++;
+    clearGemSoundDuration++;
+    
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -389,7 +460,11 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
-    playSound(30, 10);
+    
+    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
+    clearGemSoundFreq++;
+    clearGemSoundDuration++;
+    
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -407,7 +482,11 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
-    playSound(30, 10);
+    
+    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
+    clearGemSoundFreq++;
+    clearGemSoundDuration++;
+    
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
@@ -425,7 +504,11 @@ void endClearGemAnim(void)
     
     bit = 1;
     offset = 0;
-    playSound(30, 10);
+    
+    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
+    clearGemSoundFreq++;
+    clearGemSoundDuration++;
+    
     gVblWait();
     for (square = 0; square < NUM_SQUARES; square++) {
         if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {

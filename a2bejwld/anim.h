@@ -27,6 +27,9 @@ extern void doStarAnim(void);
 extern void beginClearGemAnim(void);
 extern void addClearAtSquare(tSquare square);
 extern void undoClearAtSquare(tSquare square);
+extern void playSoundForExplodingGem(void);
+extern void playSoundForStarringGem(void);
+extern void playSoundForSpecialGem(void);
 extern void endClearGemAnim(void);
 
 extern void swapSquares(tSquare square1, tGemType gemType1, bool starred1,

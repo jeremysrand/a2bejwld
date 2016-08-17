@@ -107,6 +107,7 @@ static void explodeStarAtSquare(tSquare square)
             clearSquare(square);
         }
     }
+    gGameCallbacks->playSoundForExplodingGem();
     
 #ifdef DEBUG_MOVES
     cgetc();
@@ -438,6 +439,7 @@ static bool actOnMatchAtSquare(tSquare square, bool specialsOnly)
                 numMatchingRightLeftAtSquare(square, gemType, true);
             }
             GEM_TYPE_AT_SQUARE(square) = GEM_SPECIAL;
+            gGameCallbacks->playSoundForSpecialGem();
             gGameCallbacks->undoClearAtSquare(square);
             gGameCallbacks->squareCallback(square);
         } else if ((matchesUD == STAR_MATCH) ||
@@ -450,6 +452,7 @@ static bool actOnMatchAtSquare(tSquare square, bool specialsOnly)
             }
             GEM_TYPE_AT_SQUARE(square) = gemType;
             GEM_STARRED_AT_SQUARE(square) = true;
+            gGameCallbacks->playSoundForStarringGem();
             gGameCallbacks->undoClearAtSquare(square);
             gGameCallbacks->squareCallback(square);
         }
@@ -626,6 +629,7 @@ static void doSpecialForGemType(tGemType gemType, tSquare square)
             clearSquare(square);
         }
     }
+    gGameCallbacks->playSoundForExplodingGem();
     gGameCallbacks->endClearGemAnim();
     
     while (explodeGems())

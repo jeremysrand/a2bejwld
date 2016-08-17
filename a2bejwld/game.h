@@ -38,6 +38,9 @@ typedef struct tGameCallbacks {
     void (*beginClearGemAnim)(void);
     void (*addClearAtSquare)(tSquare square);
     void (*undoClearAtSquare)(tSquare square);
+    void (*playSoundForExplodingGem)(void);
+    void (*playSoundForStarringGem)(void);
+    void (*playSoundForSpecialGem)(void);
     void (*endClearGemAnim)(void);
     
     void (*swapSquares)(tSquare square1, tGemType gemType1, bool starred1,

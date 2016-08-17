@@ -37,11 +37,17 @@ static tGameCallbacks gCallbacks = {
     refreshSquare,
     refreshScore,
     refreshLevel,
+    
     beginClearGemAnim,
     addClearAtSquare,
     undoClearAtSquare,
+    playSoundForExplodingGem,
+    playSoundForStarringGem,
+    playSoundForSpecialGem,
     endClearGemAnim,
+    
     swapSquares,
+    
     beginDropAnim,
     dropSquareFromTo,
     dropSquareFromOffscreen,
