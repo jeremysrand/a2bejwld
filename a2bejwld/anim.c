@@ -18,6 +18,7 @@
 #include "dbllores.h"
 #include "game.h"
 #include "vbl.h"
+#include "ui.h"
 
 
 // Defines
@@ -31,7 +32,7 @@
 #define CLEAR_GEM_SOUND_STAR    1
 #define CLEAR_GEM_SOUND_SPECIAL 2
 #define CLEAR_GEM_SOUND_EXPLODE 3
-#define NUM_CLEAR_GEM_SOUNDS
+#define NUM_CLEAR_GEM_SOUNDS    4
 
 
 // Typedefs
@@ -75,7 +76,6 @@ typedef void (*tVblWaitFunction)(void);
 // Globals
 
 static tVblWaitFunction gVblWait = vblWait;
-static bool gPlaySounds = true;
 
 static tStarAnimState gStarAnimState;
 static tClearGemAnimState gClearGemAnimState;
@@ -122,37 +122,6 @@ void animInit(void)
         case APPLE_IIGS3:
             vblInit2gs();
             break;
-    }
-}
-
-
-void toggleSound(void)
-{
-    gPlaySounds = !gPlaySounds;
-}
-
-
-void badThingHappened(void)
-{
-    if (gPlaySounds)
-        printf("\007");
-}
-
-
-void playSound(int8_t startFreq, int8_t duration)
-{
-    int8_t freq;
-    
-    if (!gPlaySounds)
-        return;
-    
-    while (duration > 0) {
-        asm ("STA %w", 0xc030);
-        freq = startFreq;
-        while (freq > 0) {
-            freq--;
-        }
-        duration--;
     }
 }
 

@@ -9,9 +9,9 @@
 /* Begin PBXFileReference section */
 		9D3A9FB81D455CCF004C5897 /* joystick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = joystick.h; sourceTree = "<group>"; };
 		9D3A9FB91D455CD8004C5897 /* joystick.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = joystick.c; sourceTree = "<group>"; };
-		9D3A9FBB1D457900004C5897 /* macros.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = macros.s; sourceTree = "<group>"; };
-		9D3A9FBC1D457900004C5897 /* mouse.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = mouse.s; sourceTree = "<group>"; };
-		9D3A9FBD1D457900004C5897 /* switches.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = switches.s; sourceTree = "<group>"; };
+		9D509F911D654F9900161DDC /* mouseWrapper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mouseWrapper.c; sourceTree = "<group>"; };
+		9D509F921D654F9900161DDC /* mouseWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mouseWrapper.h; sourceTree = "<group>"; };
+		9D509F941D66AE2800161DDC /* a2e.stdmou.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = a2e.stdmou.s; sourceTree = "<group>"; };
 		9D6B472E1D3FB16F00F6D704 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		9D6B472F1D3FB16F00F6D704 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		9D6B47311D3FB16F00F6D704 /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
@@ -41,9 +41,9 @@
 		9D3A9FBA1D4578B4004C5897 /* mouse */ = {
 			isa = PBXGroup;
 			children = (
-				9D3A9FBB1D457900004C5897 /* macros.s */,
-				9D3A9FBC1D457900004C5897 /* mouse.s */,
-				9D3A9FBD1D457900004C5897 /* switches.s */,
+				9D509F941D66AE2800161DDC /* a2e.stdmou.s */,
+				9D509F911D654F9900161DDC /* mouseWrapper.c */,
+				9D509F921D654F9900161DDC /* mouseWrapper.h */,
 			);
 			name = mouse;
 			sourceTree = "<group>";

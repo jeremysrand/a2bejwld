@@ -16,6 +16,16 @@
 #include "dbllores.h"
 #include "game.h"
 #include "joystick.h"
+#include "mouseWrapper.h"
+
+
+// Typedefs
+
+typedef struct tGameOptions {
+    bool enableJoystick;
+    bool enableMouse;
+    bool enableSound;
+} tGameOptions;
 
 
 // Forward delcarations
@@ -26,6 +36,9 @@ static void refreshLevel(tLevel level);
 
 static bool joystickChangedCallback(tJoyState *oldState, tJoyState *newState);
 static bool joystickNoChangeCallback(tJoyState *oldState);
+
+static bool mouseSelectSquare(tSquare square);
+static bool mouseSwapSquare(tSquare square, tDirection dir);
 
 
 // Globals
@@ -63,10 +76,47 @@ static tJoyCallbacks gJoyCallbacks = {
     10              // Subsequent no change poll time
 };
 
+static tMouseCallbacks gMouseCallbacks = {
+    mouseSelectSquare,
+    mouseSwapSquare,
+};
+
 static bool gShouldSave = false;
+
+static tGameOptions gGameOptions = {
+    false,
+    true,
+    true,
+};
 
 
 // Implementation
+
+
+void badThingHappened(void)
+{
+    if (gGameOptions.enableSound)
+        printf("\007");
+}
+
+
+void playSound(int8_t startFreq, int8_t duration)
+{
+    int8_t freq;
+    
+    if (!gGameOptions.enableSound)
+        return;
+    
+    while (duration > 0) {
+        asm ("STA %w", 0xc030);
+        freq = startFreq;
+        while (freq > 0) {
+            freq--;
+        }
+        duration--;
+    }
+}
+
 
 static void showAndClearDblLoRes(void)
 {
@@ -77,7 +127,6 @@ static void showAndClearDblLoRes(void)
 
 void printInstructions(void)
 {
-    
     int seed = 0;
     
     unshowDblLoRes();
@@ -89,9 +138,9 @@ void printInstructions(void)
            "                                 Apple Jeweled\n"
            "                                by Jeremy Rand\n"
            "\n"
-           "     Use I-J-K-M, the arrow keys or the joystick to move your selection.\n"
-           "     Hold either apple key or joystick button and move your selection to\n"
-           "     swap two jewels and match 3 or more jewels.  When you match three\n"
+           "     Use I-J-K-M, the arrow keys, joystick or mouse to move your selection.\n"
+           "     Hold either apple key, joystick or mouse button and move your selection\n"
+           "     to swap two jewels and match 3 or more jewels.  When you match three\n"
            "     jewels, they disappear and new jewels will drop from the top.\n"
            "\n"
            "     If you match four jewels or three jewels in two directions, then the\n"
@@ -105,7 +154,7 @@ void printInstructions(void)
            "\n"
            "                    Press Q or escape to quit at any time.\n"
            "                    Press R to start a new game.\n"
-           "                    Press S to toggle sound.\n"
+           "                    Press O to select options.\n"
            "                    Press H to get a hint.\n"
            "                    Press ? to see this info again.\n"
            "\n"
@@ -117,6 +166,20 @@ void printInstructions(void)
     
     cgetc();
     srand(seed);
+    
+    clrscr();
+}
+
+
+void selectOptions(void)
+{
+    unshowDblLoRes();
+    videomode(VIDEOMODE_80x24);
+    clrscr();
+    
+    printf("Options go here...");
+    
+    cgetc();
     
     clrscr();
 }
@@ -150,6 +213,7 @@ static void quitGame(void)
     unshowDblLoRes();
     videomode(VIDEOMODE_40x24);
     clrscr();
+    shutdownMouse();
     exit(0);
 }
 
@@ -490,6 +554,43 @@ void initUI(void)
     initGameEngine(&gCallbacks);
     animInit();
     initJoystick(&gJoyCallbacks);
+    initMouse(&gMouseCallbacks);
+}
+
+
+static bool mouseSelectSquare(tSquare square)
+{
+    refreshSquare(gSelectedSquare);
+    gSelectedSquare = square;
+    selectSquare(gSelectedSquare);
+
+    return false;
+}
+
+
+static bool mouseSwapSquare(tSquare square, tDirection dir)
+{
+    if (gSelectedSquare != square) {
+        refreshSquare(gSelectedSquare);
+        gSelectedSquare = square;
+        selectSquare(gSelectedSquare);
+    }
+    
+    switch (dir) {
+        case DIR_UP:
+            return swapUp();
+            
+        case DIR_DOWN:
+            return swapDown();
+            
+        case DIR_LEFT:
+            return swapLeft();
+            
+        case DIR_RIGHT:
+            return swapRight();
+    }
+    
+    return false;
 }
 
 
@@ -659,9 +760,11 @@ static bool pollKeyboard(void)
             gShouldSave = false;
             return true;
             
-        case 's':
-        case 'S':
-            toggleSound();
+        case 'o':
+        case 'O':
+            selectOptions();
+            showAndClearDblLoRes();
+            drawBoard();
             break;
             
         case 'h':
@@ -738,7 +841,13 @@ void playGame(void)
                 break;
             }
             
-            if (pollJoystick()) {
+            if ((gGameOptions.enableJoystick) &&
+                (pollJoystick())) {
+                break;
+            }
+            
+            if ((gGameOptions.enableMouse) &&
+                (pollMouse())) {
                 break;
             }
         }
