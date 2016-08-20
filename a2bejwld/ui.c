@@ -10,6 +10,7 @@
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "ui.h"
 #include "anim.h"
@@ -19,9 +20,15 @@
 #include "mouseWrapper.h"
 
 
+// Defines
+
+#define SAVE_OPTIONS_FILE "a2bejwld.options"
+
+
 // Typedefs
 
 typedef struct tGameOptions {
+    bool optionsSaved;
     bool enableJoystick;
     bool enableMouse;
     bool enableSound;
@@ -85,6 +92,7 @@ static bool gShouldSave = false;
 
 static tGameOptions gGameOptions = {
     false,
+    false,
     true,
     true,
 };
@@ -122,6 +130,117 @@ static void showAndClearDblLoRes(void)
 {
     showDblLoRes();
     clearDblLoRes();
+}
+
+
+void saveOptions(void)
+{
+    FILE *optionsFile = fopen(SAVE_OPTIONS_FILE, "wb");
+    if (optionsFile != NULL) {
+        gGameOptions.optionsSaved = true;
+        fwrite(&gGameOptions, sizeof(gGameOptions), 1, optionsFile);
+        fclose(optionsFile);
+    }
+}
+
+
+bool loadOptions(void)
+{
+    FILE *optionsFile = fopen(SAVE_OPTIONS_FILE, "rb");
+    
+    if (optionsFile == NULL) {
+        return false;
+    }
+    
+    if (fread(&gGameOptions, sizeof(gGameOptions), 1, optionsFile) != 1) {
+        fclose(optionsFile);
+        return false;
+    }
+    
+    fclose(optionsFile);
+    
+    return true;
+}
+
+
+void applyNewOptions(tGameOptions *newOptions)
+{
+    bool oldEnableMouse = gGameOptions.enableMouse;
+    
+    // If there is no change in game options, then nothing to do.
+    if (memcmp(newOptions, &gGameOptions, sizeof(gGameOptions)) == 0) {
+        return;
+    }
+    
+    memcpy(&gGameOptions, newOptions, sizeof(gGameOptions));
+    gGameOptions.optionsSaved = false;
+    if (oldEnableMouse != gGameOptions.enableMouse) {
+        if (gGameOptions.enableMouse) {
+            gGameOptions.enableMouse = initMouse(&gMouseCallbacks);
+        } else {
+            shutdownMouse();
+        }
+    }
+    saveOptions();
+}
+
+
+void selectOptions(void)
+{
+    tGameOptions newOptions;
+    
+    unshowDblLoRes();
+    videomode(VIDEOMODE_80x24);
+    clrscr();
+    
+    memcpy(&newOptions, &gGameOptions, sizeof(newOptions));
+    
+    while (true) {
+        clrscr();
+        printf(
+               //      0000000001111111111222222222233333333334444444444555555555566666666667
+               //      1234567890123456789012345678901234567890123456789012345678901234567890
+               "                                 Apple Jeweled\n"
+               "                                    Options\n"
+               "\n"
+               "                        J - Joystick control - %s\n"
+               "                        M - Mouse control    - %s\n"
+               "                        S - Sound            - %s\n"
+               "\n"
+               "       Type a letter to toggle a setting or any other key to save settings\n"
+               "       and continue",
+               (newOptions.enableJoystick ? "Enable" : "Disabled"),
+               (newOptions.enableMouse ? "Enable" : "Disabled"),
+               (newOptions.enableSound ? "Enable" : "Disabled"));
+        
+        switch (cgetc()) {
+            case 'j':
+            case 'J':
+                newOptions.enableJoystick = !newOptions.enableJoystick;
+                if (newOptions.enableJoystick) {
+                    newOptions.enableMouse = false;
+                }
+                break;
+                
+            case 'm':
+            case 'M':
+                newOptions.enableMouse = !newOptions.enableMouse;
+                if (newOptions.enableMouse) {
+                    newOptions.enableJoystick = false;
+                }
+                break;
+                
+            case 's':
+            case 'S':
+                newOptions.enableSound = !newOptions.enableSound;
+                break;
+                
+            default:
+                applyNewOptions(&newOptions);
+                clrscr();
+                return;
+        }
+    }
 }
 
 
@@ -164,22 +283,17 @@ void printInstructions(void)
     while (!kbhit())
         seed++;
     
-    cgetc();
     srand(seed);
     
-    clrscr();
-}
-
-
-void selectOptions(void)
-{
-    unshowDblLoRes();
-    videomode(VIDEOMODE_80x24);
-    clrscr();
-    
-    printf("Options go here...");
-    
-    cgetc();
+    switch (cgetc()) {
+        case 'o':
+        case 'O':
+            selectOptions();
+            break;
+            
+        default:
+            break;
+    }
     
     clrscr();
 }
@@ -218,246 +332,132 @@ static void quitGame(void)
 }
 
 
-static void moveUp(void)
+static void moveDir(tDirection dir)
 {
     tSquare oldSquare = gSelectedSquare;
     tPos x = SQUARE_TO_X(gSelectedSquare);
     tPos y = SQUARE_TO_Y(gSelectedSquare);
     
-    if (y == 0)
-        y = BOARD_SIZE - 1;
-    else
-        y--;
-    
-    gSelectedSquare = XY_TO_SQUARE(x, y);
-    
-    refreshSquare(oldSquare);
-    selectSquare(gSelectedSquare);
-}
-
-
-static void moveUpLeft(void)
-{
-    tSquare oldSquare = gSelectedSquare;
-    tPos x = SQUARE_TO_X(gSelectedSquare);
-    tPos y = SQUARE_TO_Y(gSelectedSquare);
-    
-    if (y == 0)
-        y = BOARD_SIZE - 1;
-    else
-        y--;
-    
-    if (x == 0)
-        x = BOARD_SIZE - 1;
-    else
-        x--;
-    
-    gSelectedSquare = XY_TO_SQUARE(x, y);
-    
-    refreshSquare(oldSquare);
-    selectSquare(gSelectedSquare);
-}
-
-
-
-static void moveUpRight(void)
-{
-    tSquare oldSquare = gSelectedSquare;
-    tPos x = SQUARE_TO_X(gSelectedSquare);
-    tPos y = SQUARE_TO_Y(gSelectedSquare);
-    
-    if (y == 0)
-        y = BOARD_SIZE - 1;
-    else
-        y--;
-    
-    if (x == BOARD_SIZE - 1)
-        x = 0;
-    else
-        x++;
-    
-    gSelectedSquare = XY_TO_SQUARE(x, y);
-    
-    refreshSquare(oldSquare);
-    selectSquare(gSelectedSquare);
-}
-
-
-static void moveDown(void)
-{
-    tSquare oldSquare = gSelectedSquare;
-    tPos x = SQUARE_TO_X(gSelectedSquare);
-    tPos y = SQUARE_TO_Y(gSelectedSquare);
-    
-    if (y == BOARD_SIZE - 1)
-        y = 0;
-    else
-        y++;
-    
-    gSelectedSquare = XY_TO_SQUARE(x, y);
-    
-    refreshSquare(oldSquare);
-    selectSquare(gSelectedSquare);
-}
-
-
-static void moveDownLeft(void)
-{
-    tSquare oldSquare = gSelectedSquare;
-    tPos x = SQUARE_TO_X(gSelectedSquare);
-    tPos y = SQUARE_TO_Y(gSelectedSquare);
-    
-    if (y == BOARD_SIZE - 1)
-        y = 0;
-    else
-        y++;
-    
-    if (x == 0)
-        x = BOARD_SIZE - 1;
-    else
-        x--;
-    
-    gSelectedSquare = XY_TO_SQUARE(x, y);
-    
-    refreshSquare(oldSquare);
-    selectSquare(gSelectedSquare);
-}
-
-
-static void moveDownRight(void)
-{
-    tSquare oldSquare = gSelectedSquare;
-    tPos x = SQUARE_TO_X(gSelectedSquare);
-    tPos y = SQUARE_TO_Y(gSelectedSquare);
-    
-    if (y == BOARD_SIZE - 1)
-        y = 0;
-    else
-        y++;
-    
-    if (x == BOARD_SIZE - 1)
-        x = 0;
-    else
-        x++;
-    
-    gSelectedSquare = XY_TO_SQUARE(x, y);
-    
-    refreshSquare(oldSquare);
-    selectSquare(gSelectedSquare);
-}
-
-
-static void moveLeft(void)
-{
-    tSquare oldSquare = gSelectedSquare;
-    tPos x = SQUARE_TO_X(gSelectedSquare);
-    tPos y = SQUARE_TO_Y(gSelectedSquare);
-    
-    if (x == 0)
-        x = BOARD_SIZE - 1;
-    else
-        x--;
-    
-    gSelectedSquare = XY_TO_SQUARE(x, y);
-    
-    refreshSquare(oldSquare);
-    selectSquare(gSelectedSquare);
-}
-
-
-static void moveRight(void)
-{
-    tSquare oldSquare = gSelectedSquare;
-    tPos x = SQUARE_TO_X(gSelectedSquare);
-    tPos y = SQUARE_TO_Y(gSelectedSquare);
-    
-    if (x == BOARD_SIZE - 1)
-        x = 0;
-    else
-        x++;
-    
-    gSelectedSquare = XY_TO_SQUARE(x, y);
-    
-    refreshSquare(oldSquare);
-    selectSquare(gSelectedSquare);
-}
-
-
-static bool swapUp(void)
-{
-    bool result = false;
-    tPos y = SQUARE_TO_Y(gSelectedSquare);
-    
-    if (y == 0) {
-        badThingHappened();
-        return result;
+    switch (dir) {
+        case DIR_UP:
+            if (y == 0)
+                y = BOARD_SIZE - 1;
+            else
+                y--;
+            break;
+            
+        case DIR_DOWN:
+            if (y == BOARD_SIZE - 1)
+                y = 0;
+            else
+                y++;
+            break;
+            
+        case DIR_LEFT:
+            if (x == 0)
+                x = BOARD_SIZE - 1;
+            else
+                x--;
+            break;
+            
+        case DIR_RIGHT:
+            if (x == BOARD_SIZE - 1)
+                x = 0;
+            else
+                x++;
+            break;
     }
     
-    resetStarAnim();
-    result = moveSquareInDir(gSelectedSquare, DIR_UP);
+    gSelectedSquare = XY_TO_SQUARE(x, y);
+    
+    refreshSquare(oldSquare);
     selectSquare(gSelectedSquare);
-    
-    if (result)
-        gShouldSave = true;
-    
-    return result;
 }
 
 
-static bool swapDown(void)
+static void moveTwoDirs(tDirection dir1, tDirection dir2)
 {
-    bool result = false;
+    tSquare oldSquare = gSelectedSquare;
+    tPos x = SQUARE_TO_X(gSelectedSquare);
     tPos y = SQUARE_TO_Y(gSelectedSquare);
     
-    if (y == BOARD_SIZE - 1) {
-        badThingHappened();
-        return result;
+    switch (dir1) {
+        case DIR_UP:
+            if (y == 0)
+                y = BOARD_SIZE - 1;
+            else
+                y--;
+            break;
+            
+        case DIR_DOWN:
+            if (y == BOARD_SIZE - 1)
+                y = 0;
+            else
+                y++;
+            break;
     }
     
-    resetStarAnim();
-    result = moveSquareInDir(gSelectedSquare, DIR_DOWN);
+    switch (dir2) {
+        case DIR_LEFT:
+            if (x == 0)
+                x = BOARD_SIZE - 1;
+            else
+                x--;
+            break;
+            
+        case DIR_RIGHT:
+            if (x == BOARD_SIZE - 1)
+                x = 0;
+            else
+                x++;
+            break;
+    }
+    
+    gSelectedSquare = XY_TO_SQUARE(x, y);
+    
+    refreshSquare(oldSquare);
     selectSquare(gSelectedSquare);
-    
-    if (result)
-        gShouldSave = true;
-    
-    return result;
 }
 
 
-static bool swapLeft(void)
+static bool swapDir(tDirection dir)
 {
     bool result = false;
     tPos x = SQUARE_TO_X(gSelectedSquare);
+    tPos y = SQUARE_TO_Y(gSelectedSquare);
     
-    if (x == 0) {
-        badThingHappened();
-        return result;
+    switch (dir) {
+        case DIR_UP:
+            if (y == 0) {
+                badThingHappened();
+                return result;
+            }
+            break;
+            
+        case DIR_DOWN:
+            if (y == BOARD_SIZE - 1) {
+                badThingHappened();
+                return result;
+            }
+            break;
+            
+        case DIR_LEFT:
+            if (x == 0) {
+                badThingHappened();
+                return result;
+            }
+            break;
+            
+        case DIR_RIGHT:
+            if (x == BOARD_SIZE - 1) {
+                badThingHappened();
+                return result;
+            }
+            break;
     }
     
     resetStarAnim();
-    result = moveSquareInDir(gSelectedSquare, DIR_LEFT);
-    selectSquare(gSelectedSquare);
-    
-    if (result)
-        gShouldSave = true;
-    
-    return result;
-}
-
-
-static bool swapRight(void)
-{
-    bool result = false;
-    tPos x = SQUARE_TO_X(gSelectedSquare);
-    
-    if (x == BOARD_SIZE - 1) {
-        badThingHappened();
-        return result;
-    }
-    
-    resetStarAnim();
-    result = moveSquareInDir(gSelectedSquare, DIR_RIGHT);
+    result = moveSquareInDir(gSelectedSquare, dir);
     selectSquare(gSelectedSquare);
     
     if (result)
@@ -551,10 +551,33 @@ static void getHint(void)
 
 void initUI(void)
 {
+    bool optionsLoaded;
+    
+    optionsLoaded = loadOptions();
+    
     initGameEngine(&gCallbacks);
     animInit();
+    
+    if ((!optionsLoaded) ||
+        (gGameOptions.enableMouse)) {
+        // If we didn't load any options or the saved options had the mouse enabled, then try to init a mouse.
+        gGameOptions.enableMouse = initMouse(&gMouseCallbacks);
+        if (!gGameOptions.enableMouse) {
+            // If we didn't init a mouse, then let's mark the options as not saved.
+            gGameOptions.optionsSaved = false;
+            
+            // If we didn't load an options file, then let's turn on the joystick instead.
+            if (!optionsLoaded) {
+                gGameOptions.enableJoystick = true;
+            }
+        }
+    }
+    
     initJoystick(&gJoyCallbacks);
-    initMouse(&gMouseCallbacks);
+    
+    if (!gGameOptions.optionsSaved) {
+        saveOptions();
+    }
 }
 
 
@@ -576,21 +599,7 @@ static bool mouseSwapSquare(tSquare square, tDirection dir)
         selectSquare(gSelectedSquare);
     }
     
-    switch (dir) {
-        case DIR_UP:
-            return swapUp();
-            
-        case DIR_DOWN:
-            return swapDown();
-            
-        case DIR_LEFT:
-            return swapLeft();
-            
-        case DIR_RIGHT:
-            return swapRight();
-    }
-    
-    return false;
+    return swapDir(dir);
 }
 
 
@@ -598,35 +607,35 @@ static void joystickMove(tJoyPos position)
 {
     switch (position) {
         case JOY_POS_DOWN:
-            moveDown();
+            moveDir(DIR_DOWN);
             break;
             
         case JOY_POS_DOWN_LEFT:
-            moveDownLeft();
+            moveTwoDirs(DIR_DOWN, DIR_LEFT);
             break;
             
         case JOY_POS_LEFT:
-            moveLeft();
+            moveDir(DIR_LEFT);
             break;
             
         case JOY_POS_UP_LEFT:
-            moveUpLeft();
+            moveTwoDirs(DIR_UP, DIR_LEFT);
             break;
             
         case JOY_POS_UP:
-            moveUp();
+            moveDir(DIR_UP);
             break;
             
         case JOY_POS_UP_RIGHT:
-            moveUpRight();
+            moveTwoDirs(DIR_UP, DIR_RIGHT);
             break;
             
         case JOY_POS_RIGHT:
-            moveRight();
+            moveDir(DIR_RIGHT);
             break;
             
         case JOY_POS_DOWN_RIGHT:
-            moveDownRight();
+            moveTwoDirs(DIR_DOWN, DIR_RIGHT);
             break;
             
         default:
@@ -646,16 +655,16 @@ static bool joystickChangedCallback(tJoyState *oldState, tJoyState *newState)
         (newState->button1)) {
         switch (newState->position) {
             case JOY_POS_UP:
-                return swapUp();
+                return swapDir(DIR_UP);
                 
             case JOY_POS_DOWN:
-                return swapDown();
+                return swapDir(DIR_DOWN);
                 
             case JOY_POS_LEFT:
-                return swapLeft();
+                return swapDir(DIR_LEFT);
                 
             case JOY_POS_RIGHT:
-                return swapRight();
+                return swapDir(DIR_RIGHT);
                 
             default:
                 break;
@@ -696,48 +705,48 @@ static bool pollKeyboard(void)
         case 'I':
         case CH_CURS_UP:
             if (!isAppleButtonPressed()) {
-                moveUp();
+                moveDir(DIR_UP);
                 break;
             }
             // Fallthrough...
         case 139:
-            result = swapUp();
+            result = swapDir(DIR_UP);
             break;
             
         case 'j':
         case 'J':
         case CH_CURS_LEFT:
             if (!isAppleButtonPressed()) {
-                moveLeft();
+                moveDir(DIR_LEFT);
                 break;
             }
             // Fallthrough...
         case 136:
-            result = swapLeft();
+            result = swapDir(DIR_LEFT);
             break;
             
         case 'k':
         case 'K':
         case CH_CURS_RIGHT:
             if (!isAppleButtonPressed()) {
-                moveRight();
+                moveDir(DIR_RIGHT);
                 break;
             }
             // Fallthrough...
         case 149:
-            result = swapRight();
+            result = swapDir(DIR_RIGHT);
             break;
             
         case 'm':
         case 'M':
         case CH_CURS_DOWN:
             if (!isAppleButtonPressed()) {
-                moveDown();
+                moveDir(DIR_DOWN);
                 break;
             }
             // Fallthrough...
         case 138:
-            result = swapDown();
+            result = swapDir(DIR_DOWN);
             break;
             
         case CH_ESC:

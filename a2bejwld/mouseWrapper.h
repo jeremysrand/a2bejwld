@@ -25,7 +25,7 @@ typedef struct tMouseCallbacks {
 
 // API
 
-extern void initMouse(tMouseCallbacks *callbacks);
+extern bool initMouse(tMouseCallbacks *callbacks);
 extern void shutdownMouse(void);
 extern bool pollMouse(void);
 

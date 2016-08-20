@@ -26,13 +26,16 @@ static tMouseCallbacks *gMouseCallbacks = NULL;
 static bool gMouseInstalled = false;
 
 
-void initMouse(tMouseCallbacks *callbacks)
+bool initMouse(tMouseCallbacks *callbacks)
 {
-    if (mouse_install(&mouse_def_callbacks, &a2e_stdmou_mou) == 0) {
-        gMouseInstalled = true;
+    if (!gMouseInstalled) {
+        if (mouse_install(&mouse_def_callbacks, &a2e_stdmou_mou) == 0) {
+            gMouseInstalled = true;
+        }
     }
     
     gMouseCallbacks = callbacks;
+    return gMouseInstalled;
 }
     
 
