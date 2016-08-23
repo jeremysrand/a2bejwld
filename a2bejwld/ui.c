@@ -23,6 +23,7 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "a2bejwld.opts"
+#define VERSION "v1.2b1"
 
 
 // Typedefs
@@ -201,7 +202,7 @@ void selectOptions(void)
         printf(
                //      0000000001111111111222222222233333333334444444444555555555566666666667
                //      1234567890123456789012345678901234567890123456789012345678901234567890
-               "                                 Apple Jeweled\n"
+               "                               Apple // Bejeweled\n"
                "                                    Options\n"
                "\n"
                "                        J - Joystick control - %s\n"
@@ -255,7 +256,7 @@ void printInstructions(void)
     printf(
           //      0000000001111111111222222222233333333334444444444555555555566666666667
           //      1234567890123456789012345678901234567890123456789012345678901234567890
-           "                                 Apple Jeweled\n"
+           "                              Apple // Bejeweled             (" VERSION ")\n"
            "                                by Jeremy Rand\n"
            "\n"
            "     Use I-J-K-M, the arrow keys, joystick or mouse to move your selection.\n"
