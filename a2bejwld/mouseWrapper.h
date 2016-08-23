@@ -19,7 +19,7 @@
 
 typedef struct tMouseCallbacks {
     bool (*mouseSelectSquare)(tSquare square);
-    bool (*mouseSwapSquare)(tSquare square, tDirection dir);
+    bool (*mouseSwapSquare)(tDirection dir);
 } tMouseCallbacks;
 
 

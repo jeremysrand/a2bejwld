@@ -50,14 +50,14 @@ void shutdownMouse(void)
 
 bool pollMouse(void)
 {
+    static uint16_t mouseDownAtX = 0;
+    static uint16_t mouseDownAtY = 0;
     static uint8_t oldX = 0;
     static uint8_t oldY = 0;
     static bool oldMouseDown = false;
     static bool handledMouseDown = false;
     
     struct mouse_info mouseInfo;
-    uint8_t newX;
-    uint8_t newY;
     bool newMouseDown;
     bool result = false;
     
@@ -68,44 +68,57 @@ bool pollMouse(void)
     mouse_info(&mouseInfo);
     
     newMouseDown = (mouseInfo.buttons != 0);
-    newX = mouseInfo.pos.x / 35;
-    newY = mouseInfo.pos.y / 8;
     
-    if (newX >= BOARD_SIZE)
-        newX = BOARD_SIZE - 1;
-    
-    if (newY >= BOARD_SIZE)
-        newY = BOARD_SIZE - 1;
-    
-    if (!newMouseDown) {
+    if ((oldMouseDown) &&
+        (!newMouseDown))
         handledMouseDown = false;
+    
+    if ((!oldMouseDown) ||
+        (handledMouseDown)) {
+        uint8_t newX;
+        uint8_t newY;
+        
+        newX = mouseInfo.pos.x / 35;
+        newY = mouseInfo.pos.y / 8;
+        
+        if (newX >= BOARD_SIZE)
+            newX = BOARD_SIZE - 1;
+        
+        if (newY >= BOARD_SIZE)
+            newY = BOARD_SIZE - 1;
         
         if ((oldX != newX) ||
             (oldY != newY)) {
             result = gMouseCallbacks->mouseSelectSquare(XY_TO_SQUARE(newX, newY));
         }
-    } else if (!handledMouseDown) {
-        if (newX < oldX) {
-            if (newY == oldY) {
-                result = gMouseCallbacks->mouseSwapSquare(XY_TO_SQUARE(oldX, oldY), DIR_LEFT);
-            }
+        
+        oldX = newX;
+        oldY = newY;
+    }
+    
+    
+    if ((!oldMouseDown) &&
+        (newMouseDown)) {
+        mouseDownAtX = mouseInfo.pos.x;
+        mouseDownAtY = mouseInfo.pos.y;
+    }
+    
+    if ((newMouseDown) &&
+        (!handledMouseDown)) {
+        if (mouseDownAtX + 35 < mouseInfo.pos.x) {
+            result = gMouseCallbacks->mouseSwapSquare(DIR_RIGHT);
             handledMouseDown = true;
-        } else if (newX > oldX) {
-            if (newY == oldY) {
-                result = gMouseCallbacks->mouseSwapSquare(XY_TO_SQUARE(oldX, oldY), DIR_RIGHT);
-            }
+        } else if (mouseInfo.pos.x + 35 < mouseDownAtX) {
+            result = gMouseCallbacks->mouseSwapSquare(DIR_LEFT);
             handledMouseDown = true;
-        } else if (newY < oldY) {
-            result = gMouseCallbacks->mouseSwapSquare(XY_TO_SQUARE(oldX, oldY), DIR_UP);
+        } else if (mouseDownAtY + 8 < mouseInfo.pos.y) {
+            result = gMouseCallbacks->mouseSwapSquare(DIR_DOWN);
             handledMouseDown = true;
-        } else if (newY > oldY) {
-            result = gMouseCallbacks->mouseSwapSquare(XY_TO_SQUARE(oldX, oldY), DIR_DOWN);
+        } else if (mouseInfo.pos.y + 8 < mouseDownAtY) {
+            result = gMouseCallbacks->mouseSwapSquare(DIR_UP);
             handledMouseDown = true;
         }
     }
-    
-    oldX = newX;
-    oldY = newY;
     oldMouseDown = newMouseDown;
     
     return result;

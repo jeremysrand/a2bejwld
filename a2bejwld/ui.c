@@ -22,7 +22,7 @@
 
 // Defines
 
-#define SAVE_OPTIONS_FILE "a2bejwld.options"
+#define SAVE_OPTIONS_FILE "a2bejwld.opts"
 
 
 // Typedefs
@@ -45,7 +45,7 @@ static bool joystickChangedCallback(tJoyState *oldState, tJoyState *newState);
 static bool joystickNoChangeCallback(tJoyState *oldState);
 
 static bool mouseSelectSquare(tSquare square);
-static bool mouseSwapSquare(tSquare square, tDirection dir);
+static bool swapDir(tDirection dir);
 
 
 // Globals
@@ -85,7 +85,7 @@ static tJoyCallbacks gJoyCallbacks = {
 
 static tMouseCallbacks gMouseCallbacks = {
     mouseSelectSquare,
-    mouseSwapSquare,
+    swapDir,
 };
 
 static bool gShouldSave = false;
@@ -136,6 +136,7 @@ static void showAndClearDblLoRes(void)
 void saveOptions(void)
 {
     FILE *optionsFile = fopen(SAVE_OPTIONS_FILE, "wb");
+
     if (optionsFile != NULL) {
         gGameOptions.optionsSaved = true;
         fwrite(&gGameOptions, sizeof(gGameOptions), 1, optionsFile);
@@ -588,18 +589,6 @@ static bool mouseSelectSquare(tSquare square)
     selectSquare(gSelectedSquare);
 
     return false;
-}
-
-
-static bool mouseSwapSquare(tSquare square, tDirection dir)
-{
-    if (gSelectedSquare != square) {
-        refreshSquare(gSelectedSquare);
-        gSelectedSquare = square;
-        selectSquare(gSelectedSquare);
-    }
-    
-    return swapDir(dir);
 }
 
 
