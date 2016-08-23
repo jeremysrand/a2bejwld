@@ -69,6 +69,8 @@ typedef struct tDropGemAnimState {
     bool gotOne;
 } tDropGemAnimState;
 
+typedef void __fastcall__ (*tClearGemHandler)(tSquare square);
+
 
 typedef void (*tVblWaitFunction)(void);
 
@@ -101,6 +103,16 @@ static uint8_t gClearGemSoundDuration[NUM_CLEAR_GEM_SOUNDS][8] = {
         36, 34, 32, 30, 32, 34, 36, 0 },
     { // CLEAR_GEM_SOUND_EXPLODE
          8,  8,  8,  8,  8,  8,  8, 0 },
+};
+
+static tClearGemHandler gClearGemHandler[] = {
+    explodeGemFrame1,
+    explodeGemFrame2,
+    explodeGemFrame3,
+    explodeGemFrame4,
+    explodeGemFrame5,
+    explodeGemFrame6,
+    drawBgSquare
 };
 
 
@@ -332,6 +344,7 @@ void endClearGemAnim(void)
     uint8_t offset;
     uint8_t *clearGemSoundFreq;
     uint8_t *clearGemSoundDuration;
+    uint8_t frame;
     
     if (!gClearGemAnimState.gotOne)
         return;
@@ -339,159 +352,29 @@ void endClearGemAnim(void)
     clearGemSoundFreq = &(gClearGemSoundFreq[gClearGemAnimState.clearGemSound][0]);
     clearGemSoundDuration = &(gClearGemSoundDuration[gClearGemAnimState.clearGemSound][0]);
     
-    bit = 1;
-    offset = 0;
-    
-    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
-    clearGemSoundFreq++;
-    clearGemSoundDuration++;
-    
-    gVblWait();
-    for (square = 0; square < NUM_SQUARES; square++) {
-        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
-            explodeGemFrame1(square);
+    for (frame = 0; frame < (sizeof(gClearGemHandler) / sizeof(gClearGemHandler[0])); frame++) {
+        bit = 1;
+        offset = 0;
+        
+        playSound(*clearGemSoundFreq, *clearGemSoundDuration);
+        clearGemSoundFreq++;
+        clearGemSoundDuration++;
+        
+        gVblWait();
+        for (square = 0; square < NUM_SQUARES; square++) {
+            if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
+                (gClearGemHandler[frame])(square);
+            }
+            bit <<= 1;
+            if (bit == 0) {
+                bit = 1;
+                offset++;
+            }
         }
-        bit <<= 1;
-        if (bit == 0) {
-            bit = 1;
-            offset++;
-        }
-    }
 #ifdef DEBUG_CLEAR_ANIM
-    cgetc();
+        cgetc();
 #endif
-    
-    bit = 1;
-    offset = 0;
-    
-    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
-    clearGemSoundFreq++;
-    clearGemSoundDuration++;
-    
-    gVblWait();
-    for (square = 0; square < NUM_SQUARES; square++) {
-        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
-            explodeGemFrame2(square);
-        }
-        bit <<= 1;
-        if (bit == 0) {
-            bit = 1;
-            offset++;
-        }
     }
-#ifdef DEBUG_CLEAR_ANIM
-    cgetc();
-#endif
-    
-    bit = 1;
-    offset = 0;
-    
-    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
-    clearGemSoundFreq++;
-    clearGemSoundDuration++;
-    
-    gVblWait();
-    for (square = 0; square < NUM_SQUARES; square++) {
-        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
-            explodeGemFrame3(square);
-        }
-        bit <<= 1;
-        if (bit == 0) {
-            bit = 1;
-            offset++;
-        }
-    }
-#ifdef DEBUG_CLEAR_ANIM
-    cgetc();
-#endif
-    
-    bit = 1;
-    offset = 0;
-    
-    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
-    clearGemSoundFreq++;
-    clearGemSoundDuration++;
-    
-    gVblWait();
-    for (square = 0; square < NUM_SQUARES; square++) {
-        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
-            explodeGemFrame4(square);
-        }
-        bit <<= 1;
-        if (bit == 0) {
-            bit = 1;
-            offset++;
-        }
-    }
-#ifdef DEBUG_CLEAR_ANIM
-    cgetc();
-#endif
-    
-    bit = 1;
-    offset = 0;
-    
-    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
-    clearGemSoundFreq++;
-    clearGemSoundDuration++;
-    
-    gVblWait();
-    for (square = 0; square < NUM_SQUARES; square++) {
-        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
-            explodeGemFrame5(square);
-        }
-        bit <<= 1;
-        if (bit == 0) {
-            bit = 1;
-            offset++;
-        }
-    }
-#ifdef DEBUG_CLEAR_ANIM
-    cgetc();
-#endif
-    
-    bit = 1;
-    offset = 0;
-    
-    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
-    clearGemSoundFreq++;
-    clearGemSoundDuration++;
-    
-    gVblWait();
-    for (square = 0; square < NUM_SQUARES; square++) {
-        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
-            explodeGemFrame6(square);
-        }
-        bit <<= 1;
-        if (bit == 0) {
-            bit = 1;
-            offset++;
-        }
-    }
-#ifdef DEBUG_CLEAR_ANIM
-    cgetc();
-#endif
-    
-    bit = 1;
-    offset = 0;
-    
-    playSound(*clearGemSoundFreq, *clearGemSoundDuration);
-    clearGemSoundFreq++;
-    clearGemSoundDuration++;
-    
-    gVblWait();
-    for (square = 0; square < NUM_SQUARES; square++) {
-        if ((gClearGemAnimState.squaresToClear[offset] & bit) != 0) {
-            drawBgSquare(square);
-        }
-        bit <<= 1;
-        if (bit == 0) {
-            bit = 1;
-            offset++;
-        }
-    }
-#ifdef DEBUG_CLEAR_ANIM
-    cgetc();
-#endif
 }
 
 
@@ -523,7 +406,7 @@ void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
 #if 0
         // We don't need to swap square numbers.  The code from here on
         // doesn't distinguish between the two square numbers.  So, save
-        // some time and don't sway.
+        // some time and don't swap.
         //
         // Be careful if this assumption is no longer true.
         temp = square2;
