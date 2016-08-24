@@ -9,6 +9,8 @@
 /* Begin PBXFileReference section */
 		9D3A9FB81D455CCF004C5897 /* joystick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = joystick.h; sourceTree = "<group>"; };
 		9D3A9FB91D455CD8004C5897 /* joystick.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = joystick.c; sourceTree = "<group>"; };
+		9D4D1AA31D6D0E9B00D20BB8 /* machine.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = machine.c; sourceTree = "<group>"; };
+		9D4D1AA41D6D0E9B00D20BB8 /* machine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = machine.h; sourceTree = "<group>"; };
 		9D509F911D654F9900161DDC /* mouseWrapper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mouseWrapper.c; sourceTree = "<group>"; };
 		9D509F921D654F9900161DDC /* mouseWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mouseWrapper.h; sourceTree = "<group>"; };
 		9D509F941D66AE2800161DDC /* a2e.stdmou.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = a2e.stdmou.s; sourceTree = "<group>"; };
@@ -79,6 +81,8 @@
 				9D6B473F1D3FB5C800F6D704 /* dbllores.h */,
 				9D6B47451D426E6300F6D704 /* vbl.s */,
 				9D6B47471D42709200F6D704 /* vbl.h */,
+				9D4D1AA31D6D0E9B00D20BB8 /* machine.c */,
+				9D4D1AA41D6D0E9B00D20BB8 /* machine.h */,
 				9D6B47481D4270EC00F6D704 /* anim.c */,
 				9D6B47491D4270EC00F6D704 /* anim.h */,
 				9D6B472F1D3FB16F00F6D704 /* Makefile */,

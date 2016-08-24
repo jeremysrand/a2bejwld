@@ -17,13 +17,14 @@
 #include "dbllores.h"
 #include "game.h"
 #include "joystick.h"
+#include "machine.h"
 #include "mouseWrapper.h"
 
 
 // Defines
 
 #define SAVE_OPTIONS_FILE "a2bejwld.opts"
-#define VERSION "v1.2b1"
+#define VERSION "v1.2b2"
 
 
 // Typedefs
@@ -330,6 +331,9 @@ static void quitGame(void)
     videomode(VIDEOMODE_40x24);
     clrscr();
     shutdownMouse();
+    
+    uninitMachine();
+    
     exit(0);
 }
 
@@ -479,10 +483,11 @@ static void endGame(void)
 {
     mixedTextMode();
     videomode(VIDEOMODE_80x24);
-    cputsxy(0, 20, "               No more moves  -  GAME OVER!!");
-    gotoxy(0,21);
-    cprintf(       "               You made it to level %u", getLevel());
-    cputsxy(0,23,  "                    Play again (Y/N)?");
+    
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    printf("               No more moves  -  GAME OVER!!\n");
+    printf("               You made it to level %u\n\n", getLevel());
+    printf("                    Play again (Y/N)?");
     
     while (true) {
         switch (cgetc()) {
@@ -522,9 +527,10 @@ static void refreshLevel(tLevel level)
     
     mixedTextMode();
     videomode(VIDEOMODE_80x24);
-    gotoxy(0, 20);
-    cprintf(      "               Completed level %u!!", level);
-    cputsxy(0,22, "               Press space to continue to the next level...");
+    
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    printf("               Completed level %u!!\n", level);
+    printf("               Press space to continue to the next level...");
     
     while (waiting) {
         switch (cgetc()) {
@@ -555,10 +561,11 @@ void initUI(void)
 {
     bool optionsLoaded;
     
+    initMachine();
+    
     optionsLoaded = loadOptions();
     
     initGameEngine(&gCallbacks);
-    animInit();
     
     if ((!optionsLoaded) ||
         (gGameOptions.enableMouse)) {

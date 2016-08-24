@@ -7,7 +7,6 @@
 //
 
 
-#include <apple2.h>
 #include <conio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -17,7 +16,7 @@
 #include "anim.h"
 #include "dbllores.h"
 #include "game.h"
-#include "vbl.h"
+#include "machine.h"
 #include "ui.h"
 
 
@@ -72,12 +71,7 @@ typedef struct tDropGemAnimState {
 typedef void __fastcall__ (*tClearGemHandler)(tSquare square);
 
 
-typedef void (*tVblWaitFunction)(void);
-
-
 // Globals
-
-static tVblWaitFunction gVblWait = vblWait;
 
 static tStarAnimState gStarAnimState;
 static tClearGemAnimState gClearGemAnimState;
@@ -117,25 +111,6 @@ static tClearGemHandler gClearGemHandler[] = {
 
 
 // Implementation
-
-void animInit(void)
-{
-    switch (get_ostype()) {
-        case APPLE_IIC:
-        case APPLE_IIC35:
-        case APPLE_IICEXP:
-        case APPLE_IICREV:
-        case APPLE_IICPLUS:
-            gVblWait = vblWait2c;
-            break;
-            
-        case APPLE_IIGS:
-        case APPLE_IIGS1:
-        case APPLE_IIGS3:
-            vblInit2gs();
-            break;
-    }
-}
 
 
 void drawGemAtSquare(tSquare square)

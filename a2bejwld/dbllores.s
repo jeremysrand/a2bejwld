@@ -648,7 +648,7 @@ square:     .BYTE $0
 ; A is a number from 0 to 24
     tay
     ldx #24
-    lda #$22
+    lda #$dd
     sta color
     sta LOWSCR
 @L1:
@@ -656,7 +656,7 @@ square:     .BYTE $0
     bmi @L2
     cpy #0
     bne @L3
-    lda #$aa
+    lda #$22
     sta color
 @L3:
     dey
