@@ -66,6 +66,15 @@ gemmask     := $8A
 
 
 .proc _showDblLoRes
+    lda #0
+    sta WNDLFT
+    lda #80
+    sta WNDWDTH
+    lda #0
+    sta WNDTOP
+    lda #24
+    sta WNDBTM
+
     lda TXTCLR
     lda MIXCLR
     lda SETAN3
@@ -105,6 +114,15 @@ gemmask     := $8A
     sta LINE24, X
     cpx #0
     bne @L2
+
+    lda #0
+    sta WNDLFT
+    lda #80
+    sta WNDWDTH
+    lda #20
+    sta WNDTOP
+    lda #24
+    sta WNDBTM
 
     rts
 .endproc

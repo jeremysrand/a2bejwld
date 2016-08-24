@@ -321,6 +321,7 @@ static void drawBoard(void)
     }
     
     selectSquare(gSelectedSquare);
+    moveMouseToSquare(gSelectedSquare);
     drawScore(gScoreBar);
 }
 
@@ -378,6 +379,7 @@ static void moveDir(tDirection dir)
     
     refreshSquare(oldSquare);
     selectSquare(gSelectedSquare);
+    moveMouseToSquare(gSelectedSquare);
 }
 
 
@@ -423,6 +425,7 @@ static void moveTwoDirs(tDirection dir1, tDirection dir2)
     
     refreshSquare(oldSquare);
     selectSquare(gSelectedSquare);
+    moveMouseToSquare(gSelectedSquare);
 }
 
 
@@ -481,13 +484,13 @@ static bool isAppleButtonPressed(void)
 
 static void endGame(void)
 {
-    mixedTextMode();
     videomode(VIDEOMODE_80x24);
+    mixedTextMode();
     
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    printf("               No more moves  -  GAME OVER!!\n");
-    printf("               You made it to level %u\n\n", getLevel());
-    printf("                    Play again (Y/N)?");
+    cputsxy(0, 0, "               No more moves  -  GAME OVER!!");
+    gotoxy(0,1);
+    cprintf(      "               You made it to level %u", getLevel());
+    cputsxy(0, 3, "                    Play again (Y/N)?");
     
     while (true) {
         switch (cgetc()) {
@@ -525,12 +528,12 @@ static void refreshLevel(tLevel level)
 {
     bool waiting = true;
     
-    mixedTextMode();
     videomode(VIDEOMODE_80x24);
+    mixedTextMode();
     
-    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    printf("               Completed level %u!!\n", level);
-    printf("               Press space to continue to the next level...");
+    gotoxy(0, 0);
+    cprintf(      "               Completed level %u!!", level);
+    cputsxy(0, 2, "               Press space to continue to the next level...");
     
     while (waiting) {
         switch (cgetc()) {
@@ -554,6 +557,7 @@ static void getHint(void)
     
     gSelectedSquare = getHintSquare();
     selectSquare(gSelectedSquare);
+    moveMouseToSquare(gSelectedSquare);
 }
 
 
@@ -750,10 +754,10 @@ static bool pollKeyboard(void)
         case 'q':
         case 'Q':
             if (gShouldSave) {
-                mixedTextMode();
                 videomode(VIDEOMODE_80x24);
-                gotoxy(0, 20);
-                cprintf("\n\nSaving your game so you can continue\r\n    later...");
+                mixedTextMode();
+                gotoxy(0, 0);
+                cprintf("Saving your game so you can continue\r\n    later...");
                 saveGame();
             }
             quitGame();

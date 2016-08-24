@@ -24,6 +24,7 @@ extern char a2e_stdmou_mou;
 
 static tMouseCallbacks *gMouseCallbacks = NULL;
 static bool gMouseInstalled = false;
+static bool gMouseInPoll = false;
 
 
 bool initMouse(tMouseCallbacks *callbacks)
@@ -64,6 +65,8 @@ bool pollMouse(void)
     if (!gMouseInstalled) {
         return result;
     }
+    
+    gMouseInPoll = true;
     
     mouse_info(&mouseInfo);
     
@@ -120,6 +123,25 @@ bool pollMouse(void)
         }
     }
     oldMouseDown = newMouseDown;
+    gMouseInPoll = false;
     
     return result;
+}
+
+
+void moveMouseToSquare(tSquare square)
+{
+    uint16_t newX;
+    uint16_t newY;
+    
+    if (!gMouseInstalled)
+        return;
+    
+    if (gMouseInPoll)
+        return;
+    
+    newX = (SQUARE_TO_X(square) * 35) + 18;
+    newY = (SQUARE_TO_Y(square) * 8) + 4;
+    
+    mouse_move(newX, newY);
 }
