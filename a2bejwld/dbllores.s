@@ -285,6 +285,15 @@ colorAux:   .BYTE $0
     lda gemAuxColours,Y
     sta gemAuxColour
 
+    stz isAux
+    lda xPos
+    lsr
+    sta xPos
+    bcs @L5
+    lda #1
+    sta isAux
+
+@L5:
 ; Get line addrs
     inx
     inx
@@ -313,8 +322,12 @@ colorAux:   .BYTE $0
 
     ; Draw the gem
     ldy #0
-    ldx #4
+    ldx #8
 @L1:
+
+    lda isAux
+    beq @L6
+
     sta HISCR
     lda (line1addr)
     and (gemmask),Y
@@ -346,6 +359,11 @@ colorAux:   .BYTE $0
     sta (line3addr)
     iny
 
+    stz isAux
+
+    bra @L7
+
+@L6:
     sta LOWSCR
     lda (line1addr)
     and (gemmask),Y
@@ -377,12 +395,15 @@ colorAux:   .BYTE $0
     sta (line3addr)
     iny
 
-    dex
-    beq @L2
-
     inc line1addr
     inc line2addr
     inc line3addr
+
+    inc isAux
+
+@L7:
+    dex
+    beq @L2
 
     jmp @L1
 @L2:
@@ -394,6 +415,7 @@ xPos:         .BYTE $0
 square:       .BYTE $0
 gemColour:    .BYTE $0
 gemAuxColour: .BYTE $0
+isAux:        .BYTE $0
 .endproc
 
 
@@ -403,6 +425,7 @@ gemAuxColour: .BYTE $0
     sta square
 
     and #7
+    asl
     asl
     asl
     tax
@@ -432,11 +455,29 @@ square:     .BYTE $0
 
 
 .proc _starGemAtXY
-    inx
-    inx
     stx xPos
+    lsr
     tax
+    bcc @L1
+    lda #$f0
+    bra @L2
+@L1:
+    lda #$0f
+@L2:
+    sta starVal
     inx
+
+    sta LOWSCR
+    lda xPos
+    lsr
+    tay
+    bcc @L3
+    sta HISCR
+    iny
+@L3:
+    iny
+    iny
+    sty xPos
 
 ; Get line addrs
     lda lineLoAddrs,X
@@ -445,9 +486,8 @@ square:     .BYTE $0
     sta line2addr
     lda lineHiAddrs,X
     sta line2addr+1
-    
-    sta HISCR
-    lda #$0f
+
+    lda starVal
     ora (line2addr)
     sta (line2addr)
     rts
@@ -456,6 +496,8 @@ square:     .BYTE $0
 
 xPos:       .BYTE $0
 square:     .BYTE $0
+starVal:    .BYTE $0
+
 .endproc
 
 
@@ -465,6 +507,7 @@ square:     .BYTE $0
     sta square
 
     and #7
+    asl
     asl
     asl
     tax
@@ -479,6 +522,7 @@ square:     .BYTE $0
     asl
     clc
     adc square
+    asl
     jmp _starGemAtXY
 
 ; Locals

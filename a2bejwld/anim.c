@@ -35,7 +35,7 @@
 
 
 #define VERTICAL_PIXELS 48
-#define HORIZONTAL_PIXELS 32    // Half actually because we deal in double pixels in X for now
+#define HORIZONTAL_PIXELS 64
 
 #define VERTICAL_PIXELS_PER_SQUARE (VERTICAL_PIXELS / BOARD_SIZE)
 #define HORIZONTAL_PIXELS_PER_SQUARE (HORIZONTAL_PIXELS / BOARD_SIZE)
