@@ -265,7 +265,8 @@ color:      .BYTE $0
 colorAux:   .BYTE $0
 .endproc
 
-.proc _drawGemAtXYNew
+
+.proc _drawGemAtXY
     stx xPos
     tax
     lda maskLoAddrs,Y
@@ -389,120 +390,6 @@ gemAuxColour: .BYTE $0
 .endproc
 
 
-.proc _drawGemAtXY
-    stx xPos
-    tax
-
-; Get line addrs
-    inx
-    inx
-    lda fakeLineLoAddrs,X
-    clc
-    adc xPos
-    sta line1addr
-    lda fakeLineHiAddrs,X
-    sta line1addr+1
-
-    inx
-    lda fakeLineLoAddrs,X
-    clc
-    adc xPos
-    sta line2addr
-    lda fakeLineHiAddrs,X
-    sta line2addr+1
-
-    inx
-    lda fakeLineLoAddrs,X
-    clc
-    adc xPos
-    sta line3addr
-    lda fakeLineHiAddrs,X
-    sta line3addr+1
-
-    ; Draw the gem
-    ldy #0
-    ldx #4
-@L1:
-    sta HISCR
-    lda (line1addr)
-    sta square
-    lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
-    ora square
-    sta (line1addr)
-    iny
-
-    lda (line2addr)
-    sta square
-    lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
-    ora square
-    sta (line2addr)
-    iny
-
-    lda (line3addr)
-    sta square
-    lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
-    ora square
-    sta (line3addr)
-    iny
-
-    sta LOWSCR
-    lda (line1addr)
-    sta square
-    lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
-    ora square
-    sta (line1addr)
-    iny
-
-    lda (line2addr)
-    sta square
-    lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
-    ora square
-    sta (line2addr)
-    iny
-
-    lda (line3addr)
-    sta square
-    lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
-    ora square
-    sta (line3addr)
-    iny
-
-    dex
-    beq @L2
-
-    inc line1addr
-    inc line2addr
-    inc line3addr
-
-    jmp @L1
-@L2:
-
-    rts
-; Locals
-
-xPos:       .BYTE $0
-square:     .BYTE $0
-.endproc
-
-
 .proc _drawGem
 ; A is the square position (from 0 to 63)
 ; 0 through 7 are on the top row
@@ -531,199 +418,91 @@ square:     .BYTE $0
 
 
 .proc _drawGreenGem
-    ldy #<greenGem
-    sty gemaddr
-    ldy #>greenGem
-    sty gemaddr+1
-    ldy #<greenMask
-    sty gemmask
-    ldy #>greenMask
-    sty gemmask+1
+    ldy #1
     jmp _drawGem
 .endproc
+
 
 .proc _drawGreenGemAtXY
     ldy #1
-    jmp _drawGemAtXYNew
-.endproc
-
-.proc _drawPurpleGem
-    ldy #<purpleGem
-    sty gemaddr
-    ldy #>purpleGem
-    sty gemaddr+1
-    ldy #<purpleMask
-    sty gemmask
-    ldy #>purpleMask
-    sty gemmask+1
-    jmp _drawGem
-.endproc
-
-.proc _drawPurpleGemAtXY
-    ldy #<purpleGem
-    sty gemaddr
-    ldy #>purpleGem
-    sty gemaddr+1
-    ldy #<purpleMask
-    sty gemmask
-    ldy #>purpleMask
-    sty gemmask+1
     jmp _drawGemAtXY
 .endproc
 
+
+.proc _drawPurpleGem
+    ldy #3
+    jmp _drawGem
+.endproc
+
+
+.proc _drawPurpleGemAtXY
+    ldy #3
+    jmp _drawGemAtXY
+.endproc
+
+
 .proc _drawYellowGem
-    ldy #<yellowGem
-    sty gemaddr
-    ldy #>yellowGem
-    sty gemaddr+1
-    ldy #<yellowMask
-    sty gemmask
-    ldy #>yellowMask
-    sty gemmask+1
+    ldy #6
     jmp _drawGem
 .endproc
 
 .proc _drawYellowGemAtXY
-    ldy #<yellowGem
-    sty gemaddr
-    ldy #>yellowGem
-    sty gemaddr+1
-    ldy #<yellowMask
-    sty gemmask
-    ldy #>yellowMask
-    sty gemmask+1
+    ldy #6
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawBlueGem
-    ldy #<blueGem
-    sty gemaddr
-    ldy #>blueGem
-    sty gemaddr+1
-    ldy #<blueMask
-    sty gemmask
-    ldy #>blueMask
-    sty gemmask+1
+    ldy #7
     jmp _drawGem
 .endproc
 
 .proc _drawBlueGemAtXY
-    ldy #<blueGem
-    sty gemaddr
-    ldy #>blueGem
-    sty gemaddr+1
-    ldy #<blueMask
-    sty gemmask
-    ldy #>blueMask
-    sty gemmask+1
+    ldy #7
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawRedGem
-    ldy #<redGem
-    sty gemaddr
-    ldy #>redGem
-    sty gemaddr+1
-    ldy #<redMask
-    sty gemmask
-    ldy #>redMask
-    sty gemmask+1
+    ldy #2
     jmp _drawGem
 .endproc
 
 .proc _drawRedGemAtXY
-    ldy #<redGem
-    sty gemaddr
-    ldy #>redGem
-    sty gemaddr+1
-    ldy #<redMask
-    sty gemmask
-    ldy #>redMask
-    sty gemmask+1
+    ldy #2
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawGreyGem
-    ldy #<greyGem
-    sty gemaddr
-    ldy #>greyGem
-    sty gemaddr+1
-    ldy #<greyMask
-    sty gemmask
-    ldy #>greyMask
-    sty gemmask+1
+    ldy #5
     jmp _drawGem
 .endproc
 
 .proc _drawGreyGemAtXY
-    ldy #<greyGem
-    sty gemaddr
-    ldy #>greyGem
-    sty gemaddr+1
-    ldy #<greyMask
-    sty gemmask
-    ldy #>greyMask
-    sty gemmask+1
+    ldy #5
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawOrangeGem
-    ldy #<orangeGem
-    sty gemaddr
-    ldy #>orangeGem
-    sty gemaddr+1
-    ldy #<orangeMask
-    sty gemmask
-    ldy #>orangeMask
-    sty gemmask+1
+    ldy #4
     jmp _drawGem
 .endproc
 
 .proc _drawOrangeGemAtXY
-    ldy #<orangeGem
-    sty gemaddr
-    ldy #>orangeGem
-    sty gemaddr+1
-    ldy #<orangeMask
-    sty gemmask
-    ldy #>orangeMask
-    sty gemmask+1
+    ldy #4
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawSpecialGem
-    ldy #<specialGem
-    sty gemaddr
-    ldy #>specialGem
-    sty gemaddr+1
-    ldy #<specialMask
-    sty gemmask
-    ldy #>specialMask
-    sty gemmask+1
+    ldy #8
     jmp _drawGem
 .endproc
 
 .proc _drawSpecialGemAtXY
-    ldy #<specialGem
-    sty gemaddr
-    ldy #>specialGem
-    sty gemaddr+1
-    ldy #<specialMask
-    sty gemmask
-    ldy #>specialMask
-    sty gemmask+1
+    ldy #8
     jmp _drawGemAtXY
 .endproc
 
 .proc _selectSquare
-    ldy #<selectGem
-    sty gemaddr
-    ldy #>selectGem
-    sty gemaddr+1
-    ldy #<selectMask
-    sty gemmask
-    ldy #>selectMask
-    sty gemmask+1
+    ldy #0
     jmp _drawGem
 .endproc
 
@@ -1169,15 +948,7 @@ bgHiLines3:
     .HIBYTES LINE3, LINE6, LINE9, LINE12, LINE15, LINE18, LINE21, LINE24
 
 
-greenGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $cc, $00
-    .BYTE $60, $66, $06
-    .BYTE $c0, $cc, $0c
-    .BYTE $60, $66, $06
-    .BYTE $c0, $cc, $0c
-    .BYTE $00, $66, $00
-    .BYTE $00, $00, $00
+orangeMask:
 greenMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $00, $ff
@@ -1189,15 +960,7 @@ greenMask:
     .BYTE $ff, $ff, $ff
 
 
-purpleGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $30, $03
-    .BYTE $00, $99, $09
-    .BYTE $30, $33, $03
-    .BYTE $90, $99, $09
-    .BYTE $00, $33, $03
-    .BYTE $00, $90, $09
-    .BYTE $00, $00, $00
+greyMask:
 purpleMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $0f, $f0
@@ -1209,15 +972,7 @@ purpleMask:
     .BYTE $ff, $ff, $ff
 
 
-yellowGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $00, $00
-    .BYTE $00, $ee, $00
-    .BYTE $d0, $dd, $0d
-    .BYTE $e0, $ee, $0e
-    .BYTE $00, $dd, $00
-    .BYTE $00, $00, $00
-    .BYTE $00, $00, $00
+specialMask:
 yellowMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $ff, $ff
@@ -1229,15 +984,6 @@ yellowMask:
     .BYTE $ff, $ff, $ff
 
 
-blueGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $06, $00
-    .BYTE $30, $33, $00
-    .BYTE $60, $66, $06
-    .BYTE $30, $33, $03
-    .BYTE $60, $66, $00
-    .BYTE $00, $03, $00
-    .BYTE $00, $00, $00
 blueMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $f0, $ff
@@ -1249,15 +995,6 @@ blueMask:
     .BYTE $ff, $ff, $ff
 
 
-redGem:
-    .BYTE $00, $00, $00
-    .BYTE $10, $11, $01
-    .BYTE $80, $88, $08
-    .BYTE $10, $11, $01
-    .BYTE $80, $88, $08
-    .BYTE $10, $11, $01
-    .BYTE $80, $88, $08
-    .BYTE $00, $00, $00
 redMask:
     .BYTE $ff, $ff, $ff
     .BYTE $0f, $00, $f0
@@ -1269,75 +1006,6 @@ redMask:
     .BYTE $ff, $ff, $ff
 
 
-greyGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $20, $02
-    .BYTE $00, $11, $01
-    .BYTE $20, $22, $02
-    .BYTE $10, $11, $01
-    .BYTE $00, $22, $02
-    .BYTE $00, $10, $01
-    .BYTE $00, $00, $00
-greyMask:
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $0f, $f0
-    .BYTE $ff, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $00, $f0
-    .BYTE $ff, $0f, $f0
-    .BYTE $ff, $ff, $ff
-
-
-orangeGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $99, $00
-    .BYTE $c0, $cc, $0c
-    .BYTE $90, $99, $09
-    .BYTE $c0, $cc, $0c
-    .BYTE $90, $99, $09
-    .BYTE $00, $cc, $00
-    .BYTE $00, $00, $00
-orangeMask:
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $00, $ff
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $00, $ff
-    .BYTE $ff, $ff, $ff
-
-
-specialGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $00, $00
-    .BYTE $00, $ff, $00
-    .BYTE $f0, $ff, $0f
-    .BYTE $f0, $ff, $0f
-    .BYTE $00, $ff, $00
-    .BYTE $00, $00, $00
-    .BYTE $00, $00, $00
-specialMask:
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $00, $ff
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $00, $ff
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $ff, $ff
-
-
-selectGem:
-    .BYTE $ff, $ff, $ff
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $ff, $ff
 selectMask:
     .BYTE $00, $00, $00
     .BYTE $f0, $ff, $0f
@@ -1347,6 +1015,7 @@ selectMask:
     .BYTE $f0, $ff, $0f
     .BYTE $f0, $ff, $0f
     .BYTE $00, $00, $00
+
 
 ; The order of these must match the defines for the gems in types.h.
 ; I also reuse 0 to mean "select" which isn't a real gem type but I
