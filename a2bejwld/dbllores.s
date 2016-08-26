@@ -54,16 +54,20 @@ LINE24      :=  $7d0
 
 
 ; I get a linker error with this so I am hard coding some ZP addresses instead
-; .ZEROPAGE
-; line1addr:  .WORD $0
-; line2addr:  .WORD $0
-; line3addr:  .WORD $0
+;.ZEROPAGE
+;line1addr:  .WORD $0
+;line2addr:  .WORD $0
+;line3addr:  .WORD $0
+;gemaddr:    .WORD $0
+;gemmask:    .WORD $0
+
 line1addr   := $82
 line2addr   := $84
 line3addr   := $86
 gemaddr     := $88
 gemmask     := $8A
 
+.CODE
 
 .proc _showDblLoRes
     lda #0
@@ -265,29 +269,39 @@ colorAux:   .BYTE $0
 .proc _drawGemAtXY
     stx xPos
     tax
+    lda maskLoAddrs,Y
+    sta gemmask
+    lda maskHiAddrs,Y
+    sta gemmask+1
+    lda gemColours,Y
+    sta gemColour
+    lda gemAuxColours,Y
+    sta gemAuxColour
 
 ; Get line addrs
-    lda lineLoAddrs,X
+    inx
+    inx
+    lda fakeLineLoAddrs,X
     clc
     adc xPos
     sta line1addr
-    lda lineHiAddrs,X
+    lda fakeLineHiAddrs,X
     sta line1addr+1
 
     inx
-    lda lineLoAddrs,X
+    lda fakeLineLoAddrs,X
     clc
     adc xPos
     sta line2addr
-    lda lineHiAddrs,X
+    lda fakeLineHiAddrs,X
     sta line2addr+1
 
     inx
-    lda lineLoAddrs,X
+    lda fakeLineLoAddrs,X
     clc
     adc xPos
     sta line3addr
-    lda lineHiAddrs,X
+    lda fakeLineHiAddrs,X
     sta line3addr+1
 
     ; Draw the gem
@@ -296,62 +310,62 @@ colorAux:   .BYTE $0
 @L1:
     sta HISCR
     lda (line1addr)
+    and (gemmask),Y
     sta square
     lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
+    eor #$ff
+    and gemAuxColour
     ora square
     sta (line1addr)
     iny
 
     lda (line2addr)
+    and (gemmask),Y
     sta square
     lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
+    eor #$ff
+    and gemAuxColour
     ora square
     sta (line2addr)
     iny
 
     lda (line3addr)
+    and (gemmask),Y
     sta square
     lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
+    eor #$ff
+    and gemAuxColour
     ora square
     sta (line3addr)
     iny
 
     sta LOWSCR
     lda (line1addr)
+    and (gemmask),Y
     sta square
     lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
+    eor #$ff
+    and gemColour
     ora square
     sta (line1addr)
     iny
 
     lda (line2addr)
+    and (gemmask),Y
     sta square
     lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
+    eor #$ff
+    and gemColour
     ora square
     sta (line2addr)
     iny
 
     lda (line3addr)
+    and (gemmask),Y
     sta square
     lda (gemmask),Y
-    and square
-    sta square
-    lda (gemaddr),Y
+    eor #$ff
+    and gemColour
     ora square
     sta (line3addr)
     iny
@@ -369,8 +383,10 @@ colorAux:   .BYTE $0
     rts
 ; Locals
 
-xPos:       .BYTE $0
-square:     .BYTE $0
+xPos:         .BYTE $0
+square:       .BYTE $0
+gemColour:    .BYTE $0
+gemAuxColour: .BYTE $0
 .endproc
 
 
@@ -402,206 +418,91 @@ square:     .BYTE $0
 
 
 .proc _drawGreenGem
-    ldy #<greenGem
-    sty gemaddr
-    ldy #>greenGem
-    sty gemaddr+1
-    ldy #<greenMask
-    sty gemmask
-    ldy #>greenMask
-    sty gemmask+1
+    ldy #1
     jmp _drawGem
 .endproc
+
 
 .proc _drawGreenGemAtXY
-    ldy #<greenGem
-    sty gemaddr
-    ldy #>greenGem
-    sty gemaddr+1
-    ldy #<greenMask
-    sty gemmask
-    ldy #>greenMask
-    sty gemmask+1
+    ldy #1
     jmp _drawGemAtXY
 .endproc
 
+
 .proc _drawPurpleGem
-    ldy #<purpleGem
-    sty gemaddr
-    ldy #>purpleGem
-    sty gemaddr+1
-    ldy #<purpleMask
-    sty gemmask
-    ldy #>purpleMask
-    sty gemmask+1
+    ldy #3
     jmp _drawGem
 .endproc
 
+
 .proc _drawPurpleGemAtXY
-    ldy #<purpleGem
-    sty gemaddr
-    ldy #>purpleGem
-    sty gemaddr+1
-    ldy #<purpleMask
-    sty gemmask
-    ldy #>purpleMask
-    sty gemmask+1
+    ldy #3
     jmp _drawGemAtXY
 .endproc
 
+
 .proc _drawYellowGem
-    ldy #<yellowGem
-    sty gemaddr
-    ldy #>yellowGem
-    sty gemaddr+1
-    ldy #<yellowMask
-    sty gemmask
-    ldy #>yellowMask
-    sty gemmask+1
+    ldy #6
     jmp _drawGem
 .endproc
 
 .proc _drawYellowGemAtXY
-    ldy #<yellowGem
-    sty gemaddr
-    ldy #>yellowGem
-    sty gemaddr+1
-    ldy #<yellowMask
-    sty gemmask
-    ldy #>yellowMask
-    sty gemmask+1
+    ldy #6
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawBlueGem
-    ldy #<blueGem
-    sty gemaddr
-    ldy #>blueGem
-    sty gemaddr+1
-    ldy #<blueMask
-    sty gemmask
-    ldy #>blueMask
-    sty gemmask+1
+    ldy #7
     jmp _drawGem
 .endproc
 
 .proc _drawBlueGemAtXY
-    ldy #<blueGem
-    sty gemaddr
-    ldy #>blueGem
-    sty gemaddr+1
-    ldy #<blueMask
-    sty gemmask
-    ldy #>blueMask
-    sty gemmask+1
+    ldy #7
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawRedGem
-    ldy #<redGem
-    sty gemaddr
-    ldy #>redGem
-    sty gemaddr+1
-    ldy #<redMask
-    sty gemmask
-    ldy #>redMask
-    sty gemmask+1
+    ldy #2
     jmp _drawGem
 .endproc
 
 .proc _drawRedGemAtXY
-    ldy #<redGem
-    sty gemaddr
-    ldy #>redGem
-    sty gemaddr+1
-    ldy #<redMask
-    sty gemmask
-    ldy #>redMask
-    sty gemmask+1
+    ldy #2
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawGreyGem
-    ldy #<greyGem
-    sty gemaddr
-    ldy #>greyGem
-    sty gemaddr+1
-    ldy #<greyMask
-    sty gemmask
-    ldy #>greyMask
-    sty gemmask+1
+    ldy #5
     jmp _drawGem
 .endproc
 
 .proc _drawGreyGemAtXY
-    ldy #<greyGem
-    sty gemaddr
-    ldy #>greyGem
-    sty gemaddr+1
-    ldy #<greyMask
-    sty gemmask
-    ldy #>greyMask
-    sty gemmask+1
+    ldy #5
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawOrangeGem
-    ldy #<orangeGem
-    sty gemaddr
-    ldy #>orangeGem
-    sty gemaddr+1
-    ldy #<orangeMask
-    sty gemmask
-    ldy #>orangeMask
-    sty gemmask+1
+    ldy #4
     jmp _drawGem
 .endproc
 
 .proc _drawOrangeGemAtXY
-    ldy #<orangeGem
-    sty gemaddr
-    ldy #>orangeGem
-    sty gemaddr+1
-    ldy #<orangeMask
-    sty gemmask
-    ldy #>orangeMask
-    sty gemmask+1
+    ldy #4
     jmp _drawGemAtXY
 .endproc
 
 .proc _drawSpecialGem
-    ldy #<specialGem
-    sty gemaddr
-    ldy #>specialGem
-    sty gemaddr+1
-    ldy #<specialMask
-    sty gemmask
-    ldy #>specialMask
-    sty gemmask+1
+    ldy #8
     jmp _drawGem
 .endproc
 
 .proc _drawSpecialGemAtXY
-    ldy #<specialGem
-    sty gemaddr
-    ldy #>specialGem
-    sty gemaddr+1
-    ldy #<specialMask
-    sty gemmask
-    ldy #>specialMask
-    sty gemmask+1
+    ldy #8
     jmp _drawGemAtXY
 .endproc
 
 .proc _selectSquare
-    ldy #<selectGem
-    sty gemaddr
-    ldy #>selectGem
-    sty gemaddr+1
-    ldy #<selectMask
-    sty gemmask
-    ldy #>selectMask
-    sty gemmask+1
+    ldy #0
     jmp _drawGem
 .endproc
 
@@ -722,45 +623,20 @@ color:      .BYTE $0
     lda bgHiLines2,X
     sta line2addr+1
 
+    ldy #0
+@L1:
     ; Draw the frame
     sta HISCR
-    lda (line2addr)
+    lda (line2addr),Y
     ora #$0f
-    sta (line2addr)
+    sta (line2addr),Y
     sta LOWSCR
-    lda (line2addr)
+    lda (line2addr),Y
     ora #$0f
-    sta (line2addr)
-    inc line2addr
-
-    sta HISCR
-    lda (line2addr)
-    ora #$0f
-    sta (line2addr)
-    sta LOWSCR
-    lda (line2addr)
-    ora #$0f
-    sta (line2addr)
-    inc line2addr
-
-    sta HISCR
-    lda (line2addr)
-    ora #$0f
-    sta (line2addr)
-    sta LOWSCR
-    lda (line2addr)
-    ora #$0f
-    sta (line2addr)
-    inc line2addr
-
-    sta HISCR
-    lda (line2addr)
-    ora #$0f
-    sta (line2addr)
-    sta LOWSCR
-    lda (line2addr)
-    ora #$0f
-    sta (line2addr)
+    sta (line2addr),Y
+    iny
+    cpy #4
+    bne @L1
 
     rts
 
@@ -796,29 +672,17 @@ square:     .BYTE $0
 
     ; Draw the frame
     lda #$ff
+    ldy #0
 
+@L1:
     sta HISCR
-    sta (line2addr)
+    sta (line2addr),Y
     sta LOWSCR
-    sta (line2addr)
-    inc line2addr
+    sta (line2addr),Y
 
-    sta HISCR
-    sta (line2addr)
-    sta LOWSCR
-    sta (line2addr)
-    inc line2addr
-
-    sta HISCR
-    sta (line2addr)
-    sta LOWSCR
-    sta (line2addr)
-    inc line2addr
-
-    sta HISCR
-    sta (line2addr)
-    sta LOWSCR
-    sta (line2addr)
+    iny
+    cpy #4
+    bne @L1
 
     rts
 
@@ -852,45 +716,21 @@ square:     .BYTE $0
     lda bgHiLines1,X
     sta line1addr+1
 
+    ldy #0
+@L1:
     ; Draw the frame
     sta HISCR
-    lda (line1addr)
+    lda (line1addr),Y
     ora #$f0
-    sta (line1addr)
+    sta (line1addr),Y
     sta LOWSCR
-    lda (line1addr)
+    lda (line1addr),Y
     ora #$f0
-    sta (line1addr)
-    inc line1addr
+    sta (line1addr),Y
 
-    sta HISCR
-    lda (line1addr)
-    ora #$f0
-    sta (line1addr)
-    sta LOWSCR
-    lda (line1addr)
-    ora #$f0
-    sta (line1addr)
-    inc line1addr
-
-    sta HISCR
-    lda (line1addr)
-    ora #$f0
-    sta (line1addr)
-    sta LOWSCR
-    lda (line1addr)
-    ora #$f0
-    sta (line1addr)
-    inc line1addr
-
-    sta HISCR
-    lda (line1addr)
-    ora #$f0
-    sta (line1addr)
-    sta LOWSCR
-    lda (line1addr)
-    ora #$f0
-    sta (line1addr)
+    iny
+    cpy #4
+    bne @L1
 
     rts
 
@@ -924,45 +764,21 @@ square:     .BYTE $0
     lda bgHiLines3,X
     sta line3addr+1
 
+    ldy #0
+@L1:
     ; Draw the frame
     sta HISCR
-    lda (line3addr)
+    lda (line3addr),Y
     ora #$0f
-    sta (line3addr)
+    sta (line3addr),Y
     sta LOWSCR
-    lda (line3addr)
+    lda (line3addr),Y
     ora #$0f
-    sta (line3addr)
-    inc line3addr
+    sta (line3addr),Y
 
-    sta HISCR
-    lda (line3addr)
-    ora #$0f
-    sta (line3addr)
-    sta LOWSCR
-    lda (line3addr)
-    ora #$0f
-    sta (line3addr)
-    inc line3addr
-
-    sta HISCR
-    lda (line3addr)
-    ora #$0f
-    sta (line3addr)
-    sta LOWSCR
-    lda (line3addr)
-    ora #$0f
-    sta (line3addr)
-    inc line3addr
-
-    sta HISCR
-    lda (line3addr)
-    ora #$0f
-    sta (line3addr)
-    sta LOWSCR
-    lda (line3addr)
-    ora #$0f
-    sta (line3addr)
+    iny
+    cpy #4
+    bne @L1
 
     rts
 
@@ -998,29 +814,17 @@ square:     .BYTE $0
 
     ; Draw the frame
     lda #$ff
+    ldy #0
 
+@L1:
     sta HISCR
-    sta (line1addr)
+    sta (line1addr),Y
     sta LOWSCR
-    sta (line1addr)
-    inc line1addr
+    sta (line1addr),Y
 
-    sta HISCR
-    sta (line1addr)
-    sta LOWSCR
-    sta (line1addr)
-    inc line1addr
-
-    sta HISCR
-    sta (line1addr)
-    sta LOWSCR
-    sta (line1addr)
-    inc line1addr
-
-    sta HISCR
-    sta (line1addr)
-    sta LOWSCR
-    sta (line1addr)
+    iny
+    cpy #4
+    bne @L1
 
     rts
 
@@ -1056,29 +860,17 @@ square:     .BYTE $0
 
     ; Draw the frame
     lda #$ff
+    ldy #0
 
+@L1:
     sta HISCR
-    sta (line3addr)
+    sta (line3addr),Y
     sta LOWSCR
-    sta (line3addr)
-    inc line3addr
+    sta (line3addr),Y
 
-    sta HISCR
-    sta (line3addr)
-    sta LOWSCR
-    sta (line3addr)
-    inc line3addr
-
-    sta HISCR
-    sta (line3addr)
-    sta LOWSCR
-    sta (line3addr)
-    inc line3addr
-
-    sta HISCR
-    sta (line3addr)
-    sta LOWSCR
-    sta (line3addr)
+    iny
+    cpy #4
+    bne @L1
 
     rts
 
@@ -1091,6 +883,8 @@ square:     .BYTE $0
 
 .DATA
 
+.align 64
+
 ; This block of bytes is used for writing to gems "above" the top of the screen.
 ; Because we draw gems half off the screen, we have two fake lines above the
 ; top of the screen which points to this buffer of 40 bytes (one line).
@@ -1102,6 +896,7 @@ FakeLine:
     .BYTE $0, $0, $0, $0, $0, $0, $0, $0
 
 ; Prefix this array with two pointers to "fake lines"
+fakeLineLoAddrs:
     .LOBYTES  FakeLine, FakeLine
 lineLoAddrs:
     .LOBYTES  LINE1,  LINE2,  LINE3,  LINE4,  LINE5,  LINE6,  LINE7,  LINE8
@@ -1109,6 +904,7 @@ lineLoAddrs:
     .LOBYTES LINE17, LINE18, LINE19, LINE20, LINE21, LINE22, LINE23, LINE24
 
 ; Prefix this array with two pointers to "fake lines"
+fakeLineHiAddrs:
     .HIBYTES  FakeLine, FakeLine
 lineHiAddrs:
     .HIBYTES  LINE1,  LINE2,  LINE3,  LINE4,  LINE5,  LINE6,  LINE7,  LINE8
@@ -1152,15 +948,7 @@ bgHiLines3:
     .HIBYTES LINE3, LINE6, LINE9, LINE12, LINE15, LINE18, LINE21, LINE24
 
 
-greenGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $cc, $00
-    .BYTE $60, $66, $06
-    .BYTE $c0, $cc, $0c
-    .BYTE $60, $66, $06
-    .BYTE $c0, $cc, $0c
-    .BYTE $00, $66, $00
-    .BYTE $00, $00, $00
+orangeMask:
 greenMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $00, $ff
@@ -1172,15 +960,7 @@ greenMask:
     .BYTE $ff, $ff, $ff
 
 
-purpleGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $30, $03
-    .BYTE $00, $99, $09
-    .BYTE $30, $33, $03
-    .BYTE $90, $99, $09
-    .BYTE $00, $33, $03
-    .BYTE $00, $90, $09
-    .BYTE $00, $00, $00
+greyMask:
 purpleMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $0f, $f0
@@ -1192,15 +972,7 @@ purpleMask:
     .BYTE $ff, $ff, $ff
 
 
-yellowGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $00, $00
-    .BYTE $00, $ee, $00
-    .BYTE $d0, $dd, $0d
-    .BYTE $e0, $ee, $0e
-    .BYTE $00, $dd, $00
-    .BYTE $00, $00, $00
-    .BYTE $00, $00, $00
+specialMask:
 yellowMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $ff, $ff
@@ -1212,15 +984,6 @@ yellowMask:
     .BYTE $ff, $ff, $ff
 
 
-blueGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $06, $00
-    .BYTE $30, $33, $00
-    .BYTE $60, $66, $06
-    .BYTE $30, $33, $03
-    .BYTE $60, $66, $00
-    .BYTE $00, $03, $00
-    .BYTE $00, $00, $00
 blueMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $f0, $ff
@@ -1232,15 +995,6 @@ blueMask:
     .BYTE $ff, $ff, $ff
 
 
-redGem:
-    .BYTE $00, $00, $00
-    .BYTE $10, $11, $01
-    .BYTE $80, $88, $08
-    .BYTE $10, $11, $01
-    .BYTE $80, $88, $08
-    .BYTE $10, $11, $01
-    .BYTE $80, $88, $08
-    .BYTE $00, $00, $00
 redMask:
     .BYTE $ff, $ff, $ff
     .BYTE $0f, $00, $f0
@@ -1252,75 +1006,6 @@ redMask:
     .BYTE $ff, $ff, $ff
 
 
-greyGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $20, $02
-    .BYTE $00, $11, $01
-    .BYTE $20, $22, $02
-    .BYTE $10, $11, $01
-    .BYTE $00, $22, $02
-    .BYTE $00, $10, $01
-    .BYTE $00, $00, $00
-greyMask:
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $0f, $f0
-    .BYTE $ff, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $00, $f0
-    .BYTE $ff, $0f, $f0
-    .BYTE $ff, $ff, $ff
-
-
-orangeGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $99, $00
-    .BYTE $c0, $cc, $0c
-    .BYTE $90, $99, $09
-    .BYTE $c0, $cc, $0c
-    .BYTE $90, $99, $09
-    .BYTE $00, $cc, $00
-    .BYTE $00, $00, $00
-orangeMask:
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $00, $ff
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $00, $ff
-    .BYTE $ff, $ff, $ff
-
-
-specialGem:
-    .BYTE $00, $00, $00
-    .BYTE $00, $00, $00
-    .BYTE $00, $ff, $00
-    .BYTE $f0, $ff, $0f
-    .BYTE $f0, $ff, $0f
-    .BYTE $00, $ff, $00
-    .BYTE $00, $00, $00
-    .BYTE $00, $00, $00
-specialMask:
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $00, $ff
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $00, $ff
-    .BYTE $ff, $ff, $ff
-    .BYTE $ff, $ff, $ff
-
-
-selectGem:
-    .BYTE $ff, $ff, $ff
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $0f, $00, $f0
-    .BYTE $ff, $ff, $ff
 selectMask:
     .BYTE $00, $00, $00
     .BYTE $f0, $ff, $0f
@@ -1330,3 +1015,34 @@ selectMask:
     .BYTE $f0, $ff, $0f
     .BYTE $f0, $ff, $0f
     .BYTE $00, $00, $00
+
+
+; The order of these must match the defines for the gems in types.h.
+; I also reuse 0 to mean "select" which isn't a real gem type but I
+; draw it like a gem.
+maskLoAddrs:
+    .LOBYTES selectMask, greenMask, redMask, purpleMask, orangeMask
+    .LOBYTES greyMask, yellowMask, blueMask, specialMask
+maskHiAddrs:
+    .HIBYTES selectMask, greenMask, redMask, purpleMask, orangeMask
+    .HIBYTES greyMask, yellowMask, blueMask, specialMask
+gemColours:
+    .BYTE $ff   ; select "gem" colour
+    .BYTE $cc   ; green gem colour
+    .BYTE $11   ; red gem colour
+    .BYTE $33   ; purple gem colour
+    .BYTE $99   ; orange gem colour
+    .BYTE $22   ; grey gem colour
+    .BYTE $dd   ; yellow gem colour
+    .BYTE $66   ; blue gem colour
+    .BYTE $ff   ; special gem colour
+gemAuxColours:
+    .BYTE $ff   ; select "gem" colour
+    .BYTE $66   ; green gem colour
+    .BYTE $88   ; red gem colour
+    .BYTE $99   ; purple gem colour
+    .BYTE $cc   ; orange gem colour
+    .BYTE $11   ; grey gem colour
+    .BYTE $ee   ; yellow gem colour
+    .BYTE $33   ; blue gem colour
+    .BYTE $ff   ; special gem colour
