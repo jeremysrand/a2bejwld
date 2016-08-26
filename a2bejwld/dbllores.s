@@ -263,11 +263,23 @@ colorAux:   .BYTE $0
 
 .proc _drawGemAtXY
     stx xPos
+    lsr
     tax
+    bcc @L3
+
+    lda maskLoAddrs2,Y
+    sta gemmask
+    lda maskHiAddrs2,Y
+    sta gemmask+1
+    bra @L4
+
+@L3:
     lda maskLoAddrs,Y
     sta gemmask
     lda maskHiAddrs,Y
     sta gemmask+1
+
+@L4:
     lda gemColours,Y
     sta gemColour
     lda gemAuxColours,Y
@@ -396,8 +408,8 @@ gemAuxColour: .BYTE $0
     tax
     lda square
 ; Need to divide by 8 to get the y square
-; and then multiply by 3 to get the y
-; position (0-23) on the screen.
+; and then multiply by 6 to get the y
+; position (0-47) on the screen.
     lsr
     lsr
     lsr
@@ -405,6 +417,7 @@ gemAuxColour: .BYTE $0
     asl
     clc
     adc square
+    asl
     jmp _drawGemAtXY
 ; Locals
 
@@ -870,6 +883,17 @@ greenMask:
     .BYTE $ff, $00, $ff
     .BYTE $ff, $ff, $ff
 
+orangeMask2:
+greenMask2:
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $0f, $f0
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $0f, $f0
+    .BYTE $ff, $ff, $ff
+
 
 greyMask:
 purpleMask:
@@ -880,6 +904,18 @@ purpleMask:
     .BYTE $0f, $00, $f0
     .BYTE $ff, $00, $f0
     .BYTE $ff, $0f, $f0
+    .BYTE $ff, $ff, $ff
+
+
+greyMask2:
+purpleMask2:
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $ff, $00
+    .BYTE $ff, $0f, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $0f, $00
+    .BYTE $ff, $ff, $00
     .BYTE $ff, $ff, $ff
 
 
@@ -895,6 +931,18 @@ yellowMask:
     .BYTE $ff, $ff, $ff
 
 
+specialMask2:
+yellowMask2:
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $0f, $f0
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $0f, $f0
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $ff, $ff
+
+
 blueMask:
     .BYTE $ff, $ff, $ff
     .BYTE $ff, $f0, $ff
@@ -903,6 +951,17 @@ blueMask:
     .BYTE $0f, $00, $f0
     .BYTE $0f, $00, $ff
     .BYTE $ff, $f0, $ff
+    .BYTE $ff, $ff, $ff
+
+
+blueMask2:
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $0f, $ff
+    .BYTE $ff, $00, $f0
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $f0
+    .BYTE $ff, $0f, $ff
     .BYTE $ff, $ff, $ff
 
 
@@ -917,7 +976,19 @@ redMask:
     .BYTE $ff, $ff, $ff
 
 
+redMask2:
+    .BYTE $ff, $ff, $ff
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $00, $00
+    .BYTE $ff, $ff, $ff
+
+
 selectMask:
+selectMask2:
     .BYTE $00, $00, $00
     .BYTE $f0, $ff, $0f
     .BYTE $f0, $ff, $0f
@@ -931,12 +1002,23 @@ selectMask:
 ; The order of these must match the defines for the gems in types.h.
 ; I also reuse 0 to mean "select" which isn't a real gem type but I
 ; draw it like a gem.
+
 maskLoAddrs:
     .LOBYTES selectMask, greenMask, redMask, purpleMask, orangeMask
     .LOBYTES greyMask, yellowMask, blueMask, specialMask
+
 maskHiAddrs:
     .HIBYTES selectMask, greenMask, redMask, purpleMask, orangeMask
     .HIBYTES greyMask, yellowMask, blueMask, specialMask
+
+maskLoAddrs2:
+    .LOBYTES selectMask2, greenMask2, redMask2, purpleMask2, orangeMask2
+    .LOBYTES greyMask2, yellowMask2, blueMask2, specialMask2
+
+maskHiAddrs2:
+    .HIBYTES selectMask2, greenMask2, redMask2, purpleMask2, orangeMask2
+    .HIBYTES greyMask2, yellowMask2, blueMask2, specialMask2
+
 gemColours:
     .BYTE $ff   ; select "gem" colour
     .BYTE $cc   ; green gem colour
