@@ -115,94 +115,33 @@ static tClearGemHandler gClearGemHandler[] = {
 
 void drawGemAtSquare(tSquare square)
 {
-    switch (gemTypeAtSquare(square)) {
-        case GEM_GREEN:
-            drawGreenGem(square);
-            break;
-            
-        case GEM_RED:
-            drawRedGem(square);
-            break;
-            
-        case GEM_PURPLE:
-            drawPurpleGem(square);
-            break;
-            
-        case GEM_ORANGE:
-            drawOrangeGem(square);
-            break;
-            
-        case GEM_GREY:
-            drawGreyGem(square);
-            break;
-            
-        case GEM_YELLOW:
-            drawYellowGem(square);
-            break;
-            
-        case GEM_BLUE:
-            drawBlueGem(square);
-            break;
-            
-        case GEM_SPECIAL:
-            drawSpecialGem(square);
-            break;
-            
-        default:
-            break;
-    }
+    static uint8_t tempSquare;
+    static uint8_t tempGemType;
+    
+    tempGemType = gemTypeAtSquare(square);
+    tempSquare = square;
+    
+    __asm__("lda %v", tempSquare);
+    __asm__("ldy %v", tempGemType);
+    __asm__("jsr _drawGem");
 }
 
 
-void drawGemAtXY(uint8_t x, uint8_t y, tGemType gemType, bool starred)
+static void drawGemAtXYWrapper(uint8_t x, uint8_t y, tGemType gemType, bool starred)
 {
     static uint8_t tempX;
+    static uint8_t tempY;
+    static uint8_t tempGemType;
     
+    tempY = y;
     tempX = x;
-    switch (gemType) {
-        case GEM_GREEN:
-            __asm__("ldx %v", tempX);
-            drawGreenGemAtXY(y);
-            break;
-            
-        case GEM_RED:
-            __asm__("ldx %v", tempX);
-            drawRedGemAtXY(y);
-            break;
-            
-        case GEM_PURPLE:
-            __asm__("ldx %v", tempX);
-            drawPurpleGemAtXY(y);
-            break;
-            
-        case GEM_ORANGE:
-            __asm__("ldx %v", tempX);
-            drawOrangeGemAtXY(y);
-            break;
-            
-        case GEM_GREY:
-            __asm__("ldx %v", tempX);
-            drawGreyGemAtXY(y);
-            break;
-            
-        case GEM_YELLOW:
-            __asm__("ldx %v", tempX);
-            drawYellowGemAtXY(y);
-            break;
-            
-        case GEM_BLUE:
-            __asm__("ldx %v", tempX);
-            drawBlueGemAtXY(y);
-            break;
-            
-        case GEM_SPECIAL:
-            __asm__("ldx %v", tempX);
-            drawSpecialGemAtXY(y);
-            break;
-            
-        default:
-            break;
-    }
+    tempGemType = gemType;
+    
+    __asm__("lda %v", tempY);
+    __asm__("ldx %v", tempX);
+    __asm__("ldy %v", tempGemType);
+    __asm__("jsr _drawGemAtXY");
+    
     if (starred) {
         __asm__("ldx %v", tempX);
         starGemAtXY(y);
@@ -406,8 +345,8 @@ void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
             gVblWait();
             drawBgSquare(square1);
             drawBgSquare(square2);
-            drawGemAtXY(x1, y1, gemType1, starred1);
-            drawGemAtXY(x2, y2, gemType2, starred2);
+            drawGemAtXYWrapper(x1, y1, gemType1, starred1);
+            drawGemAtXYWrapper(x2, y2, gemType2, starred2);
 #ifdef DEBUG_SWAP_ANIM
             cgetc();
 #endif
@@ -420,8 +359,8 @@ void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
             gVblWait();
             drawBgSquare(square1);
             drawBgSquare(square2);
-            drawGemAtXY(x1, y1, gemType1, starred1);
-            drawGemAtXY(x2, y2, gemType2, starred2);
+            drawGemAtXYWrapper(x1, y1, gemType1, starred1);
+            drawGemAtXYWrapper(x2, y2, gemType2, starred2);
 #ifdef DEBUG_SWAP_ANIM
             cgetc();
 #endif
@@ -585,7 +524,7 @@ void endDropAnim(void)
             if (!gemInfo->visible)
                 continue;
             
-            drawGemAtXY(gemInfo->x, gemInfo->y - 24, gemInfo->gemType, gemInfo->starred);
+            drawGemAtXYWrapper(gemInfo->x, gemInfo->y - 24, gemInfo->gemType, gemInfo->starred);
         }
 #ifdef DEBUG_DROP_ANIM
         cgetc();

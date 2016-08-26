@@ -9,14 +9,10 @@
     .export _showDblLoRes, _clearDblLoRes, _unshowDblLoRes
     .export _mixedTextMode
     
-    .export _drawGreenGem, _drawPurpleGem, _drawYellowGem
-    .export _drawBlueGem, _drawRedGem, _drawGreyGem
-    .export _drawOrangeGem, _drawSpecialGem, _drawBgSquare
+    .export _drawGem, _drawBgSquare
     .export _drawScore, _selectSquare, _starGem
 
-    .export _drawGreenGemAtXY, _drawPurpleGemAtXY, _drawYellowGemAtXY
-    .export _drawBlueGemAtXY, _drawRedGemAtXY, _drawGreyGemAtXY
-    .export _drawOrangeGemAtXY, _drawSpecialGemAtXY, _starGemAtXY
+    .export _drawGemAtXY, _starGemAtXY
 
     .export _explodeGemFrame1, _explodeGemFrame2
     .export _explodeGemFrame3, _explodeGemFrame4
@@ -58,14 +54,12 @@ LINE24      :=  $7d0
 ;line1addr:  .WORD $0
 ;line2addr:  .WORD $0
 ;line3addr:  .WORD $0
-;gemaddr:    .WORD $0
 ;gemmask:    .WORD $0
 
 line1addr   := $82
 line2addr   := $84
 line3addr   := $86
-gemaddr     := $88
-gemmask     := $8A
+gemmask     := $88
 
 .CODE
 
@@ -130,6 +124,7 @@ gemmask     := $8A
 
     rts
 .endproc
+
 
 .proc _clearDblLoRes
     sta LOWSCR
@@ -416,90 +411,6 @@ gemAuxColour: .BYTE $0
 square:     .BYTE $0
 .endproc
 
-
-.proc _drawGreenGem
-    ldy #1
-    jmp _drawGem
-.endproc
-
-
-.proc _drawGreenGemAtXY
-    ldy #1
-    jmp _drawGemAtXY
-.endproc
-
-
-.proc _drawPurpleGem
-    ldy #3
-    jmp _drawGem
-.endproc
-
-
-.proc _drawPurpleGemAtXY
-    ldy #3
-    jmp _drawGemAtXY
-.endproc
-
-
-.proc _drawYellowGem
-    ldy #6
-    jmp _drawGem
-.endproc
-
-.proc _drawYellowGemAtXY
-    ldy #6
-    jmp _drawGemAtXY
-.endproc
-
-.proc _drawBlueGem
-    ldy #7
-    jmp _drawGem
-.endproc
-
-.proc _drawBlueGemAtXY
-    ldy #7
-    jmp _drawGemAtXY
-.endproc
-
-.proc _drawRedGem
-    ldy #2
-    jmp _drawGem
-.endproc
-
-.proc _drawRedGemAtXY
-    ldy #2
-    jmp _drawGemAtXY
-.endproc
-
-.proc _drawGreyGem
-    ldy #5
-    jmp _drawGem
-.endproc
-
-.proc _drawGreyGemAtXY
-    ldy #5
-    jmp _drawGemAtXY
-.endproc
-
-.proc _drawOrangeGem
-    ldy #4
-    jmp _drawGem
-.endproc
-
-.proc _drawOrangeGemAtXY
-    ldy #4
-    jmp _drawGemAtXY
-.endproc
-
-.proc _drawSpecialGem
-    ldy #8
-    jmp _drawGem
-.endproc
-
-.proc _drawSpecialGemAtXY
-    ldy #8
-    jmp _drawGemAtXY
-.endproc
 
 .proc _selectSquare
     ldy #0
