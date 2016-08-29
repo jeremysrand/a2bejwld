@@ -42,8 +42,7 @@ extern void __fastcall__ drawScore(uint8_t score);
 // be in the X register.  The gem type should be in the
 // Y register.
 extern void __fastcall__ drawGemAtXY(uint8_t y);
-
-extern void __fastcall__ starGemAtXY(uint8_t y);
+extern void __fastcall__ drawAndStarGemAtXY(uint8_t y);
 
 
 #endif /* defined(__a2bejwld__dbllores__) */

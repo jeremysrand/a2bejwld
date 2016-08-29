@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "anim.h"
 #include "dbllores.h"
@@ -25,7 +26,7 @@
 #define STAR_CYCLES_VISIBLE 3000
 #define STAR_CYCLES_INVISIBLE 1000
 
-#define DROP_ACCELERATION 1
+#define DROP_ACCELERATION 2
 
 #define CLEAR_GEM_SOUND_NORMAL  0
 #define CLEAR_GEM_SOUND_STAR    1
@@ -39,6 +40,7 @@
 
 #define VERTICAL_PIXELS_PER_SQUARE (VERTICAL_PIXELS / BOARD_SIZE)
 #define HORIZONTAL_PIXELS_PER_SQUARE (HORIZONTAL_PIXELS / BOARD_SIZE)
+#define HIDDEN_VERTICAL_PIXELS (VERTICAL_PIXELS + VERTICAL_PIXELS_PER_SQUARE)
 
 
 // Typedefs
@@ -144,14 +146,16 @@ static void drawGemAtXYWrapper(uint8_t x, uint8_t y, tGemType gemType, bool star
     tempX = x;
     tempGemType = gemType;
     
-    __asm__("lda %v", tempY);
-    __asm__("ldx %v", tempX);
-    __asm__("ldy %v", tempGemType);
-    __asm__("jsr _drawGemAtXY");
-    
     if (starred) {
+        __asm__("lda %v", tempY);
         __asm__("ldx %v", tempX);
-        starGemAtXY(y);
+        __asm__("ldy %v", tempGemType);
+        __asm__("jsr _drawAndStarGemAtXY");
+    } else {
+        __asm__("lda %v", tempY);
+        __asm__("ldx %v", tempX);
+        __asm__("ldy %v", tempGemType);
+        __asm__("jsr _drawGemAtXY");
     }
 }
 
@@ -397,9 +401,9 @@ void dropSquareFromTo(tSquare srcSquare, tSquare tgtSquare, tGemType gemType, bo
     gemInfo->x = (x * HORIZONTAL_PIXELS_PER_SQUARE);
     
     // The y positions are multiplied by 6 to get a number from 0 to 42
-    // We also add 48.  We have 48 lines invisible above the screen.
-    gemInfo->y = (SQUARE_TO_Y(srcSquare) * VERTICAL_PIXELS_PER_SQUARE) + VERTICAL_PIXELS;
-    gemInfo->endY = (y * VERTICAL_PIXELS_PER_SQUARE) + VERTICAL_PIXELS;
+    // We also add 54.  We have 54 lines invisible above the screen.
+    gemInfo->y = (SQUARE_TO_Y(srcSquare) * VERTICAL_PIXELS_PER_SQUARE) + HIDDEN_VERTICAL_PIXELS;
+    gemInfo->endY = (y * VERTICAL_PIXELS_PER_SQUARE) + HIDDEN_VERTICAL_PIXELS;
     
     gemInfo->gemType = gemType;
     gemInfo->starred = starred;
@@ -428,7 +432,7 @@ void dropSquareFromOffscreen(tSquare tgtSquare, tGemType gemType, bool starred)
     // We skip setting the current y position.  For offscreen gems,
     // we determine the starting y position just before we run the
     // animation.
-    gemInfo->endY = (y * VERTICAL_PIXELS_PER_SQUARE) + VERTICAL_PIXELS;
+    gemInfo->endY = (y * VERTICAL_PIXELS_PER_SQUARE) + HIDDEN_VERTICAL_PIXELS;
     
     gemInfo->gemType = gemType;
     gemInfo->starred = starred;
@@ -446,6 +450,7 @@ void endDropAnim(void)
 {
     tSquare square;
     tDropGemInfo *gemInfo;
+    tDropGemInfo *neighbourInfo;
     bool done;
     
     
@@ -466,7 +471,10 @@ void endDropAnim(void)
                 // If I am not visible and I have no lower neighbour, then start right at the top
                 // of the screen.  Also, if I am not visible, I have a lower neighbout and my
                 // lower neighbour is visible, I also start right at the top of the screen.
-                gemInfo->y = VERTICAL_PIXELS - VERTICAL_PIXELS_PER_SQUARE;
+                gemInfo->y = HIDDEN_VERTICAL_PIXELS - VERTICAL_PIXELS_PER_SQUARE;
+#if 0
+                gemInfo-> -= (rand() % VERTICAL_PIXELS_PER_SQUARE);
+#endif
             } else {
                 // My lower neighbour is also off the screen.  I start six lines above my
                 // lower neighbour.
@@ -478,10 +486,7 @@ void endDropAnim(void)
     while (true) {
         done = true;
         
-        square = NUM_SQUARES;
-        while (square > 0) {
-            square--;
-            
+        for (square = 0; square < NUM_SQUARES; square++) {
             gemInfo = &(gDropGemAnimState.gemState[square]);
             
             if (gemInfo->landed)
@@ -495,19 +500,22 @@ void endDropAnim(void)
             
             done = false;
             
-            if (gemInfo->lowerNeighbour != NULL) {
-                if (gemInfo->y == gemInfo->lowerNeighbour->y - VERTICAL_PIXELS_PER_SQUARE) {
-                    gemInfo->speed = 0;
-                    continue;
-                }
-            }
-            
             gemInfo->y += gemInfo->speed;
             if (gemInfo->y > gemInfo->endY) {
                 gemInfo->y = gemInfo->endY;
             }
             
-            if (gemInfo->y > (VERTICAL_PIXELS - VERTICAL_PIXELS_PER_SQUARE)) {
+            neighbourInfo = gemInfo->lowerNeighbour;
+            if ((neighbourInfo != NULL) &&
+                (!neighbourInfo->landed)) {
+                uint8_t limit = gemInfo->lowerNeighbour->y - VERTICAL_PIXELS_PER_SQUARE;
+                if (gemInfo->y >= gemInfo->lowerNeighbour->y - VERTICAL_PIXELS_PER_SQUARE) {
+                    gemInfo->y = limit;
+                    gemInfo->speed = 0;
+                }
+            }
+            
+            if (gemInfo->y > (HIDDEN_VERTICAL_PIXELS - VERTICAL_PIXELS_PER_SQUARE + 1)) {
                 gemInfo->visible = true;
             }
             
@@ -529,7 +537,7 @@ void endDropAnim(void)
             if (!gemInfo->visible)
                 continue;
             
-            drawGemAtXYWrapper(gemInfo->x, gemInfo->y - VERTICAL_PIXELS, gemInfo->gemType, gemInfo->starred);
+            drawGemAtXYWrapper(gemInfo->x, gemInfo->y - HIDDEN_VERTICAL_PIXELS, gemInfo->gemType, gemInfo->starred);
         }
 #ifdef DEBUG_DROP_ANIM
         cgetc();

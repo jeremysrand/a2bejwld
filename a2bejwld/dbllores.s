@@ -12,7 +12,7 @@
     .export _drawGem, _drawBgSquare
     .export _drawScore, _selectSquare, _starGem
 
-    .export _drawGemAtXY, _starGemAtXY
+    .export _drawGemAtXY, _drawAndStarGemAtXY
 
     .export _explodeGemFrame1, _explodeGemFrame2
     .export _explodeGemFrame3, _explodeGemFrame4
@@ -263,10 +263,20 @@ colorAux:   .BYTE $0
 
 .proc _drawGemAtXY
     stx xPos
+    cmp #0
+    bpl @L8
+    lsr
+    ora #$80
+    tax
+    bcc @L3
+    bra @L9
+
+@L8:
     lsr
     tax
     bcc @L3
 
+@L9:
     lda maskLoAddrs2,Y
     sta gemmask
     lda maskHiAddrs2,Y
@@ -456,6 +466,16 @@ square:     .BYTE $0
 
 .proc _starGemAtXY
     stx xPos
+    cmp #0
+    bpl @L4
+    lsr
+    ora #$80
+    tax
+    bcc @L1
+    lda #$f0
+    bra @L2
+
+@L4:
     lsr
     tax
     bcc @L1
@@ -497,6 +517,22 @@ square:     .BYTE $0
 xPos:       .BYTE $0
 square:     .BYTE $0
 starVal:    .BYTE $0
+
+.endproc
+
+
+.proc _drawAndStarGemAtXY
+    stx xPos
+    sta yPos
+    jsr _drawGemAtXY
+    ldx xPos
+    lda yPos
+    jmp _starGemAtXY
+
+; Locals
+
+xPos:       .BYTE $0
+yPos:       .BYTE $0
 
 .endproc
 
