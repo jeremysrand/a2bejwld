@@ -411,7 +411,7 @@ static bool explodeGems(void)
 }
 
 
-static bool actOnMatchAtSquare(tSquare square, bool specialsOnly)
+static bool actOnMatchAtSquare(tSquare square, bool twoDirsOnly)
 {
     tGemType gemType = GEM_TYPE_AT_SQUARE(square);
     bool starred = GEM_STARRED_AT_SQUARE(square);
@@ -422,19 +422,29 @@ static bool actOnMatchAtSquare(tSquare square, bool specialsOnly)
     if (gemType == GEM_NONE)
         return result;
     
-    matchesUD = numMatchingUpDownAtSquare(square, gemType, !specialsOnly);
-    matchesRL = numMatchingRightLeftAtSquare(square, gemType, !specialsOnly);
+    matchesUD = numMatchingUpDownAtSquare(square, gemType, !twoDirsOnly);
+    matchesRL = numMatchingRightLeftAtSquare(square, gemType, !twoDirsOnly);
     
-    if (matchesUD > 0)
-        result = true;
+    if (twoDirsOnly) {
+        if ((matchesRL > 0) &&
+            (matchesUD > 0)) {
+            result = true;
+        }
+    } else {
+        if (matchesUD > 0)
+            result = true;
     
-    if (matchesRL > 0)
-        result = true;
+        if (matchesRL > 0)
+            result = true;
+    }
+    
+    if (!result)
+        return result;
     
     if (!starred) {
         if ((matchesUD == SPECIAL_MATCH) ||
             (matchesRL == SPECIAL_MATCH)) {
-            if (specialsOnly) {
+            if (twoDirsOnly) {
                 numMatchingUpDownAtSquare(square, gemType, true);
                 numMatchingRightLeftAtSquare(square, gemType, true);
             }
@@ -446,7 +456,7 @@ static bool actOnMatchAtSquare(tSquare square, bool specialsOnly)
                    (matchesRL == STAR_MATCH) ||
                    ((matchesUD == MIN_MATCHING) &&
                     (matchesRL == MIN_MATCHING))) {
-            if (specialsOnly) {
+            if (twoDirsOnly) {
                 numMatchingUpDownAtSquare(square, gemType, true);
                 numMatchingRightLeftAtSquare(square, gemType, true);
             }
@@ -459,8 +469,7 @@ static bool actOnMatchAtSquare(tSquare square, bool specialsOnly)
     }
     
 #ifdef DEBUG_MOVES
-    if (result)
-        cgetc();
+    cgetc();
 #endif
     
     return result;

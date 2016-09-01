@@ -24,7 +24,7 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "a2bejwld.opts"
-#define VERSION "v1.2b2"
+#define VERSION "v1.2b3"
 
 
 // Typedefs

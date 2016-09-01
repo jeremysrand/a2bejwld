@@ -41,6 +41,22 @@
 #define VERTICAL_PIXELS_PER_SQUARE (VERTICAL_PIXELS / BOARD_SIZE)
 #define HORIZONTAL_PIXELS_PER_SQUARE (HORIZONTAL_PIXELS / BOARD_SIZE)
 
+#define DRAW_GEM_AT_XY(x, y, gemType, starred)  \
+    gTempY = y;                                 \
+    gTempX = x;                                 \
+    gTempGemType = gemType;                     \
+    if (starred) {                              \
+        __asm__("lda %v", gTempY);              \
+        __asm__("ldx %v", gTempX);              \
+        __asm__("ldy %v", gTempGemType);        \
+        __asm__("jsr _drawAndStarGemAtXY");     \
+    } else {                                    \
+        __asm__("lda %v", gTempY);              \
+        __asm__("ldx %v", gTempX);              \
+        __asm__("ldy %v", gTempGemType);        \
+        __asm__("jsr _drawGemAtXY");            \
+    }
+
 
 // Typedefs
 
@@ -84,6 +100,10 @@ typedef void __fastcall__ (*tClearGemHandler)(tSquare square);
 static tStarAnimState gStarAnimState;
 static tClearGemAnimState gClearGemAnimState;
 static tDropGemAnimState gDropGemAnimState;
+
+static uint8_t gTempX;
+static uint8_t gTempY;
+static uint8_t gTempGemType;
 
 static uint8_t gClearGemSoundFreq[NUM_CLEAR_GEM_SOUNDS][8] = {
     { // CLEAR_GEM_SOUND_NORMAL
@@ -132,30 +152,6 @@ void drawGemAtSquare(tSquare square)
     __asm__("lda %v", tempSquare);
     __asm__("ldy %v", tempGemType);
     __asm__("jsr _drawGem");
-}
-
-
-static void drawGemAtXYWrapper(uint8_t x, uint8_t y, tGemType gemType, bool starred)
-{
-    static uint8_t tempX;
-    static uint8_t tempY;
-    static uint8_t tempGemType;
-    
-    tempY = y;
-    tempX = x;
-    tempGemType = gemType;
-    
-    if (starred) {
-        __asm__("lda %v", tempY);
-        __asm__("ldx %v", tempX);
-        __asm__("ldy %v", tempGemType);
-        __asm__("jsr _drawAndStarGemAtXY");
-    } else {
-        __asm__("lda %v", tempY);
-        __asm__("ldx %v", tempX);
-        __asm__("ldy %v", tempGemType);
-        __asm__("jsr _drawGemAtXY");
-    }
 }
 
 
@@ -354,8 +350,8 @@ void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
             gVblWait();
             drawBgSquare(square1);
             drawBgSquare(square2);
-            drawGemAtXYWrapper(x1, y1, gemType1, starred1);
-            drawGemAtXYWrapper(x2, y2, gemType2, starred2);
+            DRAW_GEM_AT_XY(x1, y1, gemType1, starred1);
+            DRAW_GEM_AT_XY(x2, y2, gemType2, starred2);
 #ifdef DEBUG_SWAP_ANIM
             cgetc();
 #endif
@@ -368,8 +364,8 @@ void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
             gVblWait();
             drawBgSquare(square1);
             drawBgSquare(square2);
-            drawGemAtXYWrapper(x1, y1, gemType1, starred1);
-            drawGemAtXYWrapper(x2, y2, gemType2, starred2);
+            DRAW_GEM_AT_XY(x1, y1, gemType1, starred1);
+            DRAW_GEM_AT_XY(x2, y2, gemType2, starred2);
 #ifdef DEBUG_SWAP_ANIM
             cgetc();
 #endif
@@ -525,19 +521,84 @@ void endDropAnim(void)
             break;
         
         gVblWait();
-        for (square = 0, gemInfo = &(gDropGemAnimState.gemState[0]);
-             square < NUM_SQUARES;
-             square++, gemInfo++) {
-            if (gemInfo->landed)
-                continue;
-            
-            drawBgSquare(square);
-            
-            if (!gemInfo->visible)
-                continue;
-            
-            drawGemAtXYWrapper(gemInfo->x, gemInfo->y, gemInfo->gemType, gemInfo->starred);
+
+        // Completely unroll the actual drawing to make it faster.
+#define DRAW_SQUARE(square)                                                 \
+        if (!gDropGemAnimState.gemState[square].landed) {                   \
+            drawBgSquare(square);                                           \
+            if (gDropGemAnimState.gemState[square].visible) {               \
+                DRAW_GEM_AT_XY(gDropGemAnimState.gemState[square].x,        \
+                               gDropGemAnimState.gemState[square].y,        \
+                               gDropGemAnimState.gemState[square].gemType,  \
+                               gDropGemAnimState.gemState[square].starred); \
+            }                                                               \
         }
+        
+        DRAW_SQUARE(0);
+        DRAW_SQUARE(1);
+        DRAW_SQUARE(2);
+        DRAW_SQUARE(3);
+        DRAW_SQUARE(4);
+        DRAW_SQUARE(5);
+        DRAW_SQUARE(6);
+        DRAW_SQUARE(7);
+        DRAW_SQUARE(8);
+        DRAW_SQUARE(9);
+        DRAW_SQUARE(10);
+        DRAW_SQUARE(11);
+        DRAW_SQUARE(12);
+        DRAW_SQUARE(13);
+        DRAW_SQUARE(14);
+        DRAW_SQUARE(15);
+        DRAW_SQUARE(16);
+        DRAW_SQUARE(17);
+        DRAW_SQUARE(18);
+        DRAW_SQUARE(19);
+        DRAW_SQUARE(20);
+        DRAW_SQUARE(21);
+        DRAW_SQUARE(22);
+        DRAW_SQUARE(23);
+        DRAW_SQUARE(24);
+        DRAW_SQUARE(25);
+        DRAW_SQUARE(26);
+        DRAW_SQUARE(27);
+        DRAW_SQUARE(28);
+        DRAW_SQUARE(29);
+        DRAW_SQUARE(30);
+        DRAW_SQUARE(31);
+        DRAW_SQUARE(32);
+        DRAW_SQUARE(33);
+        DRAW_SQUARE(34);
+        DRAW_SQUARE(35);
+        DRAW_SQUARE(36);
+        DRAW_SQUARE(37);
+        DRAW_SQUARE(38);
+        DRAW_SQUARE(39);
+        DRAW_SQUARE(40);
+        DRAW_SQUARE(41);
+        DRAW_SQUARE(42);
+        DRAW_SQUARE(43);
+        DRAW_SQUARE(44);
+        DRAW_SQUARE(45);
+        DRAW_SQUARE(46);
+        DRAW_SQUARE(47);
+        DRAW_SQUARE(48);
+        DRAW_SQUARE(49);
+        DRAW_SQUARE(50);
+        DRAW_SQUARE(51);
+        DRAW_SQUARE(52);
+        DRAW_SQUARE(53);
+        DRAW_SQUARE(54);
+        DRAW_SQUARE(55);
+        DRAW_SQUARE(56);
+        DRAW_SQUARE(57);
+        DRAW_SQUARE(58);
+        DRAW_SQUARE(59);
+        DRAW_SQUARE(60);
+        DRAW_SQUARE(61);
+        DRAW_SQUARE(62);
+        DRAW_SQUARE(63);
+        
 #ifdef DEBUG_DROP_ANIM
         cgetc();
 #endif
