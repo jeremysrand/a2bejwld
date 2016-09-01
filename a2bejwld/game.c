@@ -490,19 +490,17 @@ static bool dropGems(void)
                     destSquare = square;
                     destY = y;
                 }
-            } else {
-                if (gemType != GEM_NONE) {
-                    GEM_TYPE_AT_SQUARE(destSquare) = gemType;
-                    starred = GEM_STARRED_AT_SQUARE(square);
-                    GEM_STARRED_AT_SQUARE(destSquare) = starred;
-                    GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
-                    GEM_STARRED_AT_SQUARE(square) = false;
-                    
-                    gGameCallbacks->dropSquareFromTo(square, destSquare, gemType, starred);
-                    
-                    destY--;
-                    destSquare = XY_TO_SQUARE(x, destY);
-                }
+            } else if (gemType != GEM_NONE) {
+                GEM_TYPE_AT_SQUARE(destSquare) = gemType;
+                starred = GEM_STARRED_AT_SQUARE(square);
+                GEM_STARRED_AT_SQUARE(destSquare) = starred;
+                GEM_TYPE_AT_SQUARE(square) = GEM_NONE;
+                GEM_STARRED_AT_SQUARE(square) = false;
+                
+                gGameCallbacks->dropSquareFromTo(square, destSquare, gemType, starred);
+                
+                destY--;
+                destSquare = XY_TO_SQUARE(x, destY);
             }
         }
         if (destSquare != NUM_SQUARES) {
