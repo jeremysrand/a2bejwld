@@ -30,8 +30,8 @@ PGM=a2bejwld
 #    MACHINE = apple2-reboot
 #    MACHINE = apple2enh
 #    MACHINE = apple2enh-dos33
-#    MACHINE = apple2enh-system
-MACHINE = apple2enh-loader
+MACHINE = apple2enh-system
+*    MACHINE = apple2enh-loader
 #    MACHINE = apple2enh-reboot
 
 # Uncomment and set this to your starting address in Apple II memory
