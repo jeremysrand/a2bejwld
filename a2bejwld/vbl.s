@@ -9,6 +9,7 @@
 
 
     .export _vblWait, _vblWait2c, _vblInit2gs
+    .export _vblIRQCallback
 
 
     .include "apple2.inc"
@@ -36,8 +37,20 @@ RDVBLBAR      :=  $C019
 .endproc
 
 
+.proc _vblIRQCallback
+    stz vbl2cByte
+    rts
+.endproc
+
+
 .proc _vblWait2c
-    ; TODO - write a routine for VBL detection on //c
+    lda #$ff
+    sta vbl2cByte
+
+@L1:
+    lda vbl2cByte
+    bne @L1
+
     rts
 .endproc
 
@@ -46,3 +59,6 @@ RDVBLBAR      :=  $C019
 
 compType:
     .BYTE   $7e
+
+vbl2cByte:
+    .BYTE   $00

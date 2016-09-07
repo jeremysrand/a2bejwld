@@ -16,5 +16,7 @@ extern void __fastcall__ vblInit2gs(void);
 extern void __fastcall__ vblWait(void);
 extern void __fastcall__ vblWait2c(void);
 
+extern void __fastcall__ vblIRQCallback(void);
+
 
 #endif /* defined(__a2bejwld__vbl__) */

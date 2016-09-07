@@ -24,7 +24,7 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "a2bejwld.opts"
-#define VERSION "v1.2b3"
+#define VERSION "v1.2b4"
 
 
 // Typedefs
@@ -180,8 +180,6 @@ void applyNewOptions(tGameOptions *newOptions)
     if (oldEnableMouse != gGameOptions.enableMouse) {
         if (gGameOptions.enableMouse) {
             gGameOptions.enableMouse = initMouse(&gMouseCallbacks);
-        } else {
-            shutdownMouse();
         }
     }
     saveOptions();
@@ -564,25 +562,24 @@ static void getHint(void)
 void initUI(void)
 {
     bool optionsLoaded;
+    bool mouseInitialized;
     
     initMachine();
     
     optionsLoaded = loadOptions();
     
     initGameEngine(&gCallbacks);
+    mouseInitialized = initMouse(&gMouseCallbacks);
     
-    if ((!optionsLoaded) ||
+    // If we couldn't initialize a mouse and it was enabled on the options, then disable it.
+    if ((!mouseInitialized) &&
         (gGameOptions.enableMouse)) {
-        // If we didn't load any options or the saved options had the mouse enabled, then try to init a mouse.
-        gGameOptions.enableMouse = initMouse(&gMouseCallbacks);
-        if (!gGameOptions.enableMouse) {
-            // If we didn't init a mouse, then let's mark the options as not saved.
-            gGameOptions.optionsSaved = false;
-            
-            // If we didn't load an options file, then let's turn on the joystick instead.
-            if (!optionsLoaded) {
-                gGameOptions.enableJoystick = true;
-            }
+        gGameOptions.enableMouse = false;
+        gGameOptions.optionsSaved = false;
+        
+        // If there were no options loaded, then let's turn on the joystick instead.
+        if (!optionsLoaded) {
+            gGameOptions.enableJoystick = true;
         }
     }
     

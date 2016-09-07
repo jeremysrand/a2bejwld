@@ -71,7 +71,9 @@ static uint8_t joystickLeftRight(void)
 {
     __asm__("BIT %w", ROM_SWITCH);
     __asm__("LDX #0");
+    __asm__("SEI");
     __asm__("JSR %w", PREAD);
+    __asm__("CLI");
     __asm__("STY %v", gJoystickTemp);
     __asm__("BIT %w", RAM_SWITCH);
     return gJoystickTemp;
@@ -82,7 +84,9 @@ static uint8_t joystickUpDown(void)
 {
     __asm__("BIT %w", ROM_SWITCH);
     __asm__("LDX #1");
+    __asm__("SEI");
     __asm__("JSR %w", PREAD);
+    __asm__("CLI");
     __asm__("STY %v", gJoystickTemp);
     __asm__("BIT %w", RAM_SWITCH);
     return gJoystickTemp;
