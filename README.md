@@ -5,4 +5,4 @@ This is an implementation of Bejeweled written for the Apple //.  It is my HackF
 
 ![A2Bejwld Screenshot](/a2bejwld.png "A2Bejwld Screenshot")
 
-[Download a disk image](https://github.com/jeremysrand/a2bejwld/releases/download/1.1.1/a2bejwld.dsk)
+[Download a disk image](https://github.com/jeremysrand/a2bejwld/releases/download/1.2/a2bejwld.dsk)
