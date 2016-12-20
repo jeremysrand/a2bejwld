@@ -18,6 +18,7 @@
 #include "dbllores.h"
 #include "game.h"
 #include "machine.h"
+#include "sound.h"
 #include "ui.h"
 
 
@@ -27,13 +28,6 @@
 #define STAR_CYCLES_INVISIBLE 1000
 
 #define DROP_ACCELERATION 1
-
-#define CLEAR_GEM_SOUND_NORMAL  0
-#define CLEAR_GEM_SOUND_STAR    1
-#define CLEAR_GEM_SOUND_SPECIAL 2
-#define CLEAR_GEM_SOUND_EXPLODE 3
-#define NUM_CLEAR_GEM_SOUNDS    4
-
 
 #define VERTICAL_PIXELS 48
 #define HORIZONTAL_PIXELS 64
@@ -70,7 +64,6 @@ typedef struct tStarAnimState
 typedef struct tClearGemAnimState
 {
     uint8_t squaresToClear[NUM_SQUARES / (sizeof(uint8_t))];
-    uint8_t clearGemSound;
     bool gotOne;
 } tClearGemAnimState;
 
@@ -104,28 +97,6 @@ static tDropGemAnimState gDropGemAnimState;
 static uint8_t gTempX;
 static uint8_t gTempY;
 static uint8_t gTempGemType;
-
-static uint8_t gClearGemSoundFreq[NUM_CLEAR_GEM_SOUNDS][8] = {
-    { // CLEAR_GEM_SOUND_NORMAL
-        30, 25, 20, 30, 30, 30, 30, 0 },
-    { // CLEAR_GEM_SOUND_STAR
-        10,  9,  8,  7,  6,  5,  4, 0 },
-    { // CLEAR_GEM_SOUND_SPECIAL
-         4,  6,  8, 10,  8,  6,  4, 0 },
-    { // CLEAR_GEM_SOUND_EXPLODE
-        50, 60, 50, 60, 50, 60, 50, 0 }
-};
-
-static uint8_t gClearGemSoundDuration[NUM_CLEAR_GEM_SOUNDS][8] = {
-    { // CLEAR_GEM_SOUND_NORMAL
-        10, 15, 20, 10, 10, 10, 10, 0 },
-    { // CLEAR_GEM_SOUND_STAR
-        30, 31, 32, 33, 34, 35, 36, 0 },
-    { // CLEAR_GEM_SOUND_SPECIAL
-        36, 34, 32, 30, 32, 34, 36, 0 },
-    { // CLEAR_GEM_SOUND_EXPLODE
-         8,  8,  8,  8,  8,  8,  8, 0 },
-};
 
 static tClearGemHandler gClearGemHandler[] = {
     explodeGemFrame1,
@@ -213,6 +184,7 @@ void doStarAnim(void)
 void beginClearGemAnim(void)
 {
     memset(&gClearGemAnimState, 0, sizeof(gClearGemAnimState));
+    beginClearGemSound();
 }
 
 
@@ -235,50 +207,22 @@ void undoClearAtSquare(tSquare square)
 }
 
 
-void playSoundForExplodingGem(void)
-{
-    if (gClearGemAnimState.clearGemSound < CLEAR_GEM_SOUND_EXPLODE)
-        gClearGemAnimState.clearGemSound = CLEAR_GEM_SOUND_EXPLODE;
-}
-
-
-void playSoundForStarringGem(void)
-{
-    if (gClearGemAnimState.clearGemSound < CLEAR_GEM_SOUND_STAR)
-        gClearGemAnimState.clearGemSound = CLEAR_GEM_SOUND_STAR;
-}
-
-
-void playSoundForSpecialGem(void)
-{
-    if (gClearGemAnimState.clearGemSound < CLEAR_GEM_SOUND_SPECIAL)
-        gClearGemAnimState.clearGemSound = CLEAR_GEM_SOUND_SPECIAL;
-}
-
-
 #undef DEBUG_CLEAR_ANIM
 void endClearGemAnim(void)
 {
     tSquare square;
     uint8_t bit;
     uint8_t offset;
-    uint8_t *clearGemSoundFreq;
-    uint8_t *clearGemSoundDuration;
     uint8_t frame;
     
     if (!gClearGemAnimState.gotOne)
         return;
     
-    clearGemSoundFreq = &(gClearGemSoundFreq[gClearGemAnimState.clearGemSound][0]);
-    clearGemSoundDuration = &(gClearGemSoundDuration[gClearGemAnimState.clearGemSound][0]);
-    
     for (frame = 0; frame < (sizeof(gClearGemHandler) / sizeof(gClearGemHandler[0])); frame++) {
         bit = 1;
         offset = 0;
         
-        playSound(*clearGemSoundFreq, *clearGemSoundDuration);
-        clearGemSoundFreq++;
-        clearGemSoundDuration++;
+        playClearGemSound(frame);
         
         gVblWait();
         for (square = 0; square < NUM_SQUARES; square++) {
@@ -491,7 +435,7 @@ void endDropAnim(void)
             
             if (gemInfo->y == gemInfo->endY) {
                 gemInfo->landed = true;
-                playSound(1, 1);
+                playLandingSound();
                 continue;
             }
             

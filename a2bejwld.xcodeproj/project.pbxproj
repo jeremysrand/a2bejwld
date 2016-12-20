@@ -12,6 +12,9 @@
 		9D4D1AB31D6D709600D20BB8 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B47401D40098300F6D704 /* game.c */; };
 		9D4D1AB41D6D709F00D20BB8 /* machine.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D1AA31D6D0E9B00D20BB8 /* machine.c */; };
 		9D4D1AB51D6D70A300D20BB8 /* anim.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D6B47481D4270EC00F6D704 /* anim.c */; };
+		9DB20B3E1E078FE20065E263 /* mockingboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DB20B3A1E078FE20065E263 /* mockingboard.c */; };
+		9DB20B3F1E078FE20065E263 /* mockingboard_speech.s in Sources */ = {isa = PBXBuildFile; fileRef = 9DB20B3C1E078FE20065E263 /* mockingboard_speech.s */; };
+		9DB20B421E07904A0065E263 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DB20B401E07904A0065E263 /* sound.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +61,12 @@
 		9D6B47491D4270EC00F6D704 /* anim.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = anim.h; sourceTree = "<group>"; };
 		9D6B474A1D42DEB600F6D704 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9D6B474C1D43BBAC00F6D704 /* a2bejwld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a2bejwld.png; sourceTree = "<group>"; };
+		9DB20B3A1E078FE20065E263 /* mockingboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mockingboard.c; sourceTree = "<group>"; };
+		9DB20B3B1E078FE20065E263 /* mockingboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard.h; sourceTree = "<group>"; };
+		9DB20B3C1E078FE20065E263 /* mockingboard_speech.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = mockingboard_speech.s; sourceTree = "<group>"; };
+		9DB20B3D1E078FE20065E263 /* mockingboard_speech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard_speech.h; sourceTree = "<group>"; };
+		9DB20B401E07904A0065E263 /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
+		9DB20B411E07904A0065E263 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +134,10 @@
 				9D4D1AA41D6D0E9B00D20BB8 /* machine.h */,
 				9D6B47481D4270EC00F6D704 /* anim.c */,
 				9D6B47491D4270EC00F6D704 /* anim.h */,
+				9DB20B401E07904A0065E263 /* sound.c */,
+				9DB20B411E07904A0065E263 /* sound.h */,
 				9D6B472F1D3FB16F00F6D704 /* Makefile */,
+				9DB20B391E078FC70065E263 /* Mockingboard */,
 				9D3A9FBE1D457973004C5897 /* joystick */,
 				9D3A9FBA1D4578B4004C5897 /* mouse */,
 				9D6B47301D3FB16F00F6D704 /* make */,
@@ -154,6 +166,17 @@
 				9D6B474C1D43BBAC00F6D704 /* a2bejwld.png */,
 			);
 			name = screenshots;
+			sourceTree = "<group>";
+		};
+		9DB20B391E078FC70065E263 /* Mockingboard */ = {
+			isa = PBXGroup;
+			children = (
+				9DB20B3A1E078FE20065E263 /* mockingboard.c */,
+				9DB20B3B1E078FE20065E263 /* mockingboard.h */,
+				9DB20B3C1E078FE20065E263 /* mockingboard_speech.s */,
+				9DB20B3D1E078FE20065E263 /* mockingboard_speech.h */,
+			);
+			name = Mockingboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,9 +256,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D4D1AB51D6D70A300D20BB8 /* anim.c in Sources */,
+				9DB20B421E07904A0065E263 /* sound.c in Sources */,
+				9DB20B3E1E078FE20065E263 /* mockingboard.c in Sources */,
 				9D4D1AB31D6D709600D20BB8 /* game.c in Sources */,
 				9D4D1AB11D6D708E00D20BB8 /* main.c in Sources */,
 				9D4D1AB21D6D709100D20BB8 /* ui.c in Sources */,
+				9DB20B3F1E078FE20065E263 /* mockingboard_speech.s in Sources */,
 				9D4D1AB41D6D709F00D20BB8 /* machine.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -371,6 +397,7 @@
 				9D4D1AB01D6D704800D20BB8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9D6B472B1D3FB16F00F6D704 /* Build configuration list for PBXProject "a2bejwld" */ = {
 			isa = XCConfigurationList;

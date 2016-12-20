@@ -19,12 +19,13 @@
 #include "joystick.h"
 #include "machine.h"
 #include "mouseWrapper.h"
+#include "sound.h"
 
 
 // Defines
 
 #define SAVE_OPTIONS_FILE "a2bejwld.opts"
-#define VERSION "v1.2"
+#define VERSION "v2.0"
 
 
 // Typedefs
@@ -103,28 +104,22 @@ static tGameOptions gGameOptions = {
 // Implementation
 
 
+bool soundEnabled(void)
+{
+    return gGameOptions.enableSound;
+}
+
+
+bool mockingBoardEnabled(void)
+{
+    return false;
+}
+
+
 void badThingHappened(void)
 {
     if (gGameOptions.enableSound)
         printf("\007");
-}
-
-
-void playSound(int8_t startFreq, int8_t duration)
-{
-    int8_t freq;
-    
-    if (!gGameOptions.enableSound)
-        return;
-    
-    while (duration > 0) {
-        asm ("STA %w", 0xc030);
-        freq = startFreq;
-        while (freq > 0) {
-            freq--;
-        }
-        duration--;
-    }
 }
 
 

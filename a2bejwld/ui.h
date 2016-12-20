@@ -10,18 +10,19 @@
 #define __a2bejwld__ui__
 
 
-#include <stdint.h>
+#include <stdbool.h>
 
 
 // API
 
 extern void initUI(void);
 
+extern bool soundEnabled(void);
+extern bool mockingBoardEnabled(void);
+
 extern void printInstructions(void);
 
 extern void playGame(void);
-
-extern void playSound(int8_t startFreq, int8_t duration);
 
 
 #endif /* defined(__a2bejwld__ui__) */
