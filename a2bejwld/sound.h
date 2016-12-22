@@ -19,7 +19,7 @@ extern void playSoundForStarringGem(void);
 extern void playSoundForSpecialGem(void);
 extern void playClearGemSound(uint8_t frame);
 
-extern void playLandingSound(void);
+extern void playLandingSound(uint8_t numLanded);
 
 
 #endif /* defined(__a2bejwld__sound__) */

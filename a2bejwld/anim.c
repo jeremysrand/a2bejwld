@@ -390,6 +390,7 @@ void endDropAnim(void)
     tDropGemInfo *neighbourInfo;
     bool done;
     int8_t limit;
+    uint8_t numLanded;
     
     if (!gDropGemAnimState.gotOne)
         return;
@@ -426,6 +427,7 @@ void endDropAnim(void)
     
     while (true) {
         done = true;
+        numLanded = 0;
         
         for (square = 0; square < NUM_SQUARES; square++) {
             gemInfo = &(gDropGemAnimState.gemState[square]);
@@ -435,7 +437,8 @@ void endDropAnim(void)
             
             if (gemInfo->y == gemInfo->endY) {
                 gemInfo->landed = true;
-                playLandingSound();
+                playLandingSound(numLanded);
+                numLanded++;
                 continue;
             }
             

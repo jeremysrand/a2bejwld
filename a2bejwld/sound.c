@@ -8,6 +8,7 @@
 
 #include "sound.h"
 #include "ui.h"
+#include "mockingboard.h"
 
 #include <stdint.h>
 
@@ -23,7 +24,7 @@
 
 // Globals
 
-static uint8_t gSoundClearGem = 0;
+static uint8_t gSoundClearGem = CLEAR_GEM_SOUND_NORMAL;
 
 static uint8_t gClearGemSoundFreq[NUM_CLEAR_GEM_SOUNDS][8] = {
     { // CLEAR_GEM_SOUND_NORMAL
@@ -47,11 +48,70 @@ static uint8_t gClearGemSoundDuration[NUM_CLEAR_GEM_SOUNDS][8] = {
         8,  8,  8,  8,  8,  8,  8, 0 },
 };
 
+static tMockingSoundRegisters gClearGemMockSounds[NUM_CLEAR_GEM_SOUNDS] = {
+    // Normal
+    {
+        { TONE_PERIOD_C(6), TONE_PERIOD_G(6), 0 },                          // Tone period for the three channels
+        0,                                                                  // Noise period
+        ENABLE_CHANNEL(TONE_CHANNEL_A | TONE_CHANNEL_B),                    // Enable
+        { VARIABLE_AMPLITUDE, VARIABLE_AMPLITUDE, MIN_AMPLITUDE },          // Amplitude for the three channels
+        MILLISEC_TO_ENVELOP_PERIOD(960),                                    // Envelope period
+        ENVELOPE_SHAPE_ONE_SHOT_DECAY,                                      // Envelope shape
+        0,                                                                  // Dummy1
+        0                                                                   // Dummy2
+    },
 
+    // Star
+    {
+        { TONE_PERIOD_C(5), TONE_PERIOD_G(5), TONE_PERIOD_E(5) },           // Tone period for the three channels
+        10,                                                                 // Noise period
+        ENABLE_ALL_CHANNELS,                                                // Enable
+        { VARIABLE_AMPLITUDE, VARIABLE_AMPLITUDE, MIN_AMPLITUDE },          // Amplitude for the three channels
+        MILLISEC_TO_ENVELOP_PERIOD(960),                                    // Envelope period
+        ENVELOPE_SHAPE_ONE_SHOT_DECAY,                                      // Envelope shape
+        0,                                                                  // Dummy1
+        0                                                                   // Dummy2
+    },
+
+    // Special
+    {
+        { 100, 97, 98 },                                                    // Tone period for the three channels
+        4,                                                                  // Noise period
+        ENABLE_ALL_CHANNELS,                                                // Enable
+        { VARIABLE_AMPLITUDE, VARIABLE_AMPLITUDE, VARIABLE_AMPLITUDE },     // Amplitude for the three channels
+        MILLISEC_TO_ENVELOP_PERIOD(1280),                                   // Envelope period
+        ENVELOPE_SHAPE_ONE_SHOT_DECAY,                                      // Envelope shape
+        0,                                                                  // Dummy1
+        0                                                                   // Dummy2
+    },
+    
+    // Explosion
+    {
+        { 0, 0, 0 },                                            // Tone period for the three channels
+        16,                                                     // Noise period
+        ENABLE_CHANNEL(NOISE_CHANNEL_A),                        // Enable
+        { VARIABLE_AMPLITUDE, MIN_AMPLITUDE, MIN_AMPLITUDE },   // Amplitude for the three channels
+        MILLISEC_TO_ENVELOP_PERIOD(3000),                       // Envelope period
+        ENVELOPE_SHAPE_ONE_SHOT_DECAY,                          // Envelope shape
+        0,                                                      // Dummy1
+        0                                                       // Dummy2
+    }
+};
+
+
+static tMockingSoundRegisters gGemLandSound = {
+    { 0, 0, 0 },                                                        // Tone period for the three channels
+    30,                                                                 // Noise period
+    ENABLE_CHANNEL(NOISE_CHANNEL_A),                                    // Enable
+    { VARIABLE_AMPLITUDE, VARIABLE_AMPLITUDE, VARIABLE_AMPLITUDE },     // Amplitude for the three channels
+    MILLISEC_TO_ENVELOP_PERIOD(20),                                     // Envelope period
+    ENVELOPE_SHAPE_ONE_SHOT_DECAY,                                      // Envelope shape
+    0,                                                                  // Dummy1
+    0                                                                   // Dummy2
+};
 
 
 // Implementation
-
 
 static void playSound(int8_t startFreq, int8_t duration)
 {
@@ -70,25 +130,28 @@ static void playSound(int8_t startFreq, int8_t duration)
 
 void beginClearGemSound(void)
 {
-    gSoundClearGem = (1 << CLEAR_GEM_SOUND_NORMAL);
+    gSoundClearGem = CLEAR_GEM_SOUND_NORMAL;
 }
 
 
 void playSoundForExplodingGem(void)
 {
-    gSoundClearGem |= (1 << CLEAR_GEM_SOUND_EXPLODE);
+    if (gSoundClearGem < CLEAR_GEM_SOUND_EXPLODE)
+        gSoundClearGem = CLEAR_GEM_SOUND_EXPLODE;
 }
 
 
 void playSoundForStarringGem(void)
 {
-    gSoundClearGem |= (1 << CLEAR_GEM_SOUND_STAR);
+    if (gSoundClearGem < CLEAR_GEM_SOUND_STAR)
+        gSoundClearGem = CLEAR_GEM_SOUND_STAR;
 }
 
 
 void playSoundForSpecialGem(void)
 {
-    gSoundClearGem |= (1 << CLEAR_GEM_SOUND_SPECIAL);
+    if (gSoundClearGem < CLEAR_GEM_SOUND_SPECIAL)
+        gSoundClearGem = CLEAR_GEM_SOUND_SPECIAL;
 }
 
 
@@ -101,21 +164,13 @@ void playClearGemSound(uint8_t frame)
         return;
     
     if (mockingBoardEnabled()) {
-        // Do something here...
+        if (frame == 0) {
+            mockingBoardPlaySound(SPEAKER_BOTH, &(gClearGemMockSounds[gSoundClearGem]));
+        }
     } else {
         if (frame == 0) {
-            uint8_t clearGemSound = CLEAR_GEM_SOUND_NORMAL;
-            
-            if ((gSoundClearGem & (1 << CLEAR_GEM_SOUND_EXPLODE)) != 0) {
-                clearGemSound = CLEAR_GEM_SOUND_EXPLODE;
-            } else if ((gSoundClearGem & (1 << CLEAR_GEM_SOUND_SPECIAL)) != 0) {
-                clearGemSound = CLEAR_GEM_SOUND_SPECIAL;
-            } else if ((gSoundClearGem & (1 << CLEAR_GEM_SOUND_STAR)) != 0) {
-                clearGemSound = CLEAR_GEM_SOUND_STAR;
-            }
-            
-            clearGemSoundFreq = &(gClearGemSoundFreq[clearGemSound][0]);
-            clearGemSoundDuration = &(gClearGemSoundDuration[clearGemSound][0]);
+            clearGemSoundFreq = &(gClearGemSoundFreq[gSoundClearGem][0]);
+            clearGemSoundDuration = &(gClearGemSoundDuration[gSoundClearGem][0]);
         }
         
         playSound(*clearGemSoundFreq, *clearGemSoundDuration);
@@ -125,13 +180,15 @@ void playClearGemSound(uint8_t frame)
 }
 
 
-void playLandingSound(void)
+void playLandingSound(uint8_t numLanded)
 {
     if (!soundEnabled())
         return;
     
     if (mockingBoardEnabled()) {
-        // Do something here...
+        if (numLanded == 0) {
+            mockingBoardPlaySound(SPEAKER_BOTH, &gGemLandSound);
+        }
     } else {
         playSound(1, 1);
     }
