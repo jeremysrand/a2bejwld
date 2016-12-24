@@ -17,9 +17,6 @@
 
 extern void initUI(void);
 
-extern bool soundEnabled(void);
-extern bool mockingBoardEnabled(void);
-
 extern void printInstructions(void);
 
 extern void playGame(void);

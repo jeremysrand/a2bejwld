@@ -35,6 +35,8 @@ typedef struct tGameOptions {
     bool enableJoystick;
     bool enableMouse;
     bool enableSound;
+    tSlot mockingBoardSlot;
+    bool enableSpeechChip;
 } tGameOptions;
 
 
@@ -94,29 +96,19 @@ static tMouseCallbacks gMouseCallbacks = {
 static bool gShouldSave = false;
 
 static tGameOptions gGameOptions = {
-    false,
-    false,
-    true,
-    true,
+    false,      // optionsSaved
+    false,      // enableJoystick
+    true,       // enableMouse
+    true,       // enableSound
+    0,          // mockingBoardSlot
+    false       // enableSpeechChip
 };
 
 
 // Implementation
 
 
-bool soundEnabled(void)
-{
-    return gGameOptions.enableSound;
-}
-
-
-bool mockingBoardEnabled(void)
-{
-    return false;
-}
-
-
-void badThingHappened(void)
+static void badThingHappened(void)
 {
     if (gGameOptions.enableSound)
         printf("\007");
@@ -130,7 +122,7 @@ static void showAndClearDblLoRes(void)
 }
 
 
-void saveOptions(void)
+static void saveOptions(void)
 {
     FILE *optionsFile = fopen(SAVE_OPTIONS_FILE, "wb");
 
@@ -142,7 +134,7 @@ void saveOptions(void)
 }
 
 
-bool loadOptions(void)
+static bool loadOptions(void)
 {
     FILE *optionsFile = fopen(SAVE_OPTIONS_FILE, "rb");
     
@@ -161,13 +153,24 @@ bool loadOptions(void)
 }
 
 
-void applyNewOptions(tGameOptions *newOptions)
+static void applyNewOptions(tGameOptions *newOptions)
 {
     bool oldEnableMouse = gGameOptions.enableMouse;
     
     // If there is no change in game options, then nothing to do.
     if (memcmp(newOptions, &gGameOptions, sizeof(gGameOptions)) == 0) {
         return;
+    }
+    
+    if ((gGameOptions.enableSound != newOptions->enableSound) ||
+        (gGameOptions.mockingBoardSlot != newOptions->mockingBoardSlot) ||
+        (gGameOptions.enableSpeechChip != gGameOptions.enableSpeechChip)) {
+        // If the sound parameters have changed, then re-init or shutdown sounds
+        if (newOptions->enableSound) {
+            soundInit(newOptions->mockingBoardSlot, newOptions->enableSpeechChip);
+        } else {
+            soundShutdown();
+        }
     }
     
     memcpy(&gGameOptions, newOptions, sizeof(gGameOptions));
@@ -181,7 +184,86 @@ void applyNewOptions(tGameOptions *newOptions)
 }
 
 
-void selectOptions(void)
+static void showCursor(void)
+{
+    revers(true);
+    cputc(' ');
+    revers(false);
+}
+
+
+static void replaceCursor(char ch)
+{
+    gotox(wherex() - 1);
+    cputc(ch);
+}
+
+
+static void getSoundOptions(tGameOptions *newOptions)
+{
+    char ch;
+    
+    cputs("\n\nEnable sounds? (Y/N) ");
+    showCursor();
+    while (true) {
+        ch = cgetc();
+        if ((ch == 'N') ||
+            (ch == 'n')) {
+            newOptions->enableSound = false;
+            newOptions->mockingBoardSlot = 0;
+            newOptions->enableSpeechChip = false;
+            return;
+        }
+        if ((ch == 'Y') ||
+            (ch == 'y')) {
+            replaceCursor(ch);
+            newOptions->enableSound = true;
+            break;
+        }
+        
+        badThingHappened();
+    }
+    
+    cputs("\n\rMockingBoard slot number (0 for none) ");
+    showCursor();
+    while (true) {
+        ch = cgetc();
+        if (ch == '0') {
+            newOptions->mockingBoardSlot = 0;
+            newOptions->enableSpeechChip = false;
+            return;
+        }
+        if ((ch >= '1') &&
+            (ch <= '7')) {
+            replaceCursor(ch);
+            newOptions->mockingBoardSlot = (ch - '0');
+            break;
+        }
+        
+        badThingHappened();
+    }
+    
+    cputs("\n\rMockingBoard has a speech chip? (Y/N) ");
+    showCursor();
+    while (true) {
+        ch = cgetc();
+        if ((ch == 'N') ||
+            (ch == 'n')) {
+            newOptions->enableSpeechChip = false;
+            break;
+        }
+        if ((ch == 'Y') ||
+            (ch == 'y')) {
+            newOptions->enableSpeechChip = true;
+            break;
+        }
+        
+        badThingHappened();
+    }
+}
+
+
+static void selectOptions(void)
 {
     tGameOptions newOptions;
     
@@ -201,13 +283,33 @@ void selectOptions(void)
                "\n"
                "                        J - Joystick control - %s\n"
                "                        M - Mouse control    - %s\n"
-               "                        S - Sound            - %s\n"
-               "\n"
-               "       Type a letter to toggle a setting or any other key to save settings\n"
-               "       and continue",
+               "                        S - Sound            - %s\n",
                (newOptions.enableJoystick ? "Enable" : "Disabled"),
                (newOptions.enableMouse ? "Enable" : "Disabled"),
                (newOptions.enableSound ? "Enable" : "Disabled"));
+        
+        if (newOptions.enableSound) {
+            if (newOptions.mockingBoardSlot > 0) {
+                printf(
+                       //      0000000001111111111222222222233333333334444444444555555555566666666667
+                       //      1234567890123456789012345678901234567890123456789012345678901234567890
+                       "                                MockingBoard - Slot %u\n"
+                       "                                Speech Chip  - %s\n",
+                       newOptions.mockingBoardSlot,
+                       (newOptions.enableSpeechChip ? "Enable" : "Disable"));
+            } else {
+                printf(
+                       //      0000000001111111111222222222233333333334444444444555555555566666666667
+                       //      1234567890123456789012345678901234567890123456789012345678901234567890
+                       "                                MockingBoard - Disabled\n");
+            }
+        }
+        printf(
+               //      0000000001111111111222222222233333333334444444444555555555566666666667
+               //      1234567890123456789012345678901234567890123456789012345678901234567890
+               "\n"
+               "       Type a letter to change a setting or any other key to save settings\n"
+               "       and continue");
         
         switch (cgetc()) {
             case 'j':
@@ -228,7 +330,7 @@ void selectOptions(void)
                 
             case 's':
             case 'S':
-                newOptions.enableSound = !newOptions.enableSound;
+                getSoundOptions(&newOptions);
                 break;
                 
             default:
@@ -325,6 +427,7 @@ static void quitGame(void)
     videomode(VIDEOMODE_40x24);
     clrscr();
     shutdownMouse();
+    soundShutdown();
     
     uninitMachine();
     
@@ -480,6 +583,8 @@ static void endGame(void)
     videomode(VIDEOMODE_80x24);
     mixedTextMode();
     
+    speakNoMoreMoves();
+    
     cputsxy(0, 0, "               No more moves  -  GAME OVER!!");
     gotoxy(0,1);
     cprintf(      "               You made it to level %u", getLevel());
@@ -523,6 +628,7 @@ static void refreshLevel(tLevel level)
     
     videomode(VIDEOMODE_80x24);
     mixedTextMode();
+    speakLevelComplete();
     
     gotoxy(0, 0);
     cprintf(      "               Completed level %u!!", level);
@@ -541,6 +647,7 @@ static void refreshLevel(tLevel level)
     }
     
     showAndClearDblLoRes();
+    speakGetReady();
 }
 
 
@@ -579,6 +686,10 @@ void initUI(void)
     }
     
     initJoystick(&gJoyCallbacks);
+    
+    if (gGameOptions.enableSound) {
+        soundInit(gGameOptions.mockingBoardSlot, gGameOptions.enableSpeechChip);
+    }
     
     if (!gGameOptions.optionsSaved) {
         saveOptions();
@@ -833,6 +944,7 @@ void playGame(void)
         startNewGame();
     }
     drawBoard();
+    speakGo();
     while (true) {
         resetStarAnim();
         
