@@ -50,6 +50,10 @@ typedef struct tGameCallbacks {
     void (*dropSquareFromTo)(tSquare srcSquare, tSquare tgtSquare, tGemType gemType, bool starred);
     void (*dropSquareFromOffscreen)(tSquare tgtSquare, tGemType gemType, bool starred);
     void (*endDropAnim)(void);
+    
+    bool (*speakGood)(void);
+    bool (*speakExcellent)(void);
+    bool (*speakIncredible)(void);
 } tGameCallbacks;
 
 

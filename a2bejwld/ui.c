@@ -76,7 +76,11 @@ static tGameCallbacks gCallbacks = {
     beginDropAnim,
     dropSquareFromTo,
     dropSquareFromOffscreen,
-    endDropAnim
+    endDropAnim,
+    
+    speakGood,
+    speakExcellent,
+    speakIncredible
 };
 
 

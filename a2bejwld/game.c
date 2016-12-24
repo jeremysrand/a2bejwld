@@ -26,6 +26,10 @@
 #define STARTING_GEMS_PER_POINT 3
 #define MAX_GEMS_PER_POINT 20
 
+#define SCORE_FOR_GOOD 9
+#define SCORE_FOR_EXCELLENT 15
+#define SCORE_FOR_INCREDIBLE 25
+
 #define GEM_TYPE_AT_SQUARE(square) gGameState.squareStates[square].gemType
 #define GEM_STARRED_AT_SQUARE(square) gGameState.squareStates[square].isStarred
 
@@ -55,6 +59,10 @@ typedef struct tGameState {
 
 static tGameState gGameState;
 static tGameCallbacks *gGameCallbacks = NULL;
+static tScore gPerMoveScore = 0;
+static bool gSaidGood = false;
+static bool gSaidExcellent = false;
+static bool gSaidIncredible = false;
 
 
 // Implementation
@@ -70,6 +78,21 @@ static void incrementScore(void)
         
         if (gGameState.score != oldScore) {
             gGameCallbacks->scoreCallback(gGameState.score);
+        }
+    }
+    
+    gPerMoveScore++;
+    if (gPerMoveScore > SCORE_FOR_INCREDIBLE) {
+        if (!gSaidIncredible) {
+            gSaidIncredible = gGameCallbacks->speakIncredible();
+        }
+    } else if (gPerMoveScore > SCORE_FOR_EXCELLENT) {
+        if (!gSaidExcellent) {
+            gSaidExcellent = gGameCallbacks->speakExcellent();
+        }
+    } else if (gPerMoveScore > SCORE_FOR_GOOD) {
+        if (!gSaidGood) {
+            gSaidGood = gGameCallbacks->speakGood();
         }
     }
 }
@@ -691,6 +714,11 @@ bool moveSquareInDir(tSquare square, tDirection dir)
         return true;
     }
     
+    gPerMoveScore = 0;
+    gSaidGood = false;
+    gSaidExcellent = false;
+    gSaidIncredible = false;
+    
     gGameCallbacks->beginClearGemAnim();
     if (actOnMatchAtSquare(square, false))
         goodMove = true;
@@ -701,7 +729,6 @@ bool moveSquareInDir(tSquare square, tDirection dir)
     if (!goodMove) {
         doSwapSquares(square, otherSquare, true);
     } else {
-        
         while (explodeGems())
             ;
         
