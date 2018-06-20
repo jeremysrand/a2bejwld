@@ -1,2 +1,0 @@
-mouseWrapper.o:	mouseWrapper.c /usr/local/lib/cc65/include/conio.h /usr/local/lib/cc65/include/stdarg.h /usr/local/lib/cc65/include/apple2enh.h /usr/local/lib/cc65/include/apple2.h /usr/local/lib/cc65/include/stdio.h /usr/local/lib/cc65/include/stddef.h /usr/local/lib/cc65/include/mouse.h mouseWrapper.h /usr/local/lib/cc65/include/stdbool.h types.h /usr/local/lib/cc65/include/stdint.h game.h vbl.h drivers/a2_mouse_drv.h
-
