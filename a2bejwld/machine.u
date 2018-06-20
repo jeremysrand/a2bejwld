@@ -1,0 +1,2 @@
+machine.o:	machine.c /usr/local/lib/cc65/include/apple2.h /usr/local/lib/cc65/include/stdbool.h /usr/local/lib/cc65/include/stdint.h machine.h vbl.h
+

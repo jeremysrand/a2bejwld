@@ -17,14 +17,32 @@ CC65_BIN = /usr/local/bin
 CL65=$(CC65_BIN)/cl65
 CA65=$(CC65_BIN)/ca65
 CC65=$(CC65_BIN)/cc65
+CO65=$(CC65_BIN)/co65
 
 AC=make/AppleCommander.jar
 
-C_SRCS=$(wildcard *.c)
-ASM_SRCS=$(wildcard *.s)
+SRCDIRS=.
 
 MACHINE=apple2
 CPU=6502
 CFLAGS=
 ASMFLAGS=
 LDFLAGS=
+DRIVERS=
+DRVDIR=drivers
+
+XCODE_PATH=/Applications/Xcode.app
+XCODE_INFO=$(XCODE_PATH)/Contents/Info.plist
+
+CC65_PLUGIN_PATH=$(HOME)/Library/Developer/Xcode/Plug-ins/cc65.ideplugin
+CC65_PLUGIN_INFO=$(CC65_PLUGIN_PATH)/Contents/Info.plist
+
+XCODE_PLUGIN_COMPATIBILITY=DVTPlugInCompatibilityUUID
+
+
+.PHONY: all gen genclean
+
+all:
+	@make gen
+	@make build
+

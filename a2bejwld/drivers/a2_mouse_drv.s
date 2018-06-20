@@ -4,29 +4,29 @@
 .fopt		compiler,"co65 v 2.13.3"
 .case		on
 .debuginfo	off
-.export		_a2e_stdmou_mou
+.export		_a2_mouse_drv
 
 ;
 ; CODE SEGMENT
 ;
 .segment	"CODE"
-_a2e_stdmou_mou:
+_a2_mouse_drv:
 	.byte	$6D
 	.byte	$6F
 	.byte	$75
 	.byte	$02
-	.word	_a2e_stdmou_mou+41
-	.word	_a2e_stdmou_mou+170
-	.word	_a2e_stdmou_mou+286
-	.word	_a2e_stdmou_mou+295
-	.word	_a2e_stdmou_mou+180
-	.word	_a2e_stdmou_mou+238
-	.word	_a2e_stdmou_mou+253
-	.word	_a2e_stdmou_mou+299
-	.word	_a2e_stdmou_mou+305
-	.word	_a2e_stdmou_mou+309
-	.word	_a2e_stdmou_mou+322
-	.word	_a2e_stdmou_mou+327
+	.word	_a2_mouse_drv+41
+	.word	_a2_mouse_drv+170
+	.word	_a2_mouse_drv+286
+	.word	_a2_mouse_drv+295
+	.word	_a2_mouse_drv+180
+	.word	_a2_mouse_drv+238
+	.word	_a2_mouse_drv+253
+	.word	_a2_mouse_drv+299
+	.word	_a2_mouse_drv+305
+	.word	_a2_mouse_drv+309
+	.word	_a2_mouse_drv+322
+	.word	_a2_mouse_drv+327
 	.byte	$40
 	.byte	$4C
 	.byte	$00
@@ -64,9 +64,9 @@ _a2e_stdmou_mou:
 	.byte	$A2
 	.byte	$03
 	.byte	$BC
-	.word	_a2e_stdmou_mou+421
+	.word	_a2_mouse_drv+421
 	.byte	$BD
-	.word	_a2e_stdmou_mou+425
+	.word	_a2_mouse_drv+425
 	.byte	$D1
 	.byte	<(ZEROPAGE+8)
 	.byte	$D0
@@ -110,11 +110,11 @@ _a2e_stdmou_mou:
 	.byte	$20
 	.word	DATA+0
 	.byte	$A9
-	.byte	<(_a2e_stdmou_mou+173)
+	.byte	<(_a2_mouse_drv+173)
 	.byte	$A2
-	.byte	>(_a2e_stdmou_mou+429)
+	.byte	>(_a2_mouse_drv+429)
 	.byte	$20
-	.word	_a2e_stdmou_mou+180
+	.word	_a2_mouse_drv+180
 	.byte	$AE
 	.word	BSS+13
 	.byte	$A9
@@ -142,7 +142,7 @@ _a2e_stdmou_mou:
 	.byte	$20
 	.word	DATA+0
 	.byte	$20
-	.word	_a2e_stdmou_mou+372
+	.word	_a2_mouse_drv+372
 	.byte	$A9
 	.byte	$09
 	.byte	$A2
@@ -157,7 +157,7 @@ _a2e_stdmou_mou:
 	.byte	$60
 	.byte	$78
 	.byte	$20
-	.word	_a2e_stdmou_mou+29
+	.word	_a2_mouse_drv+29
 	.byte	$A9
 	.byte	$00
 	.byte	$A2
@@ -173,7 +173,7 @@ _a2e_stdmou_mou:
 	.byte	$A0
 	.byte	$00
 	.byte	$20
-	.word	_a2e_stdmou_mou+195
+	.word	_a2_mouse_drv+195
 	.byte	$A2
 	.byte	$01
 	.byte	$A0
@@ -257,7 +257,7 @@ _a2e_stdmou_mou:
 	.byte	$78
 	.byte	$05
 	.byte	$20
-	.word	_a2e_stdmou_mou+372
+	.word	_a2_mouse_drv+372
 	.byte	$A2
 	.byte	$16
 	.byte	$D0
@@ -266,7 +266,7 @@ _a2e_stdmou_mou:
 	.word	BSS+14
 	.byte	$78
 	.byte	$20
-	.word	_a2e_stdmou_mou+29
+	.word	_a2_mouse_drv+29
 	.byte	$58
 	.byte	$60
 	.byte	$EE
@@ -339,7 +339,7 @@ _a2e_stdmou_mou:
 	.byte	$F0
 	.byte	$27
 	.byte	$20
-	.word	_a2e_stdmou_mou+29
+	.word	_a2_mouse_drv+29
 	.byte	$AC
 	.word	BSS+13
 	.byte	$B9
@@ -353,7 +353,7 @@ _a2e_stdmou_mou:
 	.byte	$8E
 	.word	BSS+9
 	.byte	$20
-	.word	_a2e_stdmou_mou+35
+	.word	_a2_mouse_drv+35
 	.byte	$AC
 	.word	BSS+13
 	.byte	$B9
@@ -367,13 +367,13 @@ _a2e_stdmou_mou:
 	.byte	$8E
 	.word	BSS+11
 	.byte	$20
-	.word	_a2e_stdmou_mou+38
+	.word	_a2_mouse_drv+38
 	.byte	$AD
 	.word	BSS+14
 	.byte	$F0
 	.byte	$03
 	.byte	$20
-	.word	_a2e_stdmou_mou+32
+	.word	_a2_mouse_drv+32
 	.byte	$38
 	.byte	$60
 	.byte	$05

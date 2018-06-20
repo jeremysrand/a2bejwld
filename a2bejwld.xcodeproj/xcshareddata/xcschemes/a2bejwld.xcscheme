@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0730"
+   LastUpgradeVersion = "0830"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9D6B472C1D3FB16F00F6D704"
+               BlueprintIdentifier = "9D0B917C1F526C2D004D7E0B"
                BuildableName = "a2bejwld"
                BlueprintName = "a2bejwld"
                ReferencedContainer = "container:a2bejwld.xcodeproj">
@@ -34,23 +34,41 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <PathRunnable
+         runnableDebuggingMode = "0"
+         FilePath = "/usr/bin/make">
+      </PathRunnable>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9D6B472C1D3FB16F00F6D704"
+            BlueprintIdentifier = "9D0B917C1F526C2D004D7E0B"
             BuildableName = "a2bejwld"
             BlueprintName = "a2bejwld"
             ReferencedContainer = "container:a2bejwld.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-C"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "$PROJECT_DIR/a2bejwld"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "execute"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -63,7 +81,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9D6B472C1D3FB16F00F6D704"
+            BlueprintIdentifier = "9D0B917C1F526C2D004D7E0B"
             BuildableName = "a2bejwld"
             BlueprintName = "a2bejwld"
             ReferencedContainer = "container:a2bejwld.xcodeproj">

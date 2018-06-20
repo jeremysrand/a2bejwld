@@ -1,0 +1,2 @@
+mockingboard.o:	mockingboard.c /usr/local/lib/cc65/include/stdbool.h /usr/local/lib/cc65/include/stdint.h /usr/local/lib/cc65/include/stdio.h /usr/local/lib/cc65/include/stddef.h /usr/local/lib/cc65/include/stdarg.h mockingboard.h mockingboard_speech.h
+

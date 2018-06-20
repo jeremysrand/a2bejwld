@@ -1,0 +1,2 @@
+ui.o:	ui.c /usr/local/lib/cc65/include/conio.h /usr/local/lib/cc65/include/stdarg.h /usr/local/lib/cc65/include/apple2enh.h /usr/local/lib/cc65/include/apple2.h /usr/local/lib/cc65/include/stdio.h /usr/local/lib/cc65/include/stddef.h /usr/local/lib/cc65/include/stdlib.h /usr/local/lib/cc65/include/string.h ui.h /usr/local/lib/cc65/include/stdbool.h anim.h types.h /usr/local/lib/cc65/include/stdint.h dbllores.h game.h joystick.h machine.h mouseWrapper.h sound.h mockingboard.h
+

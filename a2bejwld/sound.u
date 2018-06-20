@@ -1,0 +1,2 @@
+sound.o:	sound.c sound.h /usr/local/lib/cc65/include/stdbool.h /usr/local/lib/cc65/include/stdint.h mockingboard.h
+

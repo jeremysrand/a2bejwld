@@ -1,0 +1,1942 @@
+Modules list:
+-------------
+anim.o:
+    CODE              Offs = 000000   Size = 0020BA
+    BSS               Offs = 000000   Size = 0002CA
+    DATA              Offs = 000000   Size = 00000E
+game.o:
+    CODE              Offs = 0020BA   Size = 001FCC
+    RODATA            Offs = 000000   Size = 000033
+    BSS               Offs = 0002CA   Size = 000089
+    DATA              Offs = 00000E   Size = 000006
+joystick.o:
+    CODE              Offs = 004086   Size = 0003E7
+    BSS               Offs = 000353   Size = 000003
+    DATA              Offs = 000014   Size = 000008
+machine.o:
+    CODE              Offs = 00446D   Size = 000157
+    DATA              Offs = 00001C   Size = 000004
+main.o:
+    CODE              Offs = 0045C4   Size = 000011
+mockingboard.o:
+    CODE              Offs = 0045D5   Size = 000462
+    RODATA            Offs = 000033   Size = 00002C
+    DATA              Offs = 000020   Size = 000012
+mouseWrapper.o:
+    CODE              Offs = 004A37   Size = 0003F3
+    BSS               Offs = 000356   Size = 000008
+    DATA              Offs = 000032   Size = 00000C
+sound.o:
+    CODE              Offs = 004E2A   Size = 000417
+    BSS               Offs = 00035E   Size = 000004
+    DATA              Offs = 00003E   Size = 0001EA
+ui.o:
+    CODE              Offs = 005241   Size = 0011B8
+    RODATA            Offs = 00005F   Size = 0008CE
+    DATA              Offs = 000228   Size = 000038
+dbllores.o:
+    CODE              Offs = 0063F9   Size = 00049B
+    DATA              Offs = 000280   Size = 00024A
+mockingboard_speech.o:
+    CODE              Offs = 006894   Size = 000109
+    DATA              Offs = 0004CA   Size = 00000D
+vbl.o:
+    CODE              Offs = 00699D   Size = 000022
+    DATA              Offs = 0004D7   Size = 000002
+a2_mouse_drv.o:
+    CODE              Offs = 0069BF   Size = 0001B5
+    BSS               Offs = 000362   Size = 00000F
+    DATA              Offs = 0004D9   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(cgetc.o):
+    CODE              Offs = 006B74   Size = 000012
+/usr/local/lib/cc65/lib/apple2enh.lib(close.o):
+    CODE              Offs = 006B86   Size = 00001D
+/usr/local/lib/cc65/lib/apple2enh.lib(clrscr.o):
+/usr/local/lib/cc65/lib/apple2enh.lib(cout.o):
+    LOWCODE           Offs = 000000   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(cputc.o):
+    CODE              Offs = 006BA3   Size = 00005B
+    INIT              Offs = 000000   Size = 000007
+/usr/local/lib/cc65/lib/apple2enh.lib(crt0.o):
+    RODATA            Offs = 00092D   Size = 000007
+    BSS               Offs = 000371   Size = 000003
+    DATA              Offs = 0004E6   Size = 000006
+    EXEHDR            Offs = 000000   Size = 000004
+    STARTUP           Offs = 000000   Size = 000078
+    INIT              Offs = 000007   Size = 000086
+    LOWCODE           Offs = 00000A   Size = 00001C
+    ZPSAVE            Offs = 000000   Size = 00001A
+/usr/local/lib/cc65/lib/apple2enh.lib(ctype.o):
+    RODATA            Offs = 000934   Size = 000100
+/usr/local/lib/cc65/lib/apple2enh.lib(dosdetect.o):
+    BSS               Offs = 000374   Size = 000001
+    INIT              Offs = 00008D   Size = 000014
+/usr/local/lib/cc65/lib/apple2enh.lib(filedes.o):
+    CODE              Offs = 006BFE   Size = 000016
+    DATA              Offs = 0004EC   Size = 000020
+/usr/local/lib/cc65/lib/apple2enh.lib(fileerr.o):
+    CODE              Offs = 006C14   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(filename.o):
+    CODE              Offs = 006C1E   Size = 00006C
+/usr/local/lib/cc65/lib/apple2enh.lib(get_ostype.o):
+    CODE              Offs = 006C8A   Size = 000006
+    BSS               Offs = 000375   Size = 000001
+    INIT              Offs = 0000A1   Size = 000075
+/usr/local/lib/cc65/lib/apple2enh.lib(gotoxy.o):
+    CODE              Offs = 006C90   Size = 00000E
+/usr/local/lib/cc65/lib/apple2enh.lib(home.o):
+    LOWCODE           Offs = 000026   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(iobuf.o):
+/usr/local/lib/cc65/lib/apple2enh.lib(kbhit.o):
+    CODE              Offs = 006C9E   Size = 000009
+/usr/local/lib/cc65/lib/apple2enh.lib(mcbdefault.o):
+    CODE              Offs = 006CA7   Size = 000058
+    RODATA            Offs = 000A34   Size = 000008
+    BSS               Offs = 000376   Size = 000001
+    DATA              Offs = 00050C   Size = 000019
+/usr/local/lib/cc65/lib/apple2enh.lib(mli.o):
+    BSS               Offs = 000377   Size = 00000C
+    DATA              Offs = 000525   Size = 000016
+/usr/local/lib/cc65/lib/apple2enh.lib(open.o):
+    CODE              Offs = 006CFF   Size = 0000EA
+    RODATA            Offs = 000A3C   Size = 000009
+/usr/local/lib/cc65/lib/apple2enh.lib(rdkey.o):
+    LOWCODE           Offs = 000030   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(read.o):
+    CODE              Offs = 006DE9   Size = 000057
+    INIT              Offs = 000116   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(revers.o):
+    CODE              Offs = 006E40   Size = 000013
+/usr/local/lib/cc65/lib/apple2enh.lib(rwcommon.o):
+    CODE              Offs = 006E53   Size = 00003E
+/usr/local/lib/cc65/lib/apple2enh.lib(videomode.o):
+    LOWCODE           Offs = 00003A   Size = 00002A
+/usr/local/lib/cc65/lib/apple2enh.lib(vtabz.o):
+    LOWCODE           Offs = 000064   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(wherex.o):
+    CODE              Offs = 006E91   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(write.o):
+    CODE              Offs = 006E96   Size = 000068
+/usr/local/lib/cc65/lib/apple2enh.lib(_fdesc.o):
+    CODE              Offs = 006EFE   Size = 00001D
+/usr/local/lib/cc65/lib/apple2enh.lib(_file.o):
+    DATA              Offs = 00053B   Size = 00001E
+/usr/local/lib/cc65/lib/apple2enh.lib(_fopen.o):
+    CODE              Offs = 006F1B   Size = 00007B
+    BSS               Offs = 000383   Size = 000002
+/usr/local/lib/cc65/lib/apple2enh.lib(_heap.o):
+    DATA              Offs = 000559   Size = 00000A
+    INIT              Offs = 00011B   Size = 000010
+/usr/local/lib/cc65/lib/apple2enh.lib(_hextab.o):
+    RODATA            Offs = 000A45   Size = 000010
+/usr/local/lib/cc65/lib/apple2enh.lib(_oserror.o):
+    BSS               Offs = 000385   Size = 000001
+/usr/local/lib/cc65/lib/apple2enh.lib(_printf.o):
+    CODE              Offs = 006F96   Size = 0003A5
+    BSS               Offs = 000386   Size = 00002B
+    DATA              Offs = 000563   Size = 000003
+/usr/local/lib/cc65/lib/apple2enh.lib(_seterrno.o):
+    CODE              Offs = 00733B   Size = 000009
+/usr/local/lib/cc65/lib/apple2enh.lib(errno.o):
+    BSS               Offs = 0003B1   Size = 000002
+/usr/local/lib/cc65/lib/apple2enh.lib(fclose.o):
+    CODE              Offs = 007344   Size = 000022
+/usr/local/lib/cc65/lib/apple2enh.lib(fopen.o):
+    CODE              Offs = 007366   Size = 000018
+/usr/local/lib/cc65/lib/apple2enh.lib(fread.o):
+    CODE              Offs = 00737E   Size = 0000D3
+    BSS               Offs = 0003B3   Size = 000003
+/usr/local/lib/cc65/lib/apple2enh.lib(free.o):
+    CODE              Offs = 007451   Size = 0001D3
+/usr/local/lib/cc65/lib/apple2enh.lib(fwrite.o):
+    CODE              Offs = 007624   Size = 00007D
+    BSS               Offs = 0003B6   Size = 000002
+/usr/local/lib/cc65/lib/apple2enh.lib(ltoa.o):
+    CODE              Offs = 0076A1   Size = 0000AF
+    RODATA            Offs = 000A55   Size = 00000C
+/usr/local/lib/cc65/lib/apple2enh.lib(malloc.o):
+    CODE              Offs = 007750   Size = 00010E
+/usr/local/lib/cc65/lib/apple2enh.lib(memcmp.o):
+    CODE              Offs = 00785E   Size = 00003C
+/usr/local/lib/cc65/lib/apple2enh.lib(memcpy.o):
+    CODE              Offs = 00789A   Size = 000041
+/usr/local/lib/cc65/lib/apple2enh.lib(memset.o):
+    CODE              Offs = 0078DB   Size = 000064
+/usr/local/lib/cc65/lib/apple2enh.lib(pmemalign.o):
+    CODE              Offs = 00793F   Size = 000283
+/usr/local/lib/cc65/lib/apple2enh.lib(printf.o):
+    CODE              Offs = 007BC2   Size = 000033
+    BSS               Offs = 0003B8   Size = 000001
+/usr/local/lib/cc65/lib/apple2enh.lib(rand.o):
+    CODE              Offs = 007BF5   Size = 00004C
+    DATA              Offs = 000566   Size = 000004
+/usr/local/lib/cc65/lib/apple2enh.lib(strlen.o):
+    CODE              Offs = 007C41   Size = 000016
+/usr/local/lib/cc65/lib/apple2enh.lib(strlower.o):
+    CODE              Offs = 007C57   Size = 000028
+/usr/local/lib/cc65/lib/apple2enh.lib(vfprintf.o):
+    CODE              Offs = 007C7F   Size = 000060
+    DATA              Offs = 00056A   Size = 000008
+/usr/local/lib/cc65/lib/apple2enh.lib(zerobss.o):
+    INIT              Offs = 00012B   Size = 000023
+/usr/local/lib/cc65/lib/apple2enh.lib(add.o):
+    CODE              Offs = 007CDF   Size = 000019
+/usr/local/lib/cc65/lib/apple2enh.lib(addysp.o):
+    CODE              Offs = 007CF8   Size = 00000E
+/usr/local/lib/cc65/lib/apple2enh.lib(and.o):
+    CODE              Offs = 007D06   Size = 00000F
+/usr/local/lib/cc65/lib/apple2enh.lib(aslax1.o):
+    CODE              Offs = 007D15   Size = 000008
+/usr/local/lib/cc65/lib/apple2enh.lib(aslax3.o):
+    CODE              Offs = 007D1D   Size = 00000E
+/usr/local/lib/cc65/lib/apple2enh.lib(aslax4.o):
+    CODE              Offs = 007D2B   Size = 000011
+/usr/local/lib/cc65/lib/apple2enh.lib(asrax2.o):
+    CODE              Offs = 007D3C   Size = 00000F
+/usr/local/lib/cc65/lib/apple2enh.lib(asrax3.o):
+    CODE              Offs = 007D4B   Size = 000014
+/usr/local/lib/cc65/lib/apple2enh.lib(axlong.o):
+    CODE              Offs = 007D5F   Size = 000012
+/usr/local/lib/cc65/lib/apple2enh.lib(bneg.o):
+    CODE              Offs = 007D71   Size = 00000E
+/usr/local/lib/cc65/lib/apple2enh.lib(call.o):
+    CODE              Offs = 007D7F   Size = 000007
+/usr/local/lib/cc65/lib/apple2enh.lib(callirq.o):
+    DATA              Offs = 000572   Size = 00001E
+/usr/local/lib/cc65/lib/apple2enh.lib(callmain.o):
+    CODE              Offs = 007D86   Size = 000017
+    BSS               Offs = 0003B9   Size = 000004
+/usr/local/lib/cc65/lib/apple2enh.lib(compl.o):
+    CODE              Offs = 007D9D   Size = 000009
+/usr/local/lib/cc65/lib/apple2enh.lib(condes.o):
+    CODE              Offs = 007DA6   Size = 00000C
+    DATA              Offs = 000590   Size = 000025
+    INIT              Offs = 00014E   Size = 00000C
+/usr/local/lib/cc65/lib/apple2enh.lib(decax1.o):
+    CODE              Offs = 007DB2   Size = 000007
+/usr/local/lib/cc65/lib/apple2enh.lib(decax6.o):
+    CODE              Offs = 007DB9   Size = 000007
+/usr/local/lib/cc65/lib/apple2enh.lib(decaxy.o):
+    CODE              Offs = 007DC0   Size = 000009
+/usr/local/lib/cc65/lib/apple2enh.lib(decsp1.o):
+    CODE              Offs = 007DC9   Size = 000009
+/usr/local/lib/cc65/lib/apple2enh.lib(decsp2.o):
+    CODE              Offs = 007DD2   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(decsp3.o):
+    CODE              Offs = 007DDF   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(decsp4.o):
+    CODE              Offs = 007DEC   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(decsp6.o):
+    CODE              Offs = 007DF9   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(decsp7.o):
+    CODE              Offs = 007E06   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(decsp8.o):
+    CODE              Offs = 007E13   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(div.o):
+    CODE              Offs = 007E20   Size = 000018
+/usr/local/lib/cc65/lib/apple2enh.lib(eq.o):
+    CODE              Offs = 007E38   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(ge.o):
+    CODE              Offs = 007E42   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(gt.o):
+    CODE              Offs = 007E4C   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(icmp.o):
+    CODE              Offs = 007E56   Size = 00002E
+/usr/local/lib/cc65/lib/apple2enh.lib(incax2.o):
+    CODE              Offs = 007E84   Size = 000007
+/usr/local/lib/cc65/lib/apple2enh.lib(incax8.o):
+    CODE              Offs = 007E8B   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(incaxy.o):
+    CODE              Offs = 007E90   Size = 00000B
+/usr/local/lib/cc65/lib/apple2enh.lib(incsp1.o):
+    CODE              Offs = 007E9B   Size = 000007
+/usr/local/lib/cc65/lib/apple2enh.lib(incsp2.o):
+    CODE              Offs = 007EA2   Size = 000015
+/usr/local/lib/cc65/lib/apple2enh.lib(incsp3.o):
+    CODE              Offs = 007EB7   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(incsp4.o):
+    CODE              Offs = 007EBC   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(incsp5.o):
+    CODE              Offs = 007EC1   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(incsp6.o):
+    CODE              Offs = 007EC6   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(incsp7.o):
+    CODE              Offs = 007ECB   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(incsp8.o):
+    CODE              Offs = 007ED0   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(jmpvec.o):
+    DATA              Offs = 0005B5   Size = 000003
+/usr/local/lib/cc65/lib/apple2enh.lib(ldai.o):
+    CODE              Offs = 007ED5   Size = 00000C
+/usr/local/lib/cc65/lib/apple2enh.lib(ldaui.o):
+    CODE              Offs = 007EE1   Size = 000009
+/usr/local/lib/cc65/lib/apple2enh.lib(ldaxi.o):
+    CODE              Offs = 007EEA   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(ldaxsp.o):
+    CODE              Offs = 007EF7   Size = 000009
+/usr/local/lib/cc65/lib/apple2enh.lib(le.o):
+    CODE              Offs = 007F00   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(leaaxsp.o):
+    CODE              Offs = 007F0A   Size = 00000C
+/usr/local/lib/cc65/lib/apple2enh.lib(lpush.o):
+    CODE              Offs = 007F16   Size = 00001E
+/usr/local/lib/cc65/lib/apple2enh.lib(makebool.o):
+    CODE              Offs = 007F34   Size = 000031
+/usr/local/lib/cc65/lib/apple2enh.lib(mod.o):
+    CODE              Offs = 007F65   Size = 000014
+/usr/local/lib/cc65/lib/apple2enh.lib(mul.o):
+    CODE              Offs = 007F79   Size = 000045
+/usr/local/lib/cc65/lib/apple2enh.lib(mul8.o):
+    CODE              Offs = 007FBE   Size = 00003A
+/usr/local/lib/cc65/lib/apple2enh.lib(mulax10.o):
+    CODE              Offs = 007FF8   Size = 000019
+/usr/local/lib/cc65/lib/apple2enh.lib(mulax3.o):
+    CODE              Offs = 008011   Size = 000011
+/usr/local/lib/cc65/lib/apple2enh.lib(mulax6.o):
+    CODE              Offs = 008022   Size = 000016
+/usr/local/lib/cc65/lib/apple2enh.lib(ne.o):
+    CODE              Offs = 008038   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(neg.o):
+    CODE              Offs = 008042   Size = 00000E
+/usr/local/lib/cc65/lib/apple2enh.lib(or.o):
+    CODE              Offs = 008050   Size = 000012
+/usr/local/lib/cc65/lib/apple2enh.lib(popa.o):
+    CODE              Offs = 008062   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(popsreg.o):
+    CODE              Offs = 00806C   Size = 00000F
+/usr/local/lib/cc65/lib/apple2enh.lib(push1.o):
+    CODE              Offs = 00807B   Size = 000005
+/usr/local/lib/cc65/lib/apple2enh.lib(pusha.o):
+    CODE              Offs = 008080   Size = 000014
+/usr/local/lib/cc65/lib/apple2enh.lib(pushax.o):
+    CODE              Offs = 008094   Size = 00001A
+/usr/local/lib/cc65/lib/apple2enh.lib(pushwsp.o):
+    CODE              Offs = 0080AE   Size = 00001C
+/usr/local/lib/cc65/lib/apple2enh.lib(return0.o):
+    CODE              Offs = 0080CA   Size = 000004
+/usr/local/lib/cc65/lib/apple2enh.lib(shelp.o):
+    CODE              Offs = 0080CE   Size = 00001E
+/usr/local/lib/cc65/lib/apple2enh.lib(shl.o):
+    CODE              Offs = 0080EC   Size = 00002B
+/usr/local/lib/cc65/lib/apple2enh.lib(shrax2.o):
+    CODE              Offs = 008117   Size = 00000B
+/usr/local/lib/cc65/lib/apple2enh.lib(staspidx.o):
+    CODE              Offs = 008122   Size = 000016
+/usr/local/lib/cc65/lib/apple2enh.lib(staxsp.o):
+    CODE              Offs = 008138   Size = 00000B
+/usr/local/lib/cc65/lib/apple2enh.lib(staxspi.o):
+    CODE              Offs = 008143   Size = 00001B
+/usr/local/lib/cc65/lib/apple2enh.lib(sub.o):
+    CODE              Offs = 00815E   Size = 000014
+/usr/local/lib/cc65/lib/apple2enh.lib(subeqsp.o):
+    CODE              Offs = 008172   Size = 000015
+/usr/local/lib/cc65/lib/apple2enh.lib(subysp.o):
+    CODE              Offs = 008187   Size = 00000D
+/usr/local/lib/cc65/lib/apple2enh.lib(udiv.o):
+    CODE              Offs = 008194   Size = 00004F
+/usr/local/lib/cc65/lib/apple2enh.lib(ugt.o):
+    CODE              Offs = 0081E3   Size = 00000A
+/usr/local/lib/cc65/lib/apple2enh.lib(ult.o):
+    CODE              Offs = 0081ED   Size = 000008
+/usr/local/lib/cc65/lib/apple2enh.lib(zeropage.o):
+    ZEROPAGE          Offs = 000000   Size = 00001A
+/usr/local/lib/cc65/lib/apple2enh.lib(cprintf.o):
+    CODE              Offs = 0081F5   Size = 00002A
+    BSS               Offs = 0003BD   Size = 000001
+/usr/local/lib/cc65/lib/apple2enh.lib(cputs.o):
+    CODE              Offs = 00821F   Size = 000026
+/usr/local/lib/cc65/lib/apple2enh.lib(vcprintf.o):
+    CODE              Offs = 008245   Size = 00007E
+    DATA              Offs = 0005B8   Size = 000008
+/usr/local/lib/cc65/lib/apple2enh.lib(mouse-kernel.o):
+    CODE              Offs = 0082C3   Size = 000097
+    RODATA            Offs = 000A61   Size = 000004
+    BSS               Offs = 0003BE   Size = 000003
+    DATA              Offs = 0005C0   Size = 000025
+/usr/local/lib/cc65/lib/apple2enh.lib(mouse_info.o):
+    CODE              Offs = 00835A   Size = 000007
+/usr/local/lib/cc65/lib/apple2enh.lib(mouse_move.o):
+    CODE              Offs = 008361   Size = 000006
+/usr/local/lib/cc65/lib/apple2enh.lib(mouse_show.o):
+    CODE              Offs = 008367   Size = 00000E
+
+
+Segment list:
+-------------
+Name                  Start   End     Size
+--------------------------------------------
+EXEHDR                000000  000003  000004
+ZEROPAGE              000080  000099  00001A
+STARTUP               000800  000877  000078
+LOWCODE               000878  0008E5  00006E
+CODE                  0008E6  008C5A  008375
+RODATA                008C5B  0096C6  000A6C
+DATA                  0096C7  009CAB  0005E5
+ZPSAVE                009CAC  009CC5  00001A
+BSS                   009CC6  00A086  0003C1
+INIT                  00A087  00A1EA  000164
+
+
+Exports list:
+-------------
+COUT                      000878 RLA    HOME                      00089E RLA    
+RDKEY                     0008A8 RLA    VTABZ                     0008DC RLA    
+__BSS_RUN__               009CC6 RLA    __BSS_SIZE__              0003C1 REA    
+__CONSTRUCTOR_COUNT__     000005 REA    __CONSTRUCTOR_TABLE__     00A1E1 RLA    
+__DESTRUCTOR_COUNT__      000001 REA    __DESTRUCTOR_TABLE__      0096C1 RLA    
+__INIT_SIZE__             000164 REA    __INTERRUPTOR_COUNT__     000002 REA    
+__INTERRUPTOR_TABLE__     0096C3 RLA    __LC_LAST__               00D400 RLA    
+__LC_START__              00D400 RLA    __MOVE_LAST__             000164 RLA    
+__MOVE_START__            000000 RLA    __RAM_LAST__              00A1EB RLA    
+__RAM_START__             000800 RLA    __STACKSIZE__             000800 REA    
+__STARTUP__               000001 REA    __ZPSAVE_RUN__            009CAC RLA    
+__ZP_START__              000080 RLA    __bzero                   0081C1 RLA    
+__ctype                   00958F RLA    __dos_type                00A03A RLA    
+__errno                   00A077 RLA    __fdesc                   0077E4 RLA    
+__filetab                 009C02 RLA    __fopen                   007801 RLA    
+__heapend                 009C24 RLA    __heapfirst               009C26 RLA    
+__heaplast                009C28 RLA    __heapptr                 009C22 RLA    
+__hextab                  0096A0 RLA    __oserror                 00A04B RLA    
+__printf                  00796F RLA    __seterrno                007C21 RLA    
+_a2_mouse_drv             0072A5 RLA    _addClearAtSquare         000998 RLA    
+_beginClearGemAnim        00098A RLA    _beginClearGemSound       0057A9 RLA    
+_beginDropAnim            000E19 RLA    _cgetc                    00745A RLA    
+_clearDblLoRes            006D45 RLA    _close                    00746C RLA    
+_clrscr                   00089E RLA    _cprintf                  008ADB RLA    
+_cputc                    007491 RLA    _cputs                    008B12 RLA    
+_cputsxy                  008B05 RLA    _doStarAnim               00092B RLA    
+_drawAndStarGemAtXY       006FCB RLA    _drawBgSquare             006DE6 RLA    
+_drawGem                  006F5F RLA    _drawGemAtSquare          0008E6 RLA    
+_drawGemAtXY              006E4A RLA    _drawScore                006FFC RLA    
+_dropSquareFromOffscreen  000F96 RLA    _dropSquareFromTo         000E77 RLA    
+_endClearGemAnim          000A3A RLA    _endDropAnim              00109C RLA    
+_exit                     000842 RLA    _explodeGemFrame1         00702A RLA    
+_explodeGemFrame2         007065 RLA    _explodeGemFrame3         00709A RLA    
+_explodeGemFrame4         0070D5 RLA    _explodeGemFrame5         007110 RLA    
+_explodeGemFrame6         007145 RLA    _fclose                   007C2A RLA    
+_fopen                    007C4C RLA    _fread                    007C64 RLA    
+_free                     007D37 RLA    _fwrite                   007F0A RLA    
+_gVblWait                 0096E3 RLA    _gameIsOver               002D16 RLA    
+_gemIsStarredAtSquare     002C70 RLA    _gemTypeAtSquare          002C52 RLA    
+_getHintSquare            002D0D RLA    _getLevel                 002CFA RLA    
+_get_ostype               007570 RLA    _gotox                    007581 RLA    
+_gotoxy                   007576 RLA    _initGameEngine           0029A0 RLA    
+_initJoystick             00496C RLA    _initMachine              004D53 RLA    
+_initMouse                00531D RLA    _initUI                   005B27 RLA    
+_isButtonPressed          00498F RLA    _kbhit                    007584 RLA    
+_loadGame                 0031BA RLA    _ltoa                     007FA3 RLA    
+_main                     004EAA RLA    _malloc                   008036 RLA    
+_memcmp                   008144 RLA    _memcpy                   008180 RLA    
+_mixedTextMode            006D03 RLA    _mockingBoardInit         004EBB RLA    
+_mockingBoardPlaySound    00509E RLA    _mockingBoardShutdown     005084 RLA    
+_mockingBoardSpeak        005160 RLA    _mockingBoardSpeakPriv    00719C RLA    
+_mockingBoardSpeechBusy   009B99 RLA    _mockingBoardSpeechData   009B91 RLA    
+_mockingBoardSpeechInit   007182 RLA    _mockingBoardSpeechIsBusy 005144 RLA    
+_mockingBoardSpeechIsPlaying 005152 RLA    _mockingBoardSpeechLen    009B93 RLA    
+_mockingBoardSpeechPlaying 009B9A RLA    _mockingBoardSpeechShutdown 007194 RLA    
+_mouse_def_callbacks      00968F RLA    _mouse_hidden             00A086 RLA    
+_mouse_info               008C40 RLA    _mouse_install            008BA9 RLA    
+_mouse_move               008C47 RLA    _mouse_show               008C4D RLA    
+_mouse_uninstall          008C28 RLA    _moveMouseToSquare        0056AC RLA    
+_moveSquareInDir          002A3F RLA    _open                     0075E5 RLA    
+_playClearGemSound        0057F6 RLA    _playGame                 005C3F RLA    
+_playLandingSound         0058D2 RLA    _playSoundForExplodingGem 0057B1 RLA    
+_playSoundForSpecialGem   0057DF RLA    _playSoundForStarringGem  0057C8 RLA    
+_pollJoystick             0049F1 RLA    _pollMouse                0053A4 RLA    
+_posix_memalign           008225 RLA    _printInstructions        005BCC RLA    
+_printf                   0084A8 RLA    _rand                     0084DB RLA    
+_read                     0076CF RLA    _resetStarAnim            000909 RLA    
+_revers                   007726 RLA    _saveGame                 003148 RLA    
+_selectSquare             006F7B RLA    _showDblLoRes             006CDF RLA    
+_shutdownMouse            005391 RLA    _soundInit                005710 RLA    
+_soundShutdown            005788 RLA    _speakExcellent           005A3A RLA    
+_speakGetReady            00598F RLA    _speakGo                  005921 RLA    
+_speakGood                0059FD RLA    _speakIncredible          005A77 RLA    
+_speakLevelComplete       005958 RLA    _speakNoMoreMoves         0059C6 RLA    
+_srand                    008518 RLA    _starGem                  006FDF RLA    
+_startNewGame             0029AF RLA    _stdout                   009C1C RLA    
+_strlen                   008527 RLA    _strlower                 00853D RLA    
+_swapSquares              000B5A RLA    _ultoa                    007FFA RLA    
+_undoClearAtSquare        0009EB RLA    _uninitMachine            004D86 RLA    
+_unshowDblLoRes           006CFF RLA    _vblIRQCallback           007296 RLA    
+_vblInit2gs               007283 RLA    _vblWait                  007288 RLA    
+_vblWait2c                00729A RLA    _vcprintf                 008B79 RLA    
+_vfprintf                 00859C RLA    _videomode                0008B2 RLA    
+_wherex                   007777 RLA    _write                    00777C RLA    
+addysp                    0085DF RLA    addysp1                   0085DE RLA    
+aslax1                    0085FB RLA    aslax3                    008603 RLA    
+aslax4                    008611 RLA    asrax2                    008622 RLA    
+asrax3                    008631 RLA    axlong                    00864C RLA    
+axulong                   008645 RLA    bnega                     00865B RLA    
+booleq                    008820 RLA    boolge                    008830 RLA    
+boolgt                    00882E RLA    boolle                    008826 RLA    
+boolne                    00881A RLA    boolugt                   00883E RLA    
+boolult                   008838 RLA    callax                    008665 RLA    
+callirq                   009C39 RLA    callmain                  00866C RLA    
+callmli                   009BEC RLA    closeallfiles             0076C3  LAI   
+closedirect               0076C5 RLA    complax                   008683 RLA    
+decax1                    008698 RLA    decax6                    00869F RLA    
+decaxy                    0086A6 RLA    decsp1                    0086AF RLA    
+decsp2                    0086B8 RLA    decsp3                    0086C5 RLA    
+decsp4                    0086D2 RLA    decsp6                    0086DF RLA    
+decsp7                    0086EC RLA    decsp8                    0086F9 RLA    
+donelib                   00868C RLA    errnoexit                 0074FA RLA    
+fdtab                     009BB3 RLA    freebuffer                0076BB RLA    
+getfd                     0074E4 RLA    incax2                    00876A RLA    
+incax4                    008776 RLA    incax8                    008771 RLA    
+incaxy                    008778 RLA    incsp1                    008781 RLA    
+incsp2                    00878F RLA    incsp3                    00879D RLA    
+incsp4                    0087A2 RLA    incsp5                    0087A7 RLA    
+incsp6                    0087AC RLA    incsp7                    0087B1 RLA    
+incsp8                    0087B6 RLA    initconio                 00A087  LAI   
+initdostype               00A114  LAI   initheap                  00A1A2  LAI   
+initlib                   00A1D5 RLA    initostype                00A128  LAI   
+initprompt                00A19D  LAI   iobuf_alloc               008225 RLA    
+iobuf_free                007D37 RLA    jmpvec                    009C7C RLA    
+ldaidx                    0087BB RLA    ldauidx                   0087C7 RLA    
+ldax0sp                   0087DD RLA    ldaxidx                   0087D2 RLA    
+ldaxysp                   0087DF RLA    leaa0sp                   0087F0 RLA    
+mliparam                  00A03D RLA    mock_irq                  009B9B  LAI   
+mouse_info                009CA2 RLA    mouse_irq                 009CA8  LAI   
+mouse_move                009C99 RLA    mouse_show                009C90 RLA    
+mul8x16                   0088A6 RLA    mul8x16a                  0088B1 RLA    
+mulax10                   0088DE RLA    mulax3                    0088F7 RLA    
+mulax6                    008908 RLA    negax                     008928 RLA    
+oserrexit                 0074FD RLA    popa                      008948 RLA    
+popax                     008788 RLA    popname                   00756B RLA    
+popsargs                  0089B4 RLA    popsreg                   008952 RLA    
+ptr1                      000088 RLZ    ptr2                      00008A RLZ    
+ptr3                      00008C RLZ    ptr4                      00008E RLZ    
+push1                     008961 RLA    pusha                     00896A RLA    
+pusha0                    00897C RLA    pushax                    00897E RLA    
+pusheax                   008802 RLA    pushname                  007504 RLA    
+pushwysp                  008996 RLA    regbank                   000094 RLZ    
+regsave                   000084 RLZ    return0                   0089B0 RLA    
+rwcommon                  00774A RLA    rwepilog                  00776D RLA    
+rwprolog                  007739 RLA    shlax1                    0085FB RLA    
+shlax3                    008603 RLA    shrax2                    0089FD RLA    
+sp                        000080 RLZ    sreg                      000082 RLZ    
+staspidx                  008A08 RLA    staxspidx                 008A29 RLA    
+staxysp                   008A20 RLA    subeqysp                  008A5A RLA    
+subysp                    008A6D RLA    tmp1                      000090 RLZ    
+tmp2                      000091 RLZ    tmp3                      000092 RLZ    
+tosaddax                  0085C7 RLA    tosandax                  0085EE RLA    
+tosaslax                  0089D2 RLA    tosdivax                  008708 RLA    
+toseqax                   008722 RLA    tosgeax                   00872C RLA    
+tosgtax                   008736 RLA    tosicmp                   00873E RLA    
+tosleax                   0087EA RLA    tosmodax                  00884D RLA    
+tosneax                   008922 RLA    tosorax                   008938 RLA    
+tossubax                  008A46 RLA    tosudivax                 008A7C RLA    
+tosugtax                  008ACD RLA    tosultax                  008AD5 RLA    
+tosumulax                 00885F RLA    udiv16                    008A8B RLA    
+zerobss                   00A1B2 RLA    
+
+
+Imports list:
+-------------
+COUT (cout.o):
+    write.o                   ../apple2/write.s(10)
+    read.o                    ../apple2/read.s(11)
+    videomode.o               ../apple2/videomode.s(8)
+HOME (home.o):
+    clrscr.o                  ../apple2/clrscr.s(8)
+RDKEY (rdkey.o):
+    read.o                    ../apple2/read.s(11)
+VTABZ (vtabz.o):
+    gotoxy.o                  ../apple2/gotoxy.s(9)
+    cputc.o                   ../apple2/cputc.s(13)
+__BSS_RUN__ ([linker generated]):
+    _heap.o                   _heap.s(8)
+    zerobss.o                 zerobss.s(8)
+__BSS_SIZE__ ([linker generated]):
+    _heap.o                   _heap.s(8)
+    zerobss.o                 zerobss.s(8)
+__CONSTRUCTOR_COUNT__ ([linker generated]):
+    condes.o                  condes.s(18)
+__CONSTRUCTOR_TABLE__ ([linker generated]):
+    condes.o                  condes.s(18)
+__DESTRUCTOR_COUNT__ ([linker generated]):
+    condes.o                  condes.s(19)
+__DESTRUCTOR_TABLE__ ([linker generated]):
+    condes.o                  condes.s(19)
+__INIT_SIZE__ ([linker generated]):
+    crt0.o                    ../apple2/crt0.s(15)
+__INTERRUPTOR_COUNT__ ([linker generated]):
+    callirq.o                 callirq.s(33)
+    crt0.o                    ../apple2/crt0.s(16)
+__INTERRUPTOR_TABLE__ ([linker generated]):
+    callirq.o                 callirq.s(33)
+__LC_LAST__ ([linker generated]):
+    crt0.o                    ../apple2/crt0.s(14)
+__LC_START__ ([linker generated]):
+    crt0.o                    ../apple2/crt0.s(14)
+__MOVE_LAST__ ([linker generated]):
+    crt0.o                    ../apple2/crt0.s(13)
+__MOVE_START__ ([linker generated]):
+    crt0.o                    ../apple2/crt0.s(13)
+__RAM_LAST__ ([linker generated]):
+    crt0.o                    ../apple2/crt0.s(12)
+__RAM_START__ ([linker generated]):
+    crt0.o                    ../apple2/crt0.s(12)
+__STACKSIZE__ ([linker generated]):
+    _heap.o                   _heap.s(8)
+__STARTUP__ (crt0.o):
+    main.o                    main.s(12)
+__ZPSAVE_RUN__ ([linker generated]):
+    crt0.o                    ../apple2/crt0.s(15)
+__ZP_START__ ([linker generated]):
+    a2_mouse_drv.o            drivers/a2_mouse_drv.s(424)
+__bzero (memset.o):
+    anim.o                    anim.s(768)
+__ctype (ctype.o):
+    strlower.o                strlower.s(12)
+__dos_type (dosdetect.o):
+    mli.o                     ../apple2/mli.s(7)
+__errno (errno.o):
+    _seterrno.o               ../../asminc/errno.inc(7)
+__fdesc (_fdesc.o):
+    fopen.o                   fopen.s(10)
+__filetab (_file.o):
+    _fdesc.o                  ../../asminc/_file.inc(25)
+__fopen (_fopen.o):
+    fopen.o                   fopen.s(10)
+__heapend (_heap.o):
+    malloc.o                  ../../asminc/_heap.inc(33)
+__heapfirst (_heap.o):
+    malloc.o                  ../../asminc/_heap.inc(34)
+    free.o                    ../../asminc/_heap.inc(34)
+__heaplast (_heap.o):
+    malloc.o                  ../../asminc/_heap.inc(35)
+    free.o                    ../../asminc/_heap.inc(35)
+__heapptr (_heap.o):
+    malloc.o                  ../../asminc/_heap.inc(32)
+    free.o                    ../../asminc/_heap.inc(32)
+__hextab (_hextab.o):
+    ltoa.o                    ltoa.s(10)
+__oserror (_oserror.o):
+    fileerr.o                 ../../asminc/errno.inc(7)
+__printf (_printf.o):
+    vcprintf.o                vcprintf.s(9)
+    vfprintf.o                vfprintf.s(10)
+__seterrno (_seterrno.o):
+    _fopen.o                  ../../asminc/errno.inc(9)
+    fileerr.o                 ../../asminc/errno.inc(9)
+    fwrite.o                  ../../asminc/errno.inc(9)
+    fread.o                   ../../asminc/errno.inc(9)
+    fopen.o                   ../../asminc/errno.inc(9)
+    fclose.o                  ../../asminc/errno.inc(9)
+_a2_mouse_drv (a2_mouse_drv.o):
+    mouseWrapper.o            mouseWrapper.s(23)
+_addClearAtSquare (anim.o):
+    ui.o                      ui.s(40)
+_beginClearGemAnim (anim.o):
+    ui.o                      ui.s(39)
+_beginClearGemSound (sound.o):
+    anim.o                    anim.s(37)
+_beginDropAnim (anim.o):
+    ui.o                      ui.s(44)
+_cgetc (cgetc.o):
+    ui.o                      ui.s(22)
+_clearDblLoRes (dbllores.o):
+    ui.o                      ui.s(49)
+_close (close.o):
+    fclose.o                  fclose.s(10)
+_clrscr (clrscr.o):
+    ui.o                      ui.s(13)
+_cprintf (cprintf.o):
+    ui.o                      ui.s(21)
+_cputc (cputc.o):
+    vcprintf.o                vcprintf.s(9)
+    cputs.o                   cputs.s(9)
+    ui.o                      ui.s(18)
+_cputs (cputs.o):
+    ui.o                      ui.s(19)
+_cputsxy (cputs.o):
+    ui.o                      ui.s(20)
+_doStarAnim (anim.o):
+    ui.o                      ui.s(38)
+_drawAndStarGemAtXY (dbllores.o):
+    anim.o                    anim.s(626)
+    anim.o                    anim.s(1443)
+_drawBgSquare (dbllores.o):
+    ui.o                      ui.s(52)
+    anim.o                    anim.s(26)
+_drawGem (dbllores.o):
+    anim.o                    anim.s(95)
+_drawGemAtSquare (anim.o):
+    ui.o                      ui.s(36)
+_drawGemAtXY (dbllores.o):
+    anim.o                    anim.s(631)
+    anim.o                    anim.s(1448)
+_drawScore (dbllores.o):
+    ui.o                      ui.s(55)
+_dropSquareFromOffscreen (anim.o):
+    ui.o                      ui.s(46)
+_dropSquareFromTo (anim.o):
+    ui.o                      ui.s(45)
+_endClearGemAnim (anim.o):
+    ui.o                      ui.s(42)
+_endDropAnim (anim.o):
+    ui.o                      ui.s(47)
+_exit (crt0.o):
+    ui.o                      ui.s(30)
+_explodeGemFrame1 (dbllores.o):
+    anim.o                    anim.s(27)
+_explodeGemFrame2 (dbllores.o):
+    anim.o                    anim.s(28)
+_explodeGemFrame3 (dbllores.o):
+    anim.o                    anim.s(29)
+_explodeGemFrame4 (dbllores.o):
+    anim.o                    anim.s(30)
+_explodeGemFrame5 (dbllores.o):
+    anim.o                    anim.s(31)
+_explodeGemFrame6 (dbllores.o):
+    anim.o                    anim.s(32)
+_fclose (fclose.o):
+    ui.o                      ui.s(24)
+    game.o                    game.s(12)
+_fopen (fopen.o):
+    ui.o                      ui.s(25)
+    game.o                    game.s(13)
+_fread (fread.o):
+    ui.o                      ui.s(26)
+    game.o                    game.s(14)
+_free (free.o):
+    pmemalign.o               pmemalign.s(18)
+    iobuf.o                   ../apple2/iobuf.s(8)
+_fwrite (fwrite.o):
+    vfprintf.o                vfprintf.s(10)
+    ui.o                      ui.s(27)
+    game.o                    game.s(15)
+_gVblWait (machine.o):
+    anim.o                    anim.s(36)
+_gameIsOver (game.o):
+    ui.o                      ui.s(62)
+_gemIsStarredAtSquare (game.o):
+    ui.o                      ui.s(59)
+    anim.o                    anim.s(35)
+_gemTypeAtSquare (game.o):
+    anim.o                    anim.s(34)
+_getHintSquare (game.o):
+    ui.o                      ui.s(61)
+_getLevel (game.o):
+    ui.o                      ui.s(60)
+_get_ostype (get_ostype.o):
+    machine.o                 machine.s(12)
+_gotox (gotoxy.o):
+    ui.o                      ui.s(15)
+_gotoxy (gotoxy.o):
+    cputs.o                   cputs.s(9)
+    cputc.o                   ../apple2/cputc.s(13)
+    ui.o                      ui.s(16)
+_initGameEngine (game.o):
+    ui.o                      ui.s(56)
+_initJoystick (joystick.o):
+    ui.o                      ui.s(65)
+_initMachine (machine.o):
+    ui.o                      ui.s(68)
+_initMouse (mouseWrapper.o):
+    ui.o                      ui.s(70)
+_initUI (ui.o):
+    main.o                    main.s(13)
+_isButtonPressed (joystick.o):
+    ui.o                      ui.s(66)
+_kbhit (kbhit.o):
+    ui.o                      ui.s(14)
+_loadGame (game.o):
+    ui.o                      ui.s(64)
+_ltoa (ltoa.o):
+    _printf.o                 _printf.s(10)
+_main (main.o):
+    callmain.o                callmain.s(11)
+_malloc (malloc.o):
+    pmemalign.o               pmemalign.s(17)
+_memcmp (memcmp.o):
+    ui.o                      ui.s(31)
+_memcpy (memcpy.o):
+    ui.o                      ui.s(32)
+_mixedTextMode (dbllores.o):
+    ui.o                      ui.s(51)
+_mockingBoardInit (mockingboard.o):
+    sound.o                   sound.s(12)
+_mockingBoardPlaySound (mockingboard.o):
+    sound.o                   sound.s(14)
+_mockingBoardShutdown (mockingboard.o):
+    sound.o                   sound.s(13)
+_mockingBoardSpeak (mockingboard.o):
+    sound.o                   sound.s(17)
+_mockingBoardSpeakPriv (mockingboard_speech.o):
+    mockingboard.o            mockingboard.s(26)
+_mockingBoardSpeechBusy (mockingboard_speech.o):
+    mockingboard.o            mockingboard.s(22)
+_mockingBoardSpeechData (mockingboard_speech.o):
+    mockingboard.o            mockingboard.s(20)
+_mockingBoardSpeechInit (mockingboard_speech.o):
+    mockingboard.o            mockingboard.s(24)
+_mockingBoardSpeechIsBusy (mockingboard.o):
+    sound.o                   sound.s(15)
+_mockingBoardSpeechIsPlaying (mockingboard.o):
+    sound.o                   sound.s(16)
+_mockingBoardSpeechLen (mockingboard_speech.o):
+    mockingboard.o            mockingboard.s(21)
+_mockingBoardSpeechPlaying (mockingboard_speech.o):
+    mockingboard.o            mockingboard.s(23)
+_mockingBoardSpeechShutdown (mockingboard_speech.o):
+    mockingboard.o            mockingboard.s(25)
+_mouse_def_callbacks (mcbdefault.o):
+    mouseWrapper.o            mouseWrapper.s(12)
+_mouse_hidden (mouse-kernel.o):
+    mouse_show.o              ../../asminc/mouse-kernel.inc(142)
+_mouse_info (mouse_info.o):
+    mouseWrapper.o            mouseWrapper.s(17)
+_mouse_install (mouse-kernel.o):
+    mouseWrapper.o            mouseWrapper.s(13)
+_mouse_move (mouse_move.o):
+    mouseWrapper.o            mouseWrapper.s(16)
+_mouse_show (mouse_show.o):
+    mouseWrapper.o            mouseWrapper.s(15)
+_mouse_uninstall (mouse-kernel.o):
+    mouseWrapper.o            mouseWrapper.s(14)
+_moveMouseToSquare (mouseWrapper.o):
+    ui.o                      ui.s(73)
+_moveSquareInDir (game.o):
+    ui.o                      ui.s(58)
+_open (open.o):
+    _fopen.o                  _fopen.s(10)
+_playClearGemSound (sound.o):
+    anim.o                    anim.s(38)
+_playGame (ui.o):
+    main.o                    main.s(15)
+_playLandingSound (sound.o):
+    anim.o                    anim.s(39)
+_playSoundForExplodingGem (sound.o):
+    ui.o                      ui.s(76)
+_playSoundForSpecialGem (sound.o):
+    ui.o                      ui.s(78)
+_playSoundForStarringGem (sound.o):
+    ui.o                      ui.s(77)
+_pollJoystick (joystick.o):
+    ui.o                      ui.s(67)
+_pollMouse (mouseWrapper.o):
+    ui.o                      ui.s(72)
+_posix_memalign (pmemalign.o):
+    iobuf.o                   ../apple2/iobuf.s(8)
+_printInstructions (ui.o):
+    main.o                    main.s(14)
+_printf (printf.o):
+    ui.o                      ui.s(28)
+    mockingboard.o            mockingboard.s(12)
+_rand (rand.o):
+    game.o                    game.s(16)
+    anim.o                    anim.s(13)
+_read (read.o):
+    fread.o                   fread.s(10)
+_resetStarAnim (anim.o):
+    ui.o                      ui.s(37)
+_revers (revers.o):
+    ui.o                      ui.s(23)
+_saveGame (game.o):
+    ui.o                      ui.s(63)
+_selectSquare (dbllores.o):
+    ui.o                      ui.s(54)
+_showDblLoRes (dbllores.o):
+    ui.o                      ui.s(48)
+_shutdownMouse (mouseWrapper.o):
+    ui.o                      ui.s(71)
+_soundInit (sound.o):
+    ui.o                      ui.s(74)
+_soundShutdown (sound.o):
+    ui.o                      ui.s(75)
+_speakExcellent (sound.o):
+    ui.o                      ui.s(84)
+_speakGetReady (sound.o):
+    ui.o                      ui.s(81)
+_speakGo (sound.o):
+    ui.o                      ui.s(79)
+_speakGood (sound.o):
+    ui.o                      ui.s(83)
+_speakIncredible (sound.o):
+    ui.o                      ui.s(85)
+_speakLevelComplete (sound.o):
+    ui.o                      ui.s(80)
+_speakNoMoreMoves (sound.o):
+    ui.o                      ui.s(82)
+_srand (rand.o):
+    ui.o                      ui.s(29)
+_starGem (dbllores.o):
+    ui.o                      ui.s(53)
+    anim.o                    anim.s(33)
+_startNewGame (game.o):
+    ui.o                      ui.s(57)
+_stdout (_file.o):
+    printf.o                  printf.s(8)
+_strlen (strlen.o):
+    _printf.o                 _printf.s(11)
+_strlower (strlower.o):
+    _printf.o                 _printf.s(11)
+_swapSquares (anim.o):
+    ui.o                      ui.s(43)
+_ultoa (ltoa.o):
+    _printf.o                 _printf.s(10)
+_undoClearAtSquare (anim.o):
+    ui.o                      ui.s(41)
+_uninitMachine (machine.o):
+    ui.o                      ui.s(69)
+_unshowDblLoRes (dbllores.o):
+    ui.o                      ui.s(50)
+_vblIRQCallback (vbl.o):
+    mouseWrapper.o            mouseWrapper.s(22)
+_vblInit2gs (vbl.o):
+    machine.o                 machine.s(16)
+_vblWait (vbl.o):
+    machine.o                 machine.s(17)
+_vblWait2c (vbl.o):
+    machine.o                 machine.s(18)
+_vcprintf (vcprintf.o):
+    cprintf.o                 cprintf.s(8)
+_vfprintf (vfprintf.o):
+    printf.o                  printf.s(8)
+_videomode (videomode.o):
+    ui.o                      ui.s(12)
+_wherex (wherex.o):
+    ui.o                      ui.s(17)
+_write (write.o):
+    fwrite.o                  fwrite.s(10)
+addysp (addysp.o):
+    pmemalign.o               pmemalign.s(522)
+    filename.o                ../apple2/filename.s(8)
+    open.o                    ../apple2/open.s(16)
+    cprintf.o                 cprintf.s(8)
+    incsp8.o                  incsp8.s(8)
+    incsp7.o                  incsp7.s(8)
+    incsp6.o                  incsp6.s(8)
+    incsp5.o                  incsp5.s(8)
+    incsp4.o                  incsp4.s(8)
+    incsp3.o                  incsp3.s(8)
+    printf.o                  printf.s(8)
+    fwrite.o                  fwrite.s(11)
+    mockingboard.o            mockingboard.s(673)
+    game.o                    game.s(1922)
+    game.o                    game.s(2246)
+    anim.o                    anim.s(747)
+addysp1 (addysp.o):
+    sub.o                     sub.s(8)
+    or.o                      or.s(8)
+    and.o                     and.s(8)
+aslax1 (aslax1.o):
+    mockingboard.o            mockingboard.s(90)
+    mockingboard.o            mockingboard.s(543)
+    mockingboard.o            mockingboard.s(589)
+    game.o                    game.s(174)
+    game.o                    game.s(408)
+    game.o                    game.s(437)
+    game.o                    game.s(618)
+    game.o                    game.s(1350)
+    game.o                    game.s(1497)
+    game.o                    game.s(1640)
+    game.o                    game.s(1964)
+    game.o                    game.s(2298)
+    game.o                    game.s(2359)
+    game.o                    game.s(2514)
+    game.o                    game.s(2588)
+    game.o                    game.s(2999)
+    game.o                    game.s(3566)
+    game.o                    game.s(3948)
+    anim.o                    anim.s(369)
+aslax3 (aslax3.o):
+    ui.o                      ui.s(1811)
+    ui.o                      ui.s(1975)
+    sound.o                   sound.s(745)
+    mouseWrapper.o            mouseWrapper.s(259)
+    mouseWrapper.o            mouseWrapper.s(468)
+    game.o                    game.s(250)
+    game.o                    game.s(605)
+    game.o                    game.s(1557)
+    game.o                    game.s(1693)
+    game.o                    game.s(2017)
+    game.o                    game.s(2986)
+    anim.o                    anim.s(854)
+    anim.o                    anim.s(1000)
+aslax4 (aslax4.o):
+    sound.o                   sound.s(726)
+asrax2 (asrax2.o):
+    joystick.o                joystick.s(311)
+asrax3 (asrax3.o):
+    ui.o                      ui.s(836)
+    ui.o                      ui.s(1695)
+    ui.o                      ui.s(1854)
+    mouseWrapper.o            mouseWrapper.s(202)
+    mouseWrapper.o            mouseWrapper.s(467)
+    game.o                    game.s(168)
+    game.o                    game.s(1416)
+    game.o                    game.s(1623)
+    game.o                    game.s(1941)
+    anim.o                    anim.s(219)
+    anim.o                    anim.s(269)
+    anim.o                    anim.s(466)
+    anim.o                    anim.s(829)
+    anim.o                    anim.s(975)
+axlong (axlong.o):
+    _printf.o                 _printf.s(9)
+axulong (axlong.o):
+    _printf.o                 _printf.s(9)
+bnega (bneg.o):
+    ui.o                      ui.s(304)
+    ui.o                      ui.s(373)
+    ui.o                      ui.s(443)
+    ui.o                      ui.s(1561)
+    ui.o                      ui.s(2214)
+    sound.o                   sound.s(710)
+    sound.o                   sound.s(817)
+    sound.o                   sound.s(858)
+    sound.o                   sound.s(891)
+    sound.o                   sound.s(924)
+    sound.o                   sound.s(957)
+    sound.o                   sound.s(990)
+    sound.o                   sound.s(1027)
+    sound.o                   sound.s(1064)
+    mouseWrapper.o            mouseWrapper.s(51)
+    mouseWrapper.o            mouseWrapper.s(144)
+    mouseWrapper.o            mouseWrapper.s(445)
+    mockingboard.o            mockingboard.s(447)
+    mockingboard.o            mockingboard.s(603)
+    game.o                    game.s(365)
+    game.o                    game.s(1141)
+    game.o                    game.s(1265)
+    game.o                    game.s(2541)
+    game.o                    game.s(2635)
+    anim.o                    anim.s(113)
+    anim.o                    anim.s(307)
+    anim.o                    anim.s(1105)
+booleq (makebool.o):
+    eq.o                      eq.s(8)
+    ui.o                      ui.s(857)
+    ui.o                      ui.s(1039)
+    ui.o                      ui.s(1103)
+    ui.o                      ui.s(1251)
+    ui.o                      ui.s(1716)
+    ui.o                      ui.s(1871)
+    sound.o                   sound.s(660)
+    sound.o                   sound.s(719)
+    sound.o                   sound.s(826)
+    mouseWrapper.o            mouseWrapper.s(76)
+    machine.o                 machine.s(192)
+    joystick.o                joystick.s(78)
+    joystick.o                joystick.s(193)
+    game.o                    game.s(288)
+    game.o                    game.s(471)
+    game.o                    game.s(634)
+    game.o                    game.s(1116)
+    game.o                    game.s(1424)
+    game.o                    game.s(1635)
+    game.o                    game.s(1959)
+    game.o                    game.s(2620)
+    game.o                    game.s(3015)
+    game.o                    game.s(3577)
+    anim.o                    anim.s(151)
+    anim.o                    anim.s(402)
+    anim.o                    anim.s(1162)
+boolge (makebool.o):
+    ge.o                      ge.s(8)
+    game.o                    game.s(2978)
+boolgt (makebool.o):
+    gt.o                      gt.s(8)
+boolle (makebool.o):
+    le.o                      le.s(8)
+boolne (makebool.o):
+    ne.o                      ne.s(8)
+    ui.o                      ui.s(681)
+    ui.o                      ui.s(992)
+    ui.o                      ui.s(1059)
+    ui.o                      ui.s(1512)
+    sound.o                   sound.s(539)
+    mouseWrapper.o            mouseWrapper.s(160)
+    mockingboard.o            mockingboard.s(322)
+    mockingboard.o            mockingboard.s(369)
+    mockingboard.o            mockingboard.s(410)
+    mockingboard.o            mockingboard.s(429)
+    machine.o                 machine.s(169)
+    joystick.o                joystick.s(131)
+    game.o                    game.s(731)
+    game.o                    game.s(1053)
+    game.o                    game.s(1136)
+    game.o                    game.s(1361)
+    game.o                    game.s(2275)
+    game.o                    game.s(2525)
+    game.o                    game.s(2661)
+    game.o                    game.s(3040)
+    game.o                    game.s(3750)
+    game.o                    game.s(4023)
+    anim.o                    anim.s(364)
+    anim.o                    anim.s(1116)
+boolugt (makebool.o):
+    ugt.o                     ugt.s(8)
+boolult (makebool.o):
+    ult.o                     ult.s(8)
+    ui.o                      ui.s(1359)
+    ui.o                      ui.s(1622)
+    sound.o                   sound.s(638)
+    sound.o                   sound.s(682)
+    mockingboard.o            mockingboard.s(620)
+    joystick.o                joystick.s(359)
+    game.o                    game.s(123)
+    game.o                    game.s(1856)
+    game.o                    game.s(2180)
+    game.o                    game.s(2508)
+    game.o                    game.s(3560)
+    game.o                    game.s(3942)
+    anim.o                    anim.s(318)
+    anim.o                    anim.s(777)
+    anim.o                    anim.s(1229)
+    anim.o                    anim.s(3241)
+    anim.o                    anim.s(3290)
+callax (call.o):
+    mouseWrapper.o            mouseWrapper.s(268)
+    joystick.o                joystick.s(174)
+    game.o                    game.s(114)
+    game.o                    game.s(332)
+    game.o                    game.s(1248)
+    game.o                    game.s(1390)
+    game.o                    game.s(1597)
+    game.o                    game.s(2327)
+    game.o                    game.s(2417)
+    game.o                    game.s(2499)
+    game.o                    game.s(2773)
+    game.o                    game.s(2944)
+    game.o                    game.s(3550)
+    game.o                    game.s(3929)
+    anim.o                    anim.s(335)
+    anim.o                    anim.s(601)
+    anim.o                    anim.s(1420)
+    anim.o                    anim.s(3232)
+    anim.o                    anim.s(3281)
+callirq (callirq.o):
+    crt0.o                    ../apple2/crt0.s(11)
+callmain (callmain.o):
+    crt0.o                    ../apple2/crt0.s(11)
+callmli (mli.o):
+    filename.o                ../apple2/mli.inc(115)
+    write.o                   ../apple2/mli.inc(115)
+    rwcommon.o                ../apple2/mli.inc(115)
+    open.o                    ../apple2/mli.inc(115)
+closedirect (open.o):
+    close.o                   ../apple2/close.s(9)
+complax (compl.o):
+    pmemalign.o               pmemalign.s(217)
+    anim.o                    anim.s(285)
+decax1 (decax1.o):
+    ui.o                      ui.s(1219)
+    game.o                    game.s(1434)
+    game.o                    game.s(1671)
+    game.o                    game.s(1995)
+    anim.o                    anim.s(141)
+decax6 (decax6.o):
+    anim.o                    anim.s(1209)
+decaxy (decaxy.o):
+    ui.o                      ui.s(1378)
+decsp1 (decsp1.o):
+    filename.o                ../apple2/filename.s(8)
+    ui.o                      ui.s(418)
+    ui.o                      ui.s(1239)
+    ui.o                      ui.s(1613)
+    ui.o                      ui.s(2212)
+    sound.o                   sound.s(1099)
+    mockingboard.o            mockingboard.s(600)
+    game.o                    game.s(85)
+    game.o                    game.s(170)
+    game.o                    game.s(448)
+    game.o                    game.s(1201)
+    game.o                    game.s(1619)
+    game.o                    game.s(1937)
+    game.o                    game.s(2261)
+    game.o                    game.s(2492)
+    game.o                    game.s(3531)
+    anim.o                    anim.s(475)
+    anim.o                    anim.s(762)
+    anim.o                    anim.s(3229)
+    anim.o                    anim.s(3278)
+decsp2 (decsp2.o):
+    ui.o                      ui.s(286)
+    mouseWrapper.o            mouseWrapper.s(191)
+    mockingboard.o            mockingboard.s(64)
+    machine.o                 machine.s(160)
+    game.o                    game.s(2344)
+    game.o                    game.s(2615)
+decsp3 (decsp3.o):
+    joystick.o                joystick.s(127)
+decsp4 (decsp4.o):
+    lpush.o                   lpush.s(11)
+    mouseWrapper.o            mouseWrapper.s(442)
+    anim.o                    anim.s(304)
+decsp6 (decsp6.o):
+    pmemalign.o               pmemalign.s(40)
+    _printf.o                 _printf.s(9)
+    ui.o                      ui.s(1460)
+    mouseWrapper.o            mouseWrapper.s(139)
+    game.o                    game.s(561)
+decsp7 (decsp7.o):
+    game.o                    game.s(2939)
+decsp8 (decsp8.o):
+    anim.o                    anim.s(1102)
+donelib (condes.o):
+    crt0.o                    ../apple2/crt0.s(10)
+errnoexit (fileerr.o):
+    write.o                   ../apple2/write.s(9)
+    read.o                    ../apple2/read.s(10)
+    open.o                    ../apple2/open.s(14)
+    close.o                   ../apple2/close.s(10)
+fdtab (filedes.o):
+    write.o                   ../apple2/filedes.inc(13)
+    read.o                    ../apple2/filedes.inc(13)
+    open.o                    ../apple2/filedes.inc(13)
+    close.o                   ../apple2/filedes.inc(13)
+freebuffer (open.o):
+    close.o                   ../apple2/close.s(9)
+getfd (filedes.o):
+    rwcommon.o                ../apple2/filedes.inc(14)
+    close.o                   ../apple2/filedes.inc(14)
+incax2 (incax2.o):
+    game.o                    game.s(3696)
+incax4 (incaxy.o):
+    mouseWrapper.o            mouseWrapper.s(469)
+incax8 (incax8.o):
+    mouseWrapper.o            mouseWrapper.s(369)
+incaxy (incaxy.o):
+    open.o                    ../apple2/open.s(16)
+    incax8.o                  incax8.s(8)
+    mouseWrapper.o            mouseWrapper.s(318)
+    mouseWrapper.o            mouseWrapper.s(461)
+incsp1 (incsp1.o):
+    ui.o                      ui.s(486)
+    ui.o                      ui.s(571)
+    ui.o                      ui.s(602)
+    ui.o                      ui.s(812)
+    ui.o                      ui.s(1224)
+    ui.o                      ui.s(1645)
+    ui.o                      ui.s(2195)
+    sound.o                   sound.s(800)
+    sound.o                   sound.s(841)
+    joystick.o                joystick.s(110)
+    game.o                    game.s(144)
+    game.o                    game.s(419)
+    game.o                    game.s(1084)
+    game.o                    game.s(1309)
+    game.o                    game.s(1392)
+    game.o                    game.s(4042)
+    anim.o                    anim.s(96)
+    anim.o                    anim.s(805)
+    anim.o                    anim.s(3263)
+    anim.o                    anim.s(3311)
+incsp2 (incsp2.o):
+    mouse_move.o              mouse_move.s(12)
+    mouse-kernel.o            mouse-kernel.s(7)
+    staxspi.o                 staxspi.s(8)
+    staspidx.o                staspidx.s(8)
+    popsreg.o                 popsreg.s(8)
+    ui.o                      ui.s(344)
+    ui.o                      ui.s(401)
+    ui.o                      ui.s(540)
+    ui.o                      ui.s(785)
+    ui.o                      ui.s(1012)
+    ui.o                      ui.s(1073)
+    ui.o                      ui.s(2376)
+    sound.o                   sound.s(577)
+    mouseWrapper.o            mouseWrapper.s(89)
+    mouseWrapper.o            mouseWrapper.s(269)
+    mockingboard.o            mockingboard.s(392)
+    joystick.o                joystick.s(57)
+    joystick.o                joystick.s(175)
+    joystick.o                joystick.s(327)
+    game.o                    game.s(70)
+    game.o                    game.s(1085)
+    game.o                    game.s(1249)
+    game.o                    game.s(1391)
+    game.o                    game.s(2328)
+    game.o                    game.s(2418)
+    game.o                    game.s(2570)
+    game.o                    game.s(2785)
+    game.o                    game.s(3143)
+    game.o                    game.s(3551)
+    game.o                    game.s(3996)
+    game.o                    game.s(4043)
+    anim.o                    anim.s(391)
+incsp3 (incsp3.o):
+    ui.o                      ui.s(661)
+    ui.o                      ui.s(1183)
+    ui.o                      ui.s(1445)
+    sound.o                   sound.s(1158)
+    joystick.o                joystick.s(468)
+    game.o                    game.s(495)
+    game.o                    game.s(3910)
+    anim.o                    anim.s(241)
+    anim.o                    anim.s(289)
+incsp4 (incsp4.o):
+    _fopen.o                  _fopen.s(11)
+    open.o                    ../apple2/open.s(16)
+    fread.o                   fread.s(12)
+    ui.o                      ui.s(745)
+    ui.o                      ui.s(928)
+    ui.o                      ui.s(1829)
+    mockingboard.o            mockingboard.s(277)
+    mockingboard.o            mockingboard.s(347)
+    mockingboard.o            mockingboard.s(473)
+    joystick.o                joystick.s(225)
+    joystick.o                joystick.s(528)
+    game.o                    game.s(1186)
+    anim.o                    anim.s(434)
+incsp5 (incsp5.o):
+    ui.o                      ui.s(1993)
+    mouseWrapper.o            mouseWrapper.s(478)
+    mockingboard.o            mockingboard.s(569)
+    game.o                    game.s(2477)
+incsp6 (incsp6.o):
+    vfprintf.o                vfprintf.s(9)
+    fwrite.o                  fwrite.s(11)
+    fread.o                   fread.s(12)
+    ui.o                      ui.s(1598)
+    game.o                    game.s(1026)
+incsp7 (incsp7.o):
+    mouseWrapper.o            mouseWrapper.s(427)
+    mockingboard.o            mockingboard.s(526)
+    machine.o                 machine.s(218)
+    game.o                    game.s(1598)
+    game.o                    game.s(2922)
+    anim.o                    anim.s(1087)
+incsp8 (incsp8.o):
+    game.o                    game.s(390)
+    game.o                    game.s(3492)
+    anim.o                    anim.s(951)
+    anim.o                    anim.s(3214)
+initlib (condes.o):
+    crt0.o                    ../apple2/crt0.s(10)
+iobuf_alloc (iobuf.o):
+    open.o                    ../apple2/open.s(15)
+iobuf_free (iobuf.o):
+    open.o                    ../apple2/open.s(15)
+jmpvec (jmpvec.o):
+    anim.o                    anim.s(385)
+ldaidx (ldai.o):
+    ui.o                      ui.s(679)
+    ui.o                      ui.s(779)
+    sound.o                   sound.s(770)
+    joystick.o                joystick.s(486)
+    anim.o                    anim.s(1191)
+ldauidx (ldaui.o):
+    ui.o                      ui.s(689)
+    ui.o                      ui.s(763)
+    ui.o                      ui.s(1112)
+    mockingboard.o            mockingboard.s(643)
+    machine.o                 machine.s(158)
+    joystick.o                joystick.s(55)
+    joystick.o                joystick.s(146)
+    joystick.o                joystick.s(497)
+    game.o                    game.s(183)
+    game.o                    game.s(417)
+    game.o                    game.s(446)
+    game.o                    game.s(627)
+    game.o                    game.s(1359)
+    game.o                    game.s(1649)
+    game.o                    game.s(1973)
+    game.o                    game.s(2368)
+    game.o                    game.s(2523)
+    game.o                    game.s(2597)
+    game.o                    game.s(3008)
+    game.o                    game.s(3575)
+    game.o                    game.s(3957)
+    anim.o                    anim.s(230)
+    anim.o                    anim.s(280)
+    anim.o                    anim.s(355)
+    anim.o                    anim.s(1142)
+ldax0sp (ldaxsp.o):
+    fread.o                   fread.s(13)
+ldaxidx (ldaxi.o):
+    mouseWrapper.o            mouseWrapper.s(254)
+    mockingboard.o            mockingboard.s(113)
+    mockingboard.o            mockingboard.s(552)
+    mockingboard.o            mockingboard.s(598)
+    joystick.o                joystick.s(164)
+    game.o                    game.s(113)
+    game.o                    game.s(331)
+    game.o                    game.s(1242)
+    game.o                    game.s(1383)
+    game.o                    game.s(1596)
+    game.o                    game.s(2315)
+    game.o                    game.s(2351)
+    game.o                    game.s(2498)
+    game.o                    game.s(2772)
+    game.o                    game.s(2943)
+    game.o                    game.s(3543)
+    game.o                    game.s(3928)
+    anim.o                    anim.s(378)
+    anim.o                    anim.s(1154)
+ldaxysp (ldaxsp.o):
+    fwrite.o                  fwrite.s(11)
+    fread.o                   fread.s(13)
+    ui.o                      ui.s(376)
+    ui.o                      ui.s(632)
+    ui.o                      ui.s(677)
+    ui.o                      ui.s(761)
+    ui.o                      ui.s(988)
+    ui.o                      ui.s(1035)
+    ui.o                      ui.s(1092)
+    ui.o                      ui.s(1266)
+    mouseWrapper.o            mouseWrapper.s(83)
+    mouseWrapper.o            mouseWrapper.s(193)
+    mouseWrapper.o            mouseWrapper.s(473)
+    mockingboard.o            mockingboard.s(76)
+    mockingboard.o            mockingboard.s(316)
+    mockingboard.o            mockingboard.s(363)
+    mockingboard.o            mockingboard.s(459)
+    mockingboard.o            mockingboard.s(489)
+    mockingboard.o            mockingboard.s(542)
+    mockingboard.o            mockingboard.s(585)
+    machine.o                 machine.s(156)
+    joystick.o                joystick.s(46)
+    joystick.o                joystick.s(173)
+    joystick.o                joystick.s(305)
+    joystick.o                joystick.s(484)
+    game.o                    game.s(67)
+    game.o                    game.s(1049)
+    game.o                    game.s(1112)
+    game.o                    game.s(1247)
+    game.o                    game.s(1389)
+    game.o                    game.s(2326)
+    game.o                    game.s(2416)
+    game.o                    game.s(2783)
+    game.o                    game.s(3141)
+    game.o                    game.s(3549)
+    game.o                    game.s(4019)
+    anim.o                    anim.s(847)
+    anim.o                    anim.s(993)
+    anim.o                    anim.s(1140)
+leaa0sp (leaaxsp.o):
+    mouseWrapper.o            mouseWrapper.s(154)
+    joystick.o                joystick.s(170)
+    game.o                    game.s(1122)
+mliparam (mli.o):
+    filename.o                ../apple2/mli.inc(114)
+    write.o                   ../apple2/mli.inc(114)
+    rwcommon.o                ../apple2/mli.inc(114)
+    open.o                    ../apple2/mli.inc(114)
+mouse_info (mouse-kernel.o):
+    mouse_info.o              ../../asminc/mouse-kernel.inc(176)
+mouse_move (mouse-kernel.o):
+    mouse_move.o              ../../asminc/mouse-kernel.inc(173)
+mouse_show (mouse-kernel.o):
+    mouse_show.o              ../../asminc/mouse-kernel.inc(170)
+mul8x16 (mul8.o):
+    mul.o                     mul.s(8)
+mul8x16a (mul8.o):
+    mul.o                     mul.s(8)
+mulax10 (mulax10.o):
+    anim.o                    anim.s(783)
+    anim.o                    anim.s(834)
+    anim.o                    anim.s(980)
+    anim.o                    anim.s(1129)
+mulax3 (mulax3.o):
+    joystick.o                joystick.s(306)
+mulax6 (mulax6.o):
+    anim.o                    anim.s(467)
+    anim.o                    anim.s(864)
+    anim.o                    anim.s(1011)
+negax (neg.o):
+    shelp.o                   shelp.s(11)
+    mod.o                     mod.s(11)
+    div.o                     div.s(11)
+oserrexit (fileerr.o):
+    write.o                   ../apple2/write.s(9)
+    rwcommon.o                ../apple2/rwcommon.s(6)
+    open.o                    ../apple2/open.s(14)
+    close.o                   ../apple2/close.s(10)
+popa (popa.o):
+    cputs.o                   cputs.s(9)
+    gotoxy.o                  ../apple2/gotoxy.s(9)
+    cputc.o                   ../apple2/cputc.s(13)
+popax (incsp2.o):
+    ltoa.o                    ltoa.s(9)
+    _printf.o                 _printf.s(9)
+    rwcommon.o                ../apple2/rwcommon.s(7)
+    open.o                    ../apple2/open.s(16)
+    vcprintf.o                vcprintf.s(8)
+    shl.o                     shl.s(15)
+    shelp.o                   shelp.s(11)
+    memset.o                  memset.s(19)
+    memcpy.o                  memcpy.s(14)
+    memcmp.o                  memcmp.s(8)
+popname (filename.o):
+    open.o                    ../apple2/open.s(13)
+popsargs (shelp.o):
+    mod.o                     mod.s(11)
+    div.o                     div.s(11)
+popsreg (popsreg.o):
+    mouse-kernel.o            mouse-kernel.s(7)
+    udiv.o                    udiv.s(8)
+    mul8.o                    mul8.s(9)
+    mul.o                     mul.s(9)
+ptr1 (zeropage.o):
+    malloc.o                  malloc.s(108)
+    pmemalign.o               pmemalign.s(10)
+    free.o                    free.s(62)
+    filename.o                ../../asminc/zeropage.inc(12)
+    strlower.o                strlower.s(13)
+    strlen.o                  strlen.s(8)
+    ltoa.o                    ltoa.s(11)
+    _printf.o                 _printf.s(12)
+    _fopen.o                  _fopen.s(12)
+    write.o                   ../../asminc/zeropage.inc(12)
+    rwcommon.o                ../../asminc/zeropage.inc(12)
+    read.o                    ../../asminc/zeropage.inc(12)
+    mouse_info.o              mouse_info.s(8)
+    mouse-kernel.o            mouse-kernel.s(8)
+    vcprintf.o                vcprintf.s(10)
+    cputs.o                   cputs.s(10)
+    cprintf.o                 cprintf.s(9)
+    udiv.o                    udiv.s(9)
+    staxspi.o                 staxspi.s(9)
+    staspidx.o                staspidx.s(9)
+    mulax6.o                  mulax6.s(9)
+    mulax3.o                  mulax3.s(8)
+    mulax10.o                 mulax10.s(9)
+    mod.o                     mod.s(12)
+    ldaxi.o                   ldaxi.s(8)
+    ldaui.o                   ldaui.s(8)
+    ldai.o                    ldai.s(8)
+    call.o                    call.s(8)
+    zerobss.o                 zerobss.s(9)
+    vfprintf.o                vfprintf.s(11)
+    printf.o                  printf.s(9)
+    memset.o                  memset.s(20)
+    memcpy.o                  memcpy.s(15)
+    memcmp.o                  memcmp.s(9)
+    fwrite.o                  fwrite.s(14)
+    fread.o                   fread.s(17)
+    fclose.o                  fclose.s(11)
+ptr2 (zeropage.o):
+    malloc.o                  malloc.s(108)
+    free.o                    free.s(62)
+    strlower.o                strlower.s(13)
+    ltoa.o                    ltoa.s(11)
+    _printf.o                 _printf.s(12)
+    write.o                   ../../asminc/zeropage.inc(12)
+    rwcommon.o                ../../asminc/zeropage.inc(12)
+    read.o                    ../../asminc/zeropage.inc(12)
+    vcprintf.o                vcprintf.s(10)
+    memset.o                  memset.s(20)
+    memcpy.o                  memcpy.s(15)
+    memcmp.o                  memcmp.s(9)
+ptr3 (zeropage.o):
+    malloc.o                  malloc.s(108)
+    free.o                    free.s(62)
+    ltoa.o                    ltoa.s(11)
+    read.o                    ../../asminc/zeropage.inc(12)
+    vcprintf.o                vcprintf.s(10)
+    memset.o                  memset.s(20)
+    memcpy.o                  memcpy.s(15)
+    memcmp.o                  memcmp.s(9)
+ptr4 (zeropage.o):
+    free.o                    free.s(62)
+    udiv.o                    udiv.s(9)
+    shelp.o                   shelp.s(12)
+    mul8.o                    mul8.s(10)
+    mul.o                     mul.s(10)
+push1 (push1.o):
+    _printf.o                 _printf.s(9)
+    vfprintf.o                vfprintf.s(9)
+pusha (pusha.o):
+    ui.o                      ui.s(335)
+    ui.o                      ui.s(417)
+    ui.o                      ui.s(560)
+    ui.o                      ui.s(618)
+    ui.o                      ui.s(717)
+    ui.o                      ui.s(780)
+    ui.o                      ui.s(801)
+    ui.o                      ui.s(828)
+    ui.o                      ui.s(1090)
+    ui.o                      ui.s(1307)
+    ui.o                      ui.s(1627)
+    ui.o                      ui.s(1687)
+    ui.o                      ui.s(1846)
+    ui.o                      ui.s(2009)
+    ui.o                      ui.s(2044)
+    ui.o                      ui.s(2106)
+    ui.o                      ui.s(2155)
+    ui.o                      ui.s(2211)
+    sound.o                   sound.s(543)
+    sound.o                   sound.s(771)
+    sound.o                   sound.s(837)
+    mouseWrapper.o            mouseWrapper.s(141)
+    mockingboard.o            mockingboard.s(101)
+    mockingboard.o            mockingboard.s(375)
+    mockingboard.o            mockingboard.s(610)
+    machine.o                 machine.s(159)
+    joystick.o                joystick.s(126)
+    joystick.o                joystick.s(298)
+    game.o                    game.s(128)
+    game.o                    game.s(164)
+    game.o                    game.s(447)
+    game.o                    game.s(714)
+    game.o                    game.s(1056)
+    game.o                    game.s(1101)
+    game.o                    game.s(1245)
+    game.o                    game.s(1387)
+    game.o                    game.s(1412)
+    game.o                    game.s(1618)
+    game.o                    game.s(1942)
+    game.o                    game.s(2267)
+    game.o                    game.s(2355)
+    game.o                    game.s(2494)
+    game.o                    game.s(2598)
+    game.o                    game.s(2938)
+    game.o                    game.s(3528)
+    game.o                    game.s(3932)
+    game.o                    game.s(4026)
+    anim.o                    anim.s(86)
+    anim.o                    anim.s(215)
+    anim.o                    anim.s(265)
+    anim.o                    anim.s(331)
+    anim.o                    anim.s(455)
+    anim.o                    anim.s(825)
+    anim.o                    anim.s(971)
+    anim.o                    anim.s(1271)
+    anim.o                    anim.s(3246)
+    anim.o                    anim.s(3295)
+pusha0 (pushax.o):
+    push1.o                   push1.s(8)
+    fread.o                   fread.s(11)
+pushax (pushax.o):
+    pmemalign.o               pmemalign.s(35)
+    _printf.o                 _printf.s(9)
+    open.o                    ../apple2/open.s(16)
+    vcprintf.o                vcprintf.s(8)
+    cprintf.o                 cprintf.s(8)
+    callmain.o                callmain.s(11)
+    printf.o                  printf.s(8)
+    fwrite.o                  fwrite.s(11)
+    fread.o                   fread.s(11)
+    fopen.o                   fopen.s(11)
+    ui.o                      ui.s(293)
+    ui.o                      ui.s(361)
+    ui.o                      ui.s(427)
+    ui.o                      ui.s(589)
+    ui.o                      ui.s(630)
+    ui.o                      ui.s(947)
+    ui.o                      ui.s(982)
+    ui.o                      ui.s(1029)
+    ui.o                      ui.s(1093)
+    ui.o                      ui.s(1267)
+    ui.o                      ui.s(1475)
+    ui.o                      ui.s(1812)
+    ui.o                      ui.s(1976)
+    ui.o                      ui.s(2056)
+    ui.o                      ui.s(2344)
+    sound.o                   sound.s(723)
+    sound.o                   sound.s(830)
+    sound.o                   sound.s(870)
+    sound.o                   sound.s(903)
+    sound.o                   sound.s(936)
+    sound.o                   sound.s(969)
+    sound.o                   sound.s(1003)
+    sound.o                   sound.s(1040)
+    sound.o                   sound.s(1077)
+    mouseWrapper.o            mouseWrapper.s(71)
+    mouseWrapper.o            mouseWrapper.s(194)
+    mouseWrapper.o            mouseWrapper.s(456)
+    mockingboard.o            mockingboard.s(68)
+    mockingboard.o            mockingboard.s(326)
+    mockingboard.o            mockingboard.s(373)
+    mockingboard.o            mockingboard.s(490)
+    mockingboard.o            mockingboard.s(553)
+    mockingboard.o            mockingboard.s(586)
+    machine.o                 machine.s(51)
+    machine.o                 machine.s(74)
+    machine.o                 machine.s(154)
+    joystick.o                joystick.s(150)
+    joystick.o                joystick.s(303)
+    joystick.o                joystick.s(487)
+    game.o                    game.s(251)
+    game.o                    game.s(606)
+    game.o                    game.s(1043)
+    game.o                    game.s(1106)
+    game.o                    game.s(1204)
+    game.o                    game.s(1325)
+    game.o                    game.s(1375)
+    game.o                    game.s(1505)
+    game.o                    game.s(1679)
+    game.o                    game.s(2003)
+    game.o                    game.s(2306)
+    game.o                    game.s(2352)
+    game.o                    game.s(2764)
+    game.o                    game.s(2987)
+    game.o                    game.s(3508)
+    game.o                    game.s(3534)
+    game.o                    game.s(3958)
+    game.o                    game.s(4013)
+    anim.o                    anim.s(208)
+    anim.o                    anim.s(258)
+    anim.o                    anim.s(356)
+    anim.o                    anim.s(479)
+    anim.o                    anim.s(765)
+    anim.o                    anim.s(842)
+    anim.o                    anim.s(988)
+    anim.o                    anim.s(1182)
+pusheax (lpush.o):
+    _printf.o                 _printf.s(9)
+pushname (filename.o):
+    open.o                    ../apple2/open.s(13)
+pushwysp (pushwsp.o):
+    vfprintf.o                vfprintf.s(9)
+    fwrite.o                  fwrite.s(11)
+    fread.o                   fread.s(14)
+regbank (zeropage.o):
+    pmemalign.o               pmemalign.s(10)
+    _printf.o                 _printf.s(12)
+    fread.o                   fread.s(31)
+regsave (zeropage.o):
+    ui.o                      ui.s(10)
+    sound.o                   sound.s(10)
+    mockingboard.o            mockingboard.s(10)
+    game.o                    game.s(10)
+    anim.o                    anim.s(10)
+return0 (return0.o):
+    _fopen.o                  _fopen.s(11)
+    _fdesc.o                  _fdesc.s(9)
+    close.o                   ../apple2/close.s(11)
+    mouse-kernel.o            mouse-kernel.s(7)
+    ult.o                     ult.s(8)
+    memcmp.o                  memcmp.s(8)
+    fwrite.o                  fwrite.s(11)
+rwcommon (rwcommon.o):
+    write.o                   ../apple2/write.s(8)
+    read.o                    ../apple2/read.s(9)
+rwepilog (rwcommon.o):
+    write.o                   ../apple2/write.s(8)
+rwprolog (rwcommon.o):
+    write.o                   ../apple2/write.s(8)
+    read.o                    ../apple2/read.s(9)
+shlax1 (aslax1.o):
+    anim.o                    anim.s(395)
+shlax3 (aslax3.o):
+    anim.o                    anim.s(454)
+shrax2 (shrax2.o):
+    joystick.o                joystick.s(316)
+sp (zeropage.o):
+    _heap.o                   _heap.s(9)
+    subysp.o                  subysp.s(9)
+    subeqsp.o                 subeqsp.s(8)
+    pmemalign.o               pmemalign.s(10)
+    filename.o                ../../asminc/zeropage.inc(11)
+    lpush.o                   lpush.s(12)
+    _printf.o                 _printf.s(12)
+    _fopen.o                  _fopen.s(12)
+    open.o                    ../../asminc/zeropage.inc(11)
+    vcprintf.o                vcprintf.s(10)
+    cprintf.o                 cprintf.s(9)
+    sub.o                     sub.s(9)
+    staxspi.o                 staxspi.s(9)
+    staxsp.o                  staxsp.s(8)
+    staspidx.o                staspidx.s(9)
+    pushwsp.o                 pushwsp.s(8)
+    pushax.o                  pushax.s(8)
+    pusha.o                   pusha.s(8)
+    popsreg.o                 popsreg.s(9)
+    popa.o                    popa.s(8)
+    or.o                      or.s(9)
+    leaaxsp.o                 leaaxsp.s(8)
+    ldaxsp.o                  ldaxsp.s(8)
+    incsp2.o                  incsp2.s(8)
+    incsp1.o                  incsp1.s(8)
+    icmp.o                    icmp.s(9)
+    decsp8.o                  decsp8.s(8)
+    decsp7.o                  decsp7.s(8)
+    decsp6.o                  decsp6.s(8)
+    decsp4.o                  decsp4.s(8)
+    decsp3.o                  decsp3.s(8)
+    decsp2.o                  decsp2.s(8)
+    decsp1.o                  decsp1.s(8)
+    and.o                     and.s(9)
+    addysp.o                  addysp.s(8)
+    add.o                     add.s(11)
+    vfprintf.o                vfprintf.s(11)
+    printf.o                  printf.s(9)
+    memset.o                  memset.s(20)
+    memcpy.o                  memcpy.s(15)
+    fread.o                   fread.s(17)
+    crt0.o                    ../../asminc/zeropage.inc(11)
+    ui.o                      ui.s(10)
+    sound.o                   sound.s(10)
+    mouseWrapper.o            mouseWrapper.s(10)
+    mockingboard.o            mockingboard.s(10)
+    machine.o                 machine.s(10)
+    joystick.o                joystick.s(10)
+    game.o                    game.s(10)
+    anim.o                    anim.s(10)
+sreg (zeropage.o):
+    lpush.o                   lpush.s(12)
+    axlong.o                  axlong.s(8)
+    ltoa.o                    ltoa.s(11)
+    _printf.o                 _printf.s(12)
+    mouse-kernel.o            mouse-kernel.s(8)
+    udiv.o                    udiv.s(9)
+    shelp.o                   shelp.s(12)
+    popsreg.o                 popsreg.s(9)
+    mul8.o                    mul8.s(10)
+    mul.o                     mul.s(10)
+    icmp.o                    icmp.s(9)
+    div.o                     div.s(12)
+staspidx (staspidx.o):
+    ui.o                      ui.s(1271)
+    mockingboard.o            mockingboard.s(224)
+    mockingboard.o            mockingboard.s(561)
+    mockingboard.o            mockingboard.s(630)
+    machine.o                 machine.s(214)
+    joystick.o                joystick.s(384)
+    game.o                    game.s(1379)
+    game.o                    game.s(1509)
+    game.o                    game.s(2311)
+    game.o                    game.s(2768)
+    game.o                    game.s(3058)
+    game.o                    game.s(3625)
+    anim.o                    anim.s(237)
+    anim.o                    anim.s(288)
+    anim.o                    anim.s(795)
+    anim.o                    anim.s(856)
+    anim.o                    anim.s(1002)
+    anim.o                    anim.s(1186)
+staxspidx (staxspi.o):
+    pmemalign.o               pmemalign.s(220)
+    mockingboard.o            mockingboard.s(117)
+    game.o                    game.s(2460)
+    anim.o                    anim.s(950)
+    anim.o                    anim.s(1086)
+staxysp (staxsp.o):
+    pmemalign.o               pmemalign.s(264)
+    ui.o                      ui.s(383)
+    mouseWrapper.o            mouseWrapper.s(463)
+    mockingboard.o            mockingboard.s(74)
+    mockingboard.o            mockingboard.s(501)
+    mockingboard.o            mockingboard.s(660)
+    machine.o                 machine.s(174)
+    joystick.o                joystick.s(308)
+    game.o                    game.s(2433)
+    anim.o                    anim.s(1138)
+subeqysp (subeqsp.o):
+    pmemalign.o               pmemalign.s(115)
+subysp (subysp.o):
+    filename.o                ../apple2/filename.s(8)
+tmp1 (zeropage.o):
+    filename.o                ../../asminc/zeropage.inc(13)
+    ltoa.o                    ltoa.s(11)
+    _printf.o                 _printf.s(12)
+    open.o                    ../../asminc/zeropage.inc(13)
+    mouse-kernel.o            mouse-kernel.s(8)
+    vcprintf.o                vcprintf.s(10)
+    cputs.o                   cputs.s(10)
+    staxspi.o                 staxspi.s(9)
+    staspidx.o                staspidx.s(9)
+    shrax2.o                  shrax2.s(8)
+    shl.o                     shl.s(16)
+    shelp.o                   shelp.s(12)
+    or.o                      or.s(9)
+    mul.o                     mul.s(10)
+    mod.o                     mod.s(12)
+    incaxy.o                  incaxy.s(8)
+    div.o                     div.s(12)
+    decaxy.o                  decaxy.s(8)
+    asrax3.o                  asrax3.s(9)
+    asrax2.o                  asrax2.s(8)
+    aslax4.o                  aslax4.s(8)
+    aslax3.o                  aslax3.s(8)
+    aslax1.o                  aslax1.s(8)
+tmp2 (zeropage.o):
+    open.o                    ../../asminc/zeropage.inc(13)
+    mouse-kernel.o            mouse-kernel.s(8)
+    shelp.o                   shelp.s(12)
+    div.o                     div.s(12)
+tmp3 (zeropage.o):
+    open.o                    ../../asminc/zeropage.inc(13)
+tosaddax (add.o):
+    pmemalign.o               pmemalign.s(158)
+    anim.o                    anim.s(1296)
+tosandax (and.o):
+    pmemalign.o               pmemalign.s(116)
+    anim.o                    anim.s(286)
+    anim.o                    anim.s(360)
+tosaslax (shl.o):
+    anim.o                    anim.s(214)
+    anim.o                    anim.s(264)
+tosdivax (div.o):
+    mouseWrapper.o            mouseWrapper.s(197)
+toseqax (eq.o):
+    ui.o                      ui.s(592)
+    game.o                    game.s(3962)
+    anim.o                    anim.s(1260)
+tosgeax (ge.o):
+    game.o                    game.s(1685)
+    game.o                    game.s(2009)
+tosgtax (gt.o):
+    anim.o                    anim.s(1308)
+tosicmp (icmp.o):
+    ult.o                     ult.s(8)
+    ugt.o                     ugt.s(8)
+    ne.o                      ne.s(8)
+    le.o                      le.s(8)
+    gt.o                      gt.s(8)
+    ge.o                      ge.s(8)
+    eq.o                      eq.s(8)
+tosleax (le.o):
+    game.o                    game.s(1528)
+    game.o                    game.s(1787)
+    game.o                    game.s(2111)
+    anim.o                    anim.s(1352)
+tosmodax (mod.o):
+    game.o                    game.s(1328)
+    game.o                    game.s(3511)
+    anim.o                    anim.s(1197)
+tosneax (ne.o):
+    ui.o                      ui.s(1113)
+    mouseWrapper.o            mouseWrapper.s(235)
+    machine.o                 machine.s(185)
+    joystick.o                joystick.s(492)
+    game.o                    game.s(710)
+    game.o                    game.s(1237)
+    game.o                    game.s(1720)
+    game.o                    game.s(2044)
+tosorax (or.o):
+    ui.o                      ui.s(1818)
+    ui.o                      ui.s(1982)
+    mouseWrapper.o            mouseWrapper.s(264)
+    mockingboard.o            mockingboard.s(516)
+    game.o                    game.s(257)
+    game.o                    game.s(612)
+    game.o                    game.s(1564)
+    game.o                    game.s(1700)
+    game.o                    game.s(2024)
+    game.o                    game.s(2993)
+    anim.o                    anim.s(235)
+    anim.o                    anim.s(940)
+    anim.o                    anim.s(1076)
+tossubax (sub.o):
+    pmemalign.o               pmemalign.s(285)
+    anim.o                    anim.s(1198)
+tosudivax (udiv.o):
+    fwrite.o                  fwrite.s(12)
+    fread.o                   fread.s(15)
+    game.o                    game.s(1229)
+tosugtax (ugt.o):
+    anim.o                    anim.s(483)
+tosultax (ult.o):
+    mouseWrapper.o            mouseWrapper.s(322)
+    game.o                    game.s(1207)
+    game.o                    game.s(3537)
+    anim.o                    anim.s(567)
+tosumulax (mul.o):
+    fwrite.o                  fwrite.s(12)
+    fread.o                   fread.s(15)
+    mouseWrapper.o            mouseWrapper.s(459)
+    game.o                    game.s(3703)
+udiv16 (udiv.o):
+    mod.o                     mod.s(11)
+    div.o                     div.s(11)
+zerobss (zerobss.o):
+    crt0.o                    ../apple2/crt0.s(9)
+

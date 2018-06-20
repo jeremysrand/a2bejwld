@@ -1,0 +1,270 @@
+ca65 V2.13.3 - (C) Copyright 1998-2012 Ullrich von Bassewitz
+Main file   : mockingboard_speech.s
+Current file: mockingboard_speech.s
+
+000000r 1               ;
+000000r 1               ;  speech.s
+000000r 1               ;  mocktest
+000000r 1               ;
+000000r 1               ;  Created by Jeremy Rand on 2016-09-29.
+000000r 1               ;  Copyright © 2016 Jeremy Rand. All rights reserved.
+000000r 1               ;
+000000r 1               
+000000r 1               
+000000r 1                   .export _mockingBoardSpeechInit, _mockingBoardSpeechShutdown, _mockingBoardSpeakPriv
+000000r 1                   .export _mockingBoardSpeechData, _mockingBoardSpeechLen
+000000r 1                   .export _mockingBoardSpeechBusy, _mockingBoardSpeechPlaying
+000000r 1                   .interruptor mock_irq
+000000r 1               
+000000r 1               
+000000r 1               TMPPTR  := $FB           ; Temporary pointer used in interrupt handler
+000000r 1               IRQL    := $03FE         ; Interrupt vector, low byte
+000000r 1               IRQH    := $03FF         ; Interrupt vector, high byte
+000000r 1               BASE    := $40           ; First speech chip
+000000r 1               DURPHON := BASE          ; Register 0 of speech chip
+000000r 1               INFLECT := BASE+$01      ; Register 1 of speech chip
+000000r 1               RATEINF := BASE+$02      ; Register 2 of speech chip
+000000r 1               CTTRAMP := BASE+$03      ; Register 3 of speech chip
+000000r 1               FILFREQ := BASE+$04      ; Register 4 of speech chip
+000000r 1               DDRB    := $02
+000000r 1               DDRA    := $03
+000000r 1               PCR     := $8C           ; Peripheral control register, 6522
+000000r 1               IFR     := $8D           ; Interrupt flag register, 6522
+000000r 1               IER     := $8E
+000000r 1               
+000000r 1               
+000000r 1               .DATA
+000000r 1  00 00        _mockingBoardSpeechData:    .byte   $00, $00
+000002r 1  00 00        _mockingBoardSpeechLen:     .byte   $00, $00
+000004r 1  00 00        _outptr:                    .byte   $00, $00
+000006r 1  00 00        _endptr:                    .byte   $00, $00
+000008r 1  00           _mockingBoardSpeechBusy:    .byte   $00
+000009r 1  00           _mockingBoardSpeechPlaying: .byte   $00
+00000Ar 1               
+00000Ar 1  60           mock_irq:      .byte   $60
+00000Br 1  rr                          .lobytes _mockInterrupt
+00000Cr 1  rr                          .hibytes _mockInterrupt
+00000Dr 1               
+00000Dr 1               
+00000Dr 1               .CODE
+000000r 1               
+000000r 1               writeChip:
+000000r 1  9D 00 C0         sta $C000,X
+000003r 1  60               rts
+000004r 1               
+000004r 1               readChip:
+000004r 1  BD 00 C0         lda $C000,X
+000007r 1  60               rts
+000008r 1               
+000008r 1               
+000008r 1               .proc _mockingBoardSpeechInit
+000008r 1  78               sei
+000009r 1               
+000009r 1               ; The accumulator has the slot number of the mockingboard.
+000009r 1               ; Turn that into the address of the slot and set the address
+000009r 1               ; in the read and write functions.
+000009r 1  29 07            and #$7
+00000Br 1  09 C0            ora #$c0
+00000Dr 1  8D rr rr         sta writeChip+2
+000010r 1  8D rr rr         sta readChip+2
+000013r 1               
+000013r 1               ; Write a jump instruction at mock_irq to turn on our handler
+000013r 1  A9 4C            lda #$4c
+000015r 1  8D rr rr         sta mock_irq
+000018r 1               
+000018r 1  58               cli
+000019r 1  60               rts
+00001Ar 1               .endproc
+00001Ar 1               
+00001Ar 1               
+00001Ar 1               .proc _mockingBoardSpeechShutdown
+00001Ar 1  78               sei
+00001Br 1               
+00001Br 1               ; Write a RTS instruction at mock_irq to disable our handler
+00001Br 1  A9 60            lda #$60
+00001Dr 1  8D rr rr         sta mock_irq
+000020r 1               
+000020r 1  58               cli
+000021r 1  60               rts
+000022r 1               .endproc
+000022r 1               
+000022r 1               
+000022r 1               .proc _mockingBoardSpeakPriv
+000022r 1  78               sei
+000023r 1  A9 00            lda #$00
+000025r 1  A2 03            ldx #DDRA
+000027r 1  20 rr rr         jsr writeChip
+00002Ar 1  A2 02            ldx #DDRB
+00002Cr 1  20 rr rr         jsr writeChip
+00002Fr 1               
+00002Fr 1               ; Get the starting address of the data and store in the work pointer
+00002Fr 1  AD rr rr         lda _mockingBoardSpeechData+1
+000032r 1  8D rr rr         sta _outptr+1
+000035r 1  AD rr rr         lda _mockingBoardSpeechData
+000038r 1  8D rr rr         sta _outptr
+00003Br 1               
+00003Br 1               ; Calculate the end address from the start address and the length
+00003Br 1  AD rr rr         lda _mockingBoardSpeechLen+1
+00003Er 1  18               clc
+00003Fr 1  6D rr rr         adc _mockingBoardSpeechData+1
+000042r 1  8D rr rr         sta _endptr+1
+000045r 1  AD rr rr         lda _mockingBoardSpeechLen
+000048r 1  18               clc
+000049r 1  6D rr rr         adc _mockingBoardSpeechData
+00004Cr 1  90 03            bcc @L2
+00004Er 1  EE rr rr         inc _endptr+1
+000051r 1               @L2:
+000051r 1  8D rr rr         sta _endptr
+000054r 1               
+000054r 1               ; Set the busy flag
+000054r 1  A9 FF            lda #$FF
+000056r 1  8D rr rr         sta _mockingBoardSpeechBusy
+000059r 1               
+000059r 1               ; Set peripheral control register to recognize the signal from the
+000059r 1               ; speech chip.
+000059r 1  A9 0C            lda #$0C
+00005Br 1  A2 8C            ldx #PCR
+00005Dr 1  20 rr rr         jsr writeChip
+000060r 1               
+000060r 1               ; Raise control bit in register 3
+000060r 1  A9 80            lda #$80
+000062r 1  A2 43            ldx #CTTRAMP
+000064r 1  20 rr rr         jsr writeChip
+000067r 1               
+000067r 1               ; Set transitioned inflection mode in register 0
+000067r 1  A9 C0            lda #$C0
+000069r 1  A2 40            ldx #DURPHON
+00006Br 1  20 rr rr         jsr writeChip
+00006Er 1               
+00006Er 1               ; Lower control bit
+00006Er 1  A9 70            lda #$70
+000070r 1  A2 43            ldx #CTTRAMP
+000072r 1  20 rr rr         jsr writeChip
+000075r 1               
+000075r 1               ; Enable 6522 interrupts
+000075r 1  A9 82            lda #$82
+000077r 1  A2 8E            ldx #IER
+000079r 1  20 rr rr         jsr writeChip
+00007Cr 1               
+00007Cr 1  58               cli
+00007Dr 1  60               rts
+00007Er 1               .endproc
+00007Er 1               
+00007Er 1               
+00007Er 1               .proc _mockInterrupt
+00007Er 1               ; If we have a 6522 interrupt, jump to L4.
+00007Er 1  A2 8D            ldx #IFR
+000080r 1  20 rr rr         jsr readChip
+000083r 1  30 02            bmi @L4
+000085r 1               
+000085r 1               ; Otherwise clear the carry to indicate we didn't handle the interrupt
+000085r 1               ; and return to the caller.
+000085r 1  18               clc
+000086r 1  60               rts
+000087r 1               
+000087r 1               @L4:
+000087r 1               ; Clear the interrupt flag
+000087r 1  A9 02            lda #$02
+000089r 1  A2 8D            ldx #IFR
+00008Br 1  20 rr rr         jsr writeChip
+00008Er 1               
+00008Er 1               ; Check for end of data file.  If not the end, jump to L1
+00008Er 1  AD rr rr         lda _outptr+1
+000091r 1  CD rr rr         cmp _endptr+1
+000094r 1  90 37            bcc @L1
+000096r 1  D0 08            bne @L5
+000098r 1  AD rr rr         lda _outptr
+00009Br 1  CD rr rr         cmp _endptr
+00009Er 1  90 2D            bcc @L1
+0000A0r 1               
+0000A0r 1               @L5:
+0000A0r 1               
+0000A0r 1               ; If at the end, turn everything off.  Store a pause phoneme.
+0000A0r 1  A9 00            lda #$00
+0000A2r 1  A2 40            ldx #DURPHON
+0000A4r 1  20 rr rr         jsr writeChip
+0000A7r 1               
+0000A7r 1               ; Zero amplitude
+0000A7r 1  A9 70            lda #$70
+0000A9r 1  A2 43            ldx #CTTRAMP
+0000ABr 1  20 rr rr         jsr writeChip
+0000AEr 1               
+0000AEr 1               ; Clear busy and playing flags
+0000AEr 1  A9 00            lda #$00
+0000B0r 1  8D rr rr         sta _mockingBoardSpeechBusy
+0000B3r 1  8D rr rr         sta _mockingBoardSpeechPlaying
+0000B6r 1               
+0000B6r 1               ; Clear interrupt enable in 6522
+0000B6r 1  A9 02            lda #$02
+0000B8r 1  A2 8E            ldx #IER
+0000BAr 1  20 rr rr         jsr writeChip
+0000BDr 1  A9 FF            lda #$FF
+0000BFr 1  A2 03            ldx #DDRA
+0000C1r 1  20 rr rr         jsr writeChip
+0000C4r 1  A9 07            lda #$07
+0000C6r 1  A2 02            ldx #DDRB
+0000C8r 1  20 rr rr         jsr writeChip
+0000CBr 1               
+0000CBr 1               @L2:
+0000CBr 1               ; Set the carry flag to indicate we handled the interrupt and return to the caller.
+0000CBr 1  38               sec
+0000CCr 1  60               rts
+0000CDr 1               
+0000CDr 1               @L1:
+0000CDr 1               
+0000CDr 1               ; Set the speach playing flag
+0000CDr 1  A9 FF            lda #$ff
+0000CFr 1  8D rr rr         sta _mockingBoardSpeechPlaying
+0000D2r 1               
+0000D2r 1               ; Save the value of the tmp pointer on the stack
+0000D2r 1  A5 FB            lda TMPPTR
+0000D4r 1  48               pha
+0000D5r 1  A5 FC            lda TMPPTR+1
+0000D7r 1  48               pha
+0000D8r 1               
+0000D8r 1               ; Move the _outptr into the tmp pointer
+0000D8r 1  AD rr rr         lda _outptr
+0000DBr 1  85 FB            sta TMPPTR
+0000DDr 1  AD rr rr         lda _outptr+1
+0000E0r 1  85 FC            sta TMPPTR+1
+0000E2r 1               
+0000E2r 1               ; Init registers
+0000E2r 1  A0 00            ldy #$00
+0000E4r 1  A2 44            ldx #FILFREQ
+0000E6r 1               
+0000E6r 1               @L6:
+0000E6r 1               ; Get the next data
+0000E6r 1  B1 FB            lda (TMPPTR),Y
+0000E8r 1               
+0000E8r 1               ; Store in the speech chip
+0000E8r 1  20 rr rr         jsr writeChip
+0000EBr 1               
+0000EBr 1               ; Next data
+0000EBr 1  E6 FB            inc TMPPTR
+0000EDr 1  D0 02            bne @L3
+0000EFr 1  E6 FC            inc TMPPTR+1
+0000F1r 1               
+0000F1r 1               @L3:
+0000F1r 1               ; Go to next register
+0000F1r 1  CA               dex
+0000F2r 1               
+0000F2r 1               ; If we are not done the last register, then loop back to L6
+0000F2r 1  E0 3F            cpx #BASE-1
+0000F4r 1  D0 F0            bne @L6
+0000F6r 1               
+0000F6r 1               ; We are done writing so move the tmp pointer back into _outptr
+0000F6r 1  A5 FB            lda TMPPTR
+0000F8r 1  8D rr rr         sta _outptr
+0000FBr 1  A5 FC            lda TMPPTR+1
+0000FDr 1  8D rr rr         sta _outptr+1
+000100r 1               
+000100r 1               ; Restore the tmp pointer from the stack
+000100r 1  68               pla
+000101r 1  85 FC            sta TMPPTR+1
+000103r 1  68               pla
+000104r 1  85 FB            sta TMPPTR
+000106r 1               
+000106r 1               ; Finish the interrupt handler
+000106r 1  4C rr rr         jmp @L2
+000109r 1               .endproc
+000109r 1               

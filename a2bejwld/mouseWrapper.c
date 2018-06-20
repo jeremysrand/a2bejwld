@@ -14,11 +14,7 @@
 #include "mouseWrapper.h"
 #include "game.h"
 #include "vbl.h"
-
-
-// Extern to mouse driver
-
-extern char a2e_stdmou_mou;
+#include "drivers/a2_mouse_drv.h"
 
 
 // Globals
@@ -42,7 +38,7 @@ bool initMouse(tMouseCallbacks *callbacks)
         gMouseDrvCallbacks.movex = mouse_def_callbacks.movex;
         gMouseDrvCallbacks.movey = mouse_def_callbacks.movey;
         
-        if (mouse_install(&gMouseDrvCallbacks, &a2e_stdmou_mou) == 0) {
+        if (mouse_install(&gMouseDrvCallbacks, &a2_mouse_drv) == 0) {
             gMouseInstalled = true;
             
             // This is required to ensure that the show callback is called

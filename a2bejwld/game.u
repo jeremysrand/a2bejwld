@@ -1,0 +1,2 @@
+game.o:	game.c /usr/local/lib/cc65/include/stdbool.h /usr/local/lib/cc65/include/stdio.h /usr/local/lib/cc65/include/stddef.h /usr/local/lib/cc65/include/stdarg.h /usr/local/lib/cc65/include/stdlib.h /usr/local/lib/cc65/include/string.h /usr/local/lib/cc65/include/conio.h /usr/local/lib/cc65/include/apple2enh.h /usr/local/lib/cc65/include/apple2.h game.h types.h /usr/local/lib/cc65/include/stdint.h
+

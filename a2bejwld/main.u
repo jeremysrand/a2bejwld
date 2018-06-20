@@ -1,0 +1,2 @@
+main.o:	main.c /usr/local/lib/cc65/include/stdbool.h ui.h
+

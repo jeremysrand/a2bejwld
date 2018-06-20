@@ -1,0 +1,2 @@
+anim.o:	anim.c /usr/local/lib/cc65/include/conio.h /usr/local/lib/cc65/include/stdarg.h /usr/local/lib/cc65/include/apple2enh.h /usr/local/lib/cc65/include/apple2.h /usr/local/lib/cc65/include/stdbool.h /usr/local/lib/cc65/include/stdint.h /usr/local/lib/cc65/include/stdio.h /usr/local/lib/cc65/include/stddef.h /usr/local/lib/cc65/include/string.h /usr/local/lib/cc65/include/stdlib.h anim.h types.h dbllores.h game.h machine.h sound.h mockingboard.h ui.h
+
