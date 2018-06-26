@@ -52,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D45ABB220E1E314008C3F16 /* errorFilter.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = errorFilter.sh; path = make/errorFilter.sh; sourceTree = "<group>"; };
 		9DF8AA4C20D9F81600E306E4 /* doNotBuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doNotBuild; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF8AA5120D9F81600E306E4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		9DF8AA5420D9F81600E306E4 /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
@@ -151,6 +152,7 @@
 				9DF8AA5620D9F81600E306E4 /* createDiskImage */,
 				9DF8AA5820D9F81600E306E4 /* DevApple.vii */,
 				9DF8AA5A20D9F81600E306E4 /* dos33_template.dsk */,
+				9D45ABB220E1E314008C3F16 /* errorFilter.sh */,
 				9DF8AA5C20D9F81600E306E4 /* head.mk */,
 				9DF8AA5E20D9F81600E306E4 /* prodos_template.dsk */,
 				9DF8AA6020D9F81600E306E4 /* tail.mk */,
