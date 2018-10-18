@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9D3A3E8421782EAF00BE74C7 /* AppleCommander.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3A3E7B21782EAE00BE74C7 /* AppleCommander.jar */; };
+		9D3A3E8521782EAF00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3A3E7E21782EAE00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar */; };
 		9DF8AA5220D9F81600E306E4 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA5120D9F81600E306E4 /* Makefile */; };
-		9DF8AA5520D9F81600E306E4 /* AppleCommander.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DF8AA5420D9F81600E306E4 /* AppleCommander.jar */; };
-		9DF8AA5720D9F81600E306E4 /* createDiskImage in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA5620D9F81600E306E4 /* createDiskImage */; };
 		9DF8AA5920D9F81600E306E4 /* DevApple.vii in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA5820D9F81600E306E4 /* DevApple.vii */; };
 		9DF8AA5B20D9F81600E306E4 /* dos33_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA5A20D9F81600E306E4 /* dos33_template.dsk */; };
 		9DF8AA5D20D9F81600E306E4 /* head.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA5C20D9F81600E306E4 /* head.mk */; };
@@ -38,7 +38,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				9DF8AA5720D9F81600E306E4 /* createDiskImage in CopyFiles */,
 				9DF8AA5920D9F81600E306E4 /* DevApple.vii in CopyFiles */,
 				9DF8AA6620D9F81600E306E4 /* a2bejwld.xcscheme in CopyFiles */,
 				9DF8AA5B20D9F81600E306E4 /* dos33_template.dsk in CopyFiles */,
@@ -52,11 +51,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9D3A3E7921782EAD00BE74C7 /* createDiskImage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = createDiskImage; path = make/createDiskImage; sourceTree = "<group>"; };
+		9D3A3E7B21782EAE00BE74C7 /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
+		9D3A3E7C21782EAE00BE74C7 /* bt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = bt; path = make/bt; sourceTree = "<group>"; };
+		9D3A3E7E21782EAE00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = "bastokenizer-tools-bt-0.2.0.jar"; path = "make/bastokenizer-tools-bt-0.2.0.jar"; sourceTree = "<group>"; };
 		9D45ABB220E1E314008C3F16 /* errorFilter.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = errorFilter.sh; path = make/errorFilter.sh; sourceTree = "<group>"; };
 		9DF8AA4C20D9F81600E306E4 /* doNotBuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doNotBuild; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DF8AA5120D9F81600E306E4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		9DF8AA5420D9F81600E306E4 /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
-		9DF8AA5620D9F81600E306E4 /* createDiskImage */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = createDiskImage; path = make/createDiskImage; sourceTree = "<group>"; };
 		9DF8AA5820D9F81600E306E4 /* DevApple.vii */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = DevApple.vii; path = make/DevApple.vii; sourceTree = "<group>"; };
 		9DF8AA5A20D9F81600E306E4 /* dos33_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = dos33_template.dsk; path = make/dos33_template.dsk; sourceTree = "<group>"; };
 		9DF8AA5C20D9F81600E306E4 /* head.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = head.mk; path = make/head.mk; sourceTree = "<group>"; };
@@ -97,7 +98,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DF8AA5520D9F81600E306E4 /* AppleCommander.jar in Frameworks */,
+				9D3A3E8421782EAF00BE74C7 /* AppleCommander.jar in Frameworks */,
+				9D3A3E8521782EAF00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,8 +150,10 @@
 		9DF8AA5320D9F81600E306E4 /* make */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA5420D9F81600E306E4 /* AppleCommander.jar */,
-				9DF8AA5620D9F81600E306E4 /* createDiskImage */,
+				9D3A3E7B21782EAE00BE74C7 /* AppleCommander.jar */,
+				9D3A3E7E21782EAE00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar */,
+				9D3A3E7C21782EAE00BE74C7 /* bt */,
+				9D3A3E7921782EAD00BE74C7 /* createDiskImage */,
 				9DF8AA5820D9F81600E306E4 /* DevApple.vii */,
 				9DF8AA5A20D9F81600E306E4 /* dos33_template.dsk */,
 				9D45ABB220E1E314008C3F16 /* errorFilter.sh */,

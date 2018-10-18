@@ -1,5 +1,10 @@
 #!/bin/sh
 
+merlinStartAddr() {
+    awk '$1 ~ /^[oO][rR][gG]$/{print $2}' linkscript.s | sed 's/^[0$]*//'
+}
+
+
 if [ $# -lt 5 ]
 then
     echo USAGE: $0 '<AppleCommander> <machine> <diskimage> <binary>'
@@ -43,11 +48,7 @@ shift
 STARTADDR=`echo $1 | sed 's/^0*//'`
 shift
 
-if [ ! -f "$PROGRAM" ]
-then
-    echo "Cannot file executable $PROGRAM"
-    exit 1
-fi
+SOURCEFILE=$PROGRAM
 
 case "$MACHINE" in
     apple2)
@@ -55,8 +56,10 @@ case "$MACHINE" in
         DELETELOADER=1
         RENAMELOADER=0
         DELETEBASIC=0
+        COPYBINARY=1
         HASHEADER=1
         FILETYPE="bin"
+        BASICFILETYPE="bas"
         TARGETFILE=`basename $PROGRAM`
         MAXFILENAMELEN=15
         ;;
@@ -66,8 +69,10 @@ case "$MACHINE" in
         DELETELOADER=1
         RENAMELOADER=0
         DELETEBASIC=0
+        COPYBINARY=1
         HASHEADER=1
         FILETYPE="bin"
+        BASICFILETYPE="bas"
         TARGETFILE=`basename $PROGRAM`
         MAXFILENAMELEN=15
         ;;
@@ -77,8 +82,10 @@ case "$MACHINE" in
         DELETELOADER=0
         RENAMELOADER=0
         DELETEBASIC=0
+        COPYBINARY=1
         HASHEADER=1
-        FILETYPE="bin"
+        FILETYPE="B"
+        BASICFILETYPE="A"
         TARGETFILE=`basename $PROGRAM`
         MAXFILENAMELEN=30
         ;;
@@ -88,8 +95,10 @@ case "$MACHINE" in
         DELETELOADER=0
         RENAMELOADER=0
         DELETEBASIC=0
+        COPYBINARY=1
         HASHEADER=1
-        FILETYPE="bin"
+        FILETYPE="B"
+        BASICFILETYPE="A"
         TARGETFILE=`basename $PROGRAM`
         MAXFILENAMELEN=30
         ;;
@@ -99,8 +108,10 @@ case "$MACHINE" in
         DELETELOADER=1
         RENAMELOADER=0
         DELETEBASIC=1
+        COPYBINARY=1
         HASHEADER=0
         FILETYPE="sys"
+        BASICFILETYPE="bas"
         TARGETFILE=`basename $PROGRAM`.system
         MAXFILENAMELEN=15
         ;;
@@ -110,8 +121,10 @@ case "$MACHINE" in
         DELETELOADER=1
         RENAMELOADER=0
         DELETEBASIC=1
+        COPYBINARY=1
         HASHEADER=0
         FILETYPE="sys"
+        BASICFILETYPE="bas"
         TARGETFILE=`basename $PROGRAM`.system
         MAXFILENAMELEN=15
         ;;
@@ -121,8 +134,10 @@ case "$MACHINE" in
         DELETELOADER=0
         RENAMELOADER=1
         DELETEBASIC=1
+        COPYBINARY=1
         HASHEADER=1
         FILETYPE="bin"
+        BASICFILETYPE="bas"
         TARGETFILE=`basename $PROGRAM`
         MAXFILENAMELEN=15
         ;;
@@ -132,8 +147,10 @@ case "$MACHINE" in
         DELETELOADER=0
         RENAMELOADER=1
         DELETEBASIC=1
+        COPYBINARY=1
         HASHEADER=1
         FILETYPE="bin"
+        BASICFILETYPE="bas"
         TARGETFILE=`basename $PROGRAM`
         MAXFILENAMELEN=15
         ;;
@@ -143,8 +160,10 @@ case "$MACHINE" in
         DELETELOADER=0
         RENAMELOADER=1
         DELETEBASIC=1
+        COPYBINARY=1
         HASHEADER=1
         FILETYPE="bin"
+        BASICFILETYPE="bas"
         TARGETFILE=`basename $PROGRAM`
         MAXFILENAMELEN=15
         ;;
@@ -154,10 +173,68 @@ case "$MACHINE" in
         DELETELOADER=0
         RENAMELOADER=1
         DELETEBASIC=1
+        COPYBINARY=1
         HASHEADER=1
         FILETYPE="bin"
+        BASICFILETYPE="bas"
         TARGETFILE=`basename $PROGRAM`
         MAXFILENAMELEN=15
+        ;;
+
+    apple2-basic)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=1
+        RENAMELOADER=0
+        DELETEBASIC=0
+        COPYBINARY=0
+        FILETYPE="bas"
+        BASICFILETYPE="bas"
+        TARGETFILE=`basename $PROGRAM`
+        SOURCEFILE=${PROGRAM}.tok
+        MAXFILENAMELEN=15
+        ;;
+
+    apple2-dos33-basic)
+        TEMPLATE="make/dos33_template.dsk"
+        DELETELOADER=0
+        RENAMELOADER=0
+        DELETEBASIC=0
+        COPYBINARY=0
+        FILETYPE="A"
+        BASICFILETYPE="A"
+        TARGETFILE=`basename $PROGRAM`
+        SOURCEFILE=${PROGRAM}.tok
+        MAXFILENAMELEN=30
+        ;;
+
+    apple2-merlin)
+        TEMPLATE="make/prodos_template.dsk"
+        DELETELOADER=1
+        RENAMELOADER=0
+        DELETEBASIC=0
+        COPYBINARY=1
+        HASHEADER=0
+        FILETYPE="bin"
+        BASICFILETYPE="bas"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=15
+
+        STARTADDR=`merlinStartAddr`
+        ;;
+
+    apple2-dos33-merlin)
+        TEMPLATE="make/dos33_template.dsk"
+        DELETELOADER=0
+        RENAMELOADER=0
+        DELETEBASIC=0
+        COPYBINARY=1
+        HASHEADER=0
+        FILETYPE="B"
+        BASICFILETYPE="A"
+        TARGETFILE=`basename $PROGRAM`
+        MAXFILENAMELEN=30
+
+        STARTADDR=`merlinStartAddr`
         ;;
 
     *)
@@ -165,6 +242,19 @@ case "$MACHINE" in
         exit 1
         ;;
 esac
+
+STARTARG=""
+if [ ! -z "$STARTADDR" ]
+then
+    STARTARG="0x$STARTADDR"
+fi
+
+if [ ! -f "$SOURCEFILE" ]
+then
+    echo "Cannot file executable $SOURCEFILE"
+    exit 1
+fi
+
 
 if [ ${#TARGETFILE} -gt $MAXFILENAMELEN ]
 then
@@ -203,29 +293,44 @@ then
     "$JAVA" -jar "$APPLECOMMANDER" -d "$DISKIMAGE" BASIC.SYSTEM
 fi
 
-if [ $HASHEADER -eq 1 ]
+if [ $COPYBINARY -eq 1 ]
 then
-    HDR_STARTADDR=`od -t x2 -N 2 < "$PROGRAM" | head -1 | awk '{print $2}' | sed 's/^0*//'`
-    if [ "$HDR_STARTADDR" = "$STARTADDR" ]
+    if [ "$CC65_SUPPORTS_APPLE_SINGLE" -eq 1 ]
     then
-       dd if="$PROGRAM" bs=4 skip=1 | "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE 0x$STARTADDR
-   else
-       "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE 0x$STARTADDR < "$PROGRAM"
+        "$JAVA" -jar "$APPLECOMMANDER" -as "$DISKIMAGE" "$TARGETFILE" < "$SOURCEFILE"
+    elif [ $HASHEADER -eq 1 ]
+    then
+        HDR_STARTADDR=`od -t x2 -N 2 < "$SOURCEFILE" | head -1 | awk '{print $2}' | sed 's/^0*//'`
+        if [ "$HDR_STARTADDR" = "$STARTADDR" ]
+        then
+            dd if="$SOURCEFILE" bs=4 skip=1 | "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE $STARTARG
+        else
+            "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE $STARTARG < "$SOURCEFILE"
+        fi
+    else
+        "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE $STARTARG < "$SOURCEFILE"
     fi
-else
-    "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$TARGETFILE" $FILETYPE < "$PROGRAM"
 fi
 
-for DIR in $*
+for ITEM in $*
 do
-    if [ ! -d "$DIR" ]
+    # If this is a file matching *.tok, then this is an Applesoft BASIC file
+    # to copy to the disk image.
+    if [ -f "$ITEM" ] && echo "$ITEM" | grep '\.tok$' > /dev/null
     then
-        echo Unable to find directory $DIR
+        DESTFILE=`echo "$ITEM" | sed 's/\.tok$//'`
+        "$JAVA" -jar "$APPLECOMMANDER" -p "$DISKIMAGE" "$DESTFILE" "$BASICFILETYPE" 0x801 < "$ITEM"
+        continue
+    fi
+
+    if [ ! -d "$ITEM" ]
+    then
+        echo Unable to find directory $ITEM
         exit 1
     fi
 
     OLDPWD=`pwd`
-    cd $DIR
+    cd $ITEM
 
     find . -type f -print | while read FILE
     do
