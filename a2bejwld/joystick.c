@@ -55,11 +55,11 @@ void initJoystick(tJoyCallbacks *callbacks)
 bool isButtonPressed(tJoyButtonNum buttonNum)
 {
     if (buttonNum == JOY_BUTTON_0) {
-        __asm__("LDA %w", BTN0);
-        __asm__("STA %v", gJoystickTemp);
+        __asm__ volatile("LDA %w", BTN0);
+        __asm__ volatile("STA %v", gJoystickTemp);
     } else if (buttonNum == JOY_BUTTON_1) {
-        __asm__("LDA %w", BTN1);
-        __asm__("STA %v", gJoystickTemp);
+        __asm__ volatile("LDA %w", BTN1);
+        __asm__ volatile("STA %v", gJoystickTemp);
     } else {
         return false;
     }
@@ -69,26 +69,26 @@ bool isButtonPressed(tJoyButtonNum buttonNum)
 
 static uint8_t joystickLeftRight(void)
 {
-    __asm__("BIT %w", ROM_SWITCH);
-    __asm__("LDX #0");
-    __asm__("SEI");
-    __asm__("JSR %w", PREAD);
-    __asm__("CLI");
-    __asm__("STY %v", gJoystickTemp);
-    __asm__("BIT %w", RAM_SWITCH);
+    __asm__ volatile("BIT %w", ROM_SWITCH);
+    __asm__ volatile("LDX #0");
+    __asm__ volatile("SEI");
+    __asm__ volatile("JSR %w", PREAD);
+    __asm__ volatile("CLI");
+    __asm__ volatile("STY %v", gJoystickTemp);
+    __asm__ volatile("BIT %w", RAM_SWITCH);
     return gJoystickTemp;
 }
 
 
 static uint8_t joystickUpDown(void)
 {
-    __asm__("BIT %w", ROM_SWITCH);
-    __asm__("LDX #1");
-    __asm__("SEI");
-    __asm__("JSR %w", PREAD);
-    __asm__("CLI");
-    __asm__("STY %v", gJoystickTemp);
-    __asm__("BIT %w", RAM_SWITCH);
+    __asm__ volatile("BIT %w", ROM_SWITCH);
+    __asm__ volatile("LDX #1");
+    __asm__ volatile("SEI");
+    __asm__ volatile("JSR %w", PREAD);
+    __asm__ volatile("CLI");
+    __asm__ volatile("STY %v", gJoystickTemp);
+    __asm__ volatile("BIT %w", RAM_SWITCH);
     return gJoystickTemp;
 }
 

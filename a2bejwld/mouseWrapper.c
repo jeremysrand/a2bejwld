@@ -9,6 +9,7 @@
 
 #include <conio.h>
 #include <stdio.h>
+#include <string.h>
 #include <mouse.h>
 
 #include "mouseWrapper.h"
@@ -29,14 +30,12 @@ static struct mouse_callbacks gMouseDrvCallbacks;
 bool initMouse(tMouseCallbacks *callbacks)
 {
     if (!gMouseInstalled) {
-        gMouseDrvCallbacks.hide = mouse_def_callbacks.hide;
+        memcpy(&gMouseDrvCallbacks, &mouse_def_callbacks, sizeof(gMouseDrvCallbacks));
         // This callback is here for the //c VBL which is only detectable
         // through the mouse interrupt.  By registering this as our "show"
         // function, we can ensure that we get called on our VBL interrupt
         // and can unblock our VBL wait function.
         gMouseDrvCallbacks.show = vblIRQCallback;
-        gMouseDrvCallbacks.movex = mouse_def_callbacks.movex;
-        gMouseDrvCallbacks.movey = mouse_def_callbacks.movey;
         
         if (mouse_install(&gMouseDrvCallbacks, &a2_mouse_drv) == 0) {
             gMouseInstalled = true;

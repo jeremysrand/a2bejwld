@@ -35,20 +35,20 @@
 #define VERTICAL_PIXELS_PER_SQUARE (VERTICAL_PIXELS / BOARD_SIZE)
 #define HORIZONTAL_PIXELS_PER_SQUARE (HORIZONTAL_PIXELS / BOARD_SIZE)
 
-#define DRAW_GEM_AT_XY(x, y, gemType, starred)  \
-    gTempY = y;                                 \
-    gTempX = x;                                 \
-    gTempGemType = gemType;                     \
-    if (starred) {                              \
-        __asm__("lda %v", gTempY);              \
-        __asm__("ldx %v", gTempX);              \
-        __asm__("ldy %v", gTempGemType);        \
-        __asm__("jsr _drawAndStarGemAtXY");     \
-    } else {                                    \
-        __asm__("lda %v", gTempY);              \
-        __asm__("ldx %v", gTempX);              \
-        __asm__("ldy %v", gTempGemType);        \
-        __asm__("jsr _drawGemAtXY");            \
+#define DRAW_GEM_AT_XY(x, y, gemType, starred)           \
+    gTempY = y;                                          \
+    gTempX = x;                                          \
+    gTempGemType = gemType;                              \
+    if (starred) {                                       \
+        __asm__ volatile("lda %v", gTempY);              \
+        __asm__ volatile("ldx %v", gTempX);              \
+        __asm__ volatile("ldy %v", gTempGemType);        \
+        __asm__ volatile("jsr _drawAndStarGemAtXY");     \
+    } else {                                             \
+        __asm__ volatile("lda %v", gTempY);              \
+        __asm__ volatile("ldx %v", gTempX);              \
+        __asm__ volatile("ldy %v", gTempGemType);        \
+        __asm__ volatile("jsr _drawGemAtXY");            \
     }
 
 
@@ -120,9 +120,9 @@ void drawGemAtSquare(tSquare square)
     tempGemType = gemTypeAtSquare(square);
     tempSquare = square;
     
-    __asm__("lda %v", tempSquare);
-    __asm__("ldy %v", tempGemType);
-    __asm__("jsr _drawGem");
+    __asm__ volatile("lda %v", tempSquare);
+    __asm__ volatile("ldy %v", tempGemType);
+    __asm__ volatile("jsr _drawGem");
 }
 
 
