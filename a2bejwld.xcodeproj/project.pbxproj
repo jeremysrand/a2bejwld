@@ -7,230 +7,238 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9D3A3E8421782EAF00BE74C7 /* AppleCommander.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3A3E7B21782EAE00BE74C7 /* AppleCommander.jar */; };
-		9D3A3E8521782EAF00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3A3E7E21782EAE00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar */; };
-		9DF8AA5220D9F81600E306E4 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA5120D9F81600E306E4 /* Makefile */; };
-		9DF8AA5920D9F81600E306E4 /* DevApple.vii in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA5820D9F81600E306E4 /* DevApple.vii */; };
-		9DF8AA5B20D9F81600E306E4 /* dos33_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA5A20D9F81600E306E4 /* dos33_template.dsk */; };
-		9DF8AA5D20D9F81600E306E4 /* head.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA5C20D9F81600E306E4 /* head.mk */; };
-		9DF8AA5F20D9F81600E306E4 /* prodos_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA5E20D9F81600E306E4 /* prodos_template.dsk */; };
-		9DF8AA6120D9F81600E306E4 /* tail.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA6020D9F81600E306E4 /* tail.mk */; };
-		9DF8AA6320D9F81600E306E4 /* V2Make.scpt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA6220D9F81600E306E4 /* V2Make.scpt */; };
-		9DF8AA6620D9F81600E306E4 /* a2bejwld.xcscheme in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DF8AA6520D9F81600E306E4 /* a2bejwld.xcscheme */; };
-		9DF8AA8920D9F97400E306E4 /* mockingboard_speech.s in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA7320D9F97300E306E4 /* mockingboard_speech.s */; };
-		9DF8AA8A20D9F97400E306E4 /* anim.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA7520D9F97300E306E4 /* anim.c */; };
-		9DF8AA8B20D9F97400E306E4 /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA7620D9F97300E306E4 /* game.c */; };
-		9DF8AA8C20D9F97400E306E4 /* ui.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA7920D9F97300E306E4 /* ui.c */; };
-		9DF8AA8D20D9F97400E306E4 /* mouseWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA7A20D9F97300E306E4 /* mouseWrapper.c */; };
-		9DF8AA8E20D9F97400E306E4 /* mockingboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA7D20D9F97400E306E4 /* mockingboard.c */; };
-		9DF8AA8F20D9F97400E306E4 /* machine.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA8320D9F97400E306E4 /* machine.c */; };
-		9DF8AA9020D9F97400E306E4 /* vbl.s in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA8420D9F97400E306E4 /* vbl.s */; };
-		9DF8AA9120D9F97400E306E4 /* joystick.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA8520D9F97400E306E4 /* joystick.c */; };
-		9DF8AA9320D9F97400E306E4 /* dbllores.s in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA8720D9F97400E306E4 /* dbllores.s */; };
-		9DF8AA9420D9F97400E306E4 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA8820D9F97400E306E4 /* sound.c */; };
-		9DF8AA9820D9FA8100E306E4 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DF8AA9720D9FA8100E306E4 /* main.c */; };
+		9D30A38722FBC49000A4DAFA /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A38622FBC49000A4DAFA /* Makefile */; };
+		9D30A38A22FBC49000A4DAFA /* AppleCommander.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D30A38922FBC49000A4DAFA /* AppleCommander.jar */; };
+		9D30A38C22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D30A38B22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar */; };
+		9D30A38E22FBC49000A4DAFA /* createDiskImage in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A38D22FBC49000A4DAFA /* createDiskImage */; };
+		9D30A39022FBC49000A4DAFA /* bt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A38F22FBC49000A4DAFA /* bt */; };
+		9D30A39222FBC49000A4DAFA /* DevApple.vii in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39122FBC49000A4DAFA /* DevApple.vii */; };
+		9D30A39422FBC49000A4DAFA /* dos33_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39322FBC49000A4DAFA /* dos33_template.dsk */; };
+		9D30A39622FBC49000A4DAFA /* errorFilter.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39522FBC49000A4DAFA /* errorFilter.sh */; };
+		9D30A39822FBC49000A4DAFA /* head.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39722FBC49000A4DAFA /* head.mk */; };
+		9D30A39A22FBC49000A4DAFA /* prodos_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39922FBC49000A4DAFA /* prodos_template.dsk */; };
+		9D30A39C22FBC49000A4DAFA /* tail.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39B22FBC49000A4DAFA /* tail.mk */; };
+		9D30A39E22FBC49000A4DAFA /* V2Make.scpt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39D22FBC49000A4DAFA /* V2Make.scpt */; };
+		9D30A3A122FBC49000A4DAFA /* a2bejwld.xcscheme in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A3A022FBC49000A4DAFA /* a2bejwld.xcscheme */; };
+		9D30A3C222FBC4D600A4DAFA /* mouseWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3AD22FBC4D300A4DAFA /* mouseWrapper.c */; };
+		9D30A3C322FBC4D600A4DAFA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3AE22FBC4D300A4DAFA /* main.c */; };
+		9D30A3C422FBC4D600A4DAFA /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3B022FBC4D300A4DAFA /* game.c */; };
+		9D30A3C522FBC4D600A4DAFA /* joystick.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3B522FBC4D400A4DAFA /* joystick.c */; };
+		9D30A3C622FBC4D600A4DAFA /* machine.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3B622FBC4D400A4DAFA /* machine.c */; };
+		9D30A3C722FBC4D600A4DAFA /* mockingboard_speech.s in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3B922FBC4D500A4DAFA /* mockingboard_speech.s */; };
+		9D30A3C822FBC4D600A4DAFA /* anim.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BB22FBC4D500A4DAFA /* anim.c */; };
+		9D30A3C922FBC4D600A4DAFA /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BC22FBC4D500A4DAFA /* sound.c */; };
+		9D30A3CA22FBC4D600A4DAFA /* ui.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BD22FBC4D500A4DAFA /* ui.c */; };
+		9D30A3CB22FBC4D600A4DAFA /* vbl.s in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BE22FBC4D600A4DAFA /* vbl.s */; };
+		9D30A3CC22FBC4D600A4DAFA /* mockingboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BF22FBC4D600A4DAFA /* mockingboard.c */; };
+		9D30A3CD22FBC4D600A4DAFA /* dbllores.s in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3C122FBC4D600A4DAFA /* dbllores.s */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9DF8AA4A20D9F81600E306E4 /* CopyFiles */ = {
+		9D30A37F22FBC49000A4DAFA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				9DF8AA5920D9F81600E306E4 /* DevApple.vii in CopyFiles */,
-				9DF8AA6620D9F81600E306E4 /* a2bejwld.xcscheme in CopyFiles */,
-				9DF8AA5B20D9F81600E306E4 /* dos33_template.dsk in CopyFiles */,
-				9DF8AA6120D9F81600E306E4 /* tail.mk in CopyFiles */,
-				9DF8AA6320D9F81600E306E4 /* V2Make.scpt in CopyFiles */,
-				9DF8AA5F20D9F81600E306E4 /* prodos_template.dsk in CopyFiles */,
-				9DF8AA5D20D9F81600E306E4 /* head.mk in CopyFiles */,
+				9D30A39A22FBC49000A4DAFA /* prodos_template.dsk in CopyFiles */,
+				9D30A39022FBC49000A4DAFA /* bt in CopyFiles */,
+				9D30A39422FBC49000A4DAFA /* dos33_template.dsk in CopyFiles */,
+				9D30A38E22FBC49000A4DAFA /* createDiskImage in CopyFiles */,
+				9D30A3A122FBC49000A4DAFA /* a2bejwld.xcscheme in CopyFiles */,
+				9D30A39E22FBC49000A4DAFA /* V2Make.scpt in CopyFiles */,
+				9D30A39822FBC49000A4DAFA /* head.mk in CopyFiles */,
+				9D30A39222FBC49000A4DAFA /* DevApple.vii in CopyFiles */,
+				9D30A39622FBC49000A4DAFA /* errorFilter.sh in CopyFiles */,
+				9D30A39C22FBC49000A4DAFA /* tail.mk in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9D3A3E7921782EAD00BE74C7 /* createDiskImage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = createDiskImage; path = make/createDiskImage; sourceTree = "<group>"; };
-		9D3A3E7B21782EAE00BE74C7 /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
-		9D3A3E7C21782EAE00BE74C7 /* bt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = bt; path = make/bt; sourceTree = "<group>"; };
-		9D3A3E7E21782EAE00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = "bastokenizer-tools-bt-0.2.0.jar"; path = "make/bastokenizer-tools-bt-0.2.0.jar"; sourceTree = "<group>"; };
-		9D45ABB220E1E314008C3F16 /* errorFilter.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = errorFilter.sh; path = make/errorFilter.sh; sourceTree = "<group>"; };
-		9DF8AA4C20D9F81600E306E4 /* doNotBuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doNotBuild; sourceTree = BUILT_PRODUCTS_DIR; };
-		9DF8AA5120D9F81600E306E4 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		9DF8AA5820D9F81600E306E4 /* DevApple.vii */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = DevApple.vii; path = make/DevApple.vii; sourceTree = "<group>"; };
-		9DF8AA5A20D9F81600E306E4 /* dos33_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = dos33_template.dsk; path = make/dos33_template.dsk; sourceTree = "<group>"; };
-		9DF8AA5C20D9F81600E306E4 /* head.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = head.mk; path = make/head.mk; sourceTree = "<group>"; };
-		9DF8AA5E20D9F81600E306E4 /* prodos_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = prodos_template.dsk; path = make/prodos_template.dsk; sourceTree = "<group>"; };
-		9DF8AA6020D9F81600E306E4 /* tail.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = tail.mk; path = make/tail.mk; sourceTree = "<group>"; };
-		9DF8AA6220D9F81600E306E4 /* V2Make.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = V2Make.scpt; path = make/V2Make.scpt; sourceTree = "<group>"; };
-		9DF8AA6520D9F81600E306E4 /* a2bejwld.xcscheme */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = a2bejwld.xcscheme; path = a2bejwld.xcodeproj/xcshareddata/xcschemes/a2bejwld.xcscheme; sourceTree = SOURCE_ROOT; };
-		9DF8AA6F20D9F95800E306E4 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		9DF8AA7020D9F95800E306E4 /* a2bejwld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a2bejwld.png; sourceTree = "<group>"; };
-		9DF8AA7120D9F97300E306E4 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
-		9DF8AA7220D9F97300E306E4 /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
-		9DF8AA7320D9F97300E306E4 /* mockingboard_speech.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = mockingboard_speech.s; sourceTree = "<group>"; };
-		9DF8AA7420D9F97300E306E4 /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
-		9DF8AA7520D9F97300E306E4 /* anim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = anim.c; sourceTree = "<group>"; };
-		9DF8AA7620D9F97300E306E4 /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
-		9DF8AA7720D9F97300E306E4 /* mockingboard_speech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard_speech.h; sourceTree = "<group>"; };
-		9DF8AA7820D9F97300E306E4 /* vbl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbl.h; sourceTree = "<group>"; };
-		9DF8AA7920D9F97300E306E4 /* ui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ui.c; sourceTree = "<group>"; };
-		9DF8AA7A20D9F97300E306E4 /* mouseWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mouseWrapper.c; sourceTree = "<group>"; };
-		9DF8AA7B20D9F97300E306E4 /* dbllores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dbllores.h; sourceTree = "<group>"; };
-		9DF8AA7C20D9F97400E306E4 /* mouseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mouseWrapper.h; sourceTree = "<group>"; };
-		9DF8AA7D20D9F97400E306E4 /* mockingboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mockingboard.c; sourceTree = "<group>"; };
-		9DF8AA7E20D9F97400E306E4 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
-		9DF8AA7F20D9F97400E306E4 /* mockingboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard.h; sourceTree = "<group>"; };
-		9DF8AA8020D9F97400E306E4 /* machine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machine.h; sourceTree = "<group>"; };
-		9DF8AA8120D9F97400E306E4 /* anim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = anim.h; sourceTree = "<group>"; };
-		9DF8AA8220D9F97400E306E4 /* joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = joystick.h; sourceTree = "<group>"; };
-		9DF8AA8320D9F97400E306E4 /* machine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = machine.c; sourceTree = "<group>"; };
-		9DF8AA8420D9F97400E306E4 /* vbl.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = vbl.s; sourceTree = "<group>"; };
-		9DF8AA8520D9F97400E306E4 /* joystick.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = joystick.c; sourceTree = "<group>"; };
-		9DF8AA8720D9F97400E306E4 /* dbllores.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = dbllores.s; sourceTree = "<group>"; };
-		9DF8AA8820D9F97400E306E4 /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
-		9DF8AA9720D9FA8100E306E4 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		9D30A38122FBC49000A4DAFA /* doNotBuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doNotBuild; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D30A38622FBC49000A4DAFA /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		9D30A38922FBC49000A4DAFA /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
+		9D30A38B22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = "bastokenizer-tools-bt-0.2.0.jar"; path = "make/bastokenizer-tools-bt-0.2.0.jar"; sourceTree = "<group>"; };
+		9D30A38D22FBC49000A4DAFA /* createDiskImage */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = createDiskImage; path = make/createDiskImage; sourceTree = "<group>"; };
+		9D30A38F22FBC49000A4DAFA /* bt */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = bt; path = make/bt; sourceTree = "<group>"; };
+		9D30A39122FBC49000A4DAFA /* DevApple.vii */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = DevApple.vii; path = make/DevApple.vii; sourceTree = "<group>"; };
+		9D30A39322FBC49000A4DAFA /* dos33_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = dos33_template.dsk; path = make/dos33_template.dsk; sourceTree = "<group>"; };
+		9D30A39522FBC49000A4DAFA /* errorFilter.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = errorFilter.sh; path = make/errorFilter.sh; sourceTree = "<group>"; };
+		9D30A39722FBC49000A4DAFA /* head.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = head.mk; path = make/head.mk; sourceTree = "<group>"; };
+		9D30A39922FBC49000A4DAFA /* prodos_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = prodos_template.dsk; path = make/prodos_template.dsk; sourceTree = "<group>"; };
+		9D30A39B22FBC49000A4DAFA /* tail.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = tail.mk; path = make/tail.mk; sourceTree = "<group>"; };
+		9D30A39D22FBC49000A4DAFA /* V2Make.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = V2Make.scpt; path = make/V2Make.scpt; sourceTree = "<group>"; };
+		9D30A3A022FBC49000A4DAFA /* a2bejwld.xcscheme */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = a2bejwld.xcscheme; path = a2bejwld.xcodeproj/xcshareddata/xcschemes/a2bejwld.xcscheme; sourceTree = SOURCE_ROOT; };
+		9D30A3AA22FBC4D300A4DAFA /* mockingboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard.h; sourceTree = "<group>"; };
+		9D30A3AB22FBC4D300A4DAFA /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
+		9D30A3AC22FBC4D300A4DAFA /* dbllores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dbllores.h; sourceTree = "<group>"; };
+		9D30A3AD22FBC4D300A4DAFA /* mouseWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mouseWrapper.c; sourceTree = "<group>"; };
+		9D30A3AE22FBC4D300A4DAFA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		9D30A3AF22FBC4D300A4DAFA /* vbl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbl.h; sourceTree = "<group>"; };
+		9D30A3B022FBC4D300A4DAFA /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
+		9D30A3B122FBC4D300A4DAFA /* mouseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mouseWrapper.h; sourceTree = "<group>"; };
+		9D30A3B222FBC4D400A4DAFA /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		9D30A3B322FBC4D400A4DAFA /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		9D30A3B422FBC4D400A4DAFA /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
+		9D30A3B522FBC4D400A4DAFA /* joystick.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = joystick.c; sourceTree = "<group>"; };
+		9D30A3B622FBC4D400A4DAFA /* machine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = machine.c; sourceTree = "<group>"; };
+		9D30A3B722FBC4D400A4DAFA /* anim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = anim.h; sourceTree = "<group>"; };
+		9D30A3B822FBC4D400A4DAFA /* machine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machine.h; sourceTree = "<group>"; };
+		9D30A3B922FBC4D500A4DAFA /* mockingboard_speech.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = mockingboard_speech.s; sourceTree = "<group>"; };
+		9D30A3BA22FBC4D500A4DAFA /* mockingboard_speech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard_speech.h; sourceTree = "<group>"; };
+		9D30A3BB22FBC4D500A4DAFA /* anim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = anim.c; sourceTree = "<group>"; };
+		9D30A3BC22FBC4D500A4DAFA /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
+		9D30A3BD22FBC4D500A4DAFA /* ui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ui.c; sourceTree = "<group>"; };
+		9D30A3BE22FBC4D600A4DAFA /* vbl.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = vbl.s; sourceTree = "<group>"; };
+		9D30A3BF22FBC4D600A4DAFA /* mockingboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mockingboard.c; sourceTree = "<group>"; };
+		9D30A3C022FBC4D600A4DAFA /* joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = joystick.h; sourceTree = "<group>"; };
+		9D30A3C122FBC4D600A4DAFA /* dbllores.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = dbllores.s; sourceTree = "<group>"; };
+		9D30A3D122FBC55400A4DAFA /* a2bejwld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a2bejwld.png; sourceTree = "<group>"; };
+		9D30A3D222FBC55400A4DAFA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9D30A3D322FBC56A00A4DAFA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		9DF8AA4920D9F81600E306E4 /* Frameworks */ = {
+		9D30A37E22FBC49000A4DAFA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D3A3E8421782EAF00BE74C7 /* AppleCommander.jar in Frameworks */,
-				9D3A3E8521782EAF00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */,
+				9D30A38A22FBC49000A4DAFA /* AppleCommander.jar in Frameworks */,
+				9D30A38C22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9DF8AA4220D9F81600E306E4 = {
+		9D30A37722FBC49000A4DAFA = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA7020D9F95800E306E4 /* a2bejwld.png */,
-				9DF8AA6F20D9F95800E306E4 /* README.md */,
-				9DF8AA4E20D9F81600E306E4 /* a2bejwld */,
-				9DF8AA4D20D9F81600E306E4 /* Products */,
+				9D30A3D122FBC55400A4DAFA /* a2bejwld.png */,
+				9D30A3D222FBC55400A4DAFA /* README.md */,
+				9D30A3D322FBC56A00A4DAFA /* LICENSE */,
+				9D30A38322FBC49000A4DAFA /* a2bejwld */,
+				9D30A38222FBC49000A4DAFA /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		9DF8AA4D20D9F81600E306E4 /* Products */ = {
+		9D30A38222FBC49000A4DAFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA4C20D9F81600E306E4 /* doNotBuild */,
+				9D30A38122FBC49000A4DAFA /* doNotBuild */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9DF8AA4E20D9F81600E306E4 /* a2bejwld */ = {
+		9D30A38322FBC49000A4DAFA /* a2bejwld */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA5120D9F81600E306E4 /* Makefile */,
-				9DF8AA9720D9FA8100E306E4 /* main.c */,
-				9DF8AA7620D9F97300E306E4 /* game.c */,
-				9DF8AA7420D9F97300E306E4 /* game.h */,
-				9DF8AA8320D9F97400E306E4 /* machine.c */,
-				9DF8AA8020D9F97400E306E4 /* machine.h */,
-				9DF8AA7E20D9F97400E306E4 /* types.h */,
-				9DF8AA7920D9F97300E306E4 /* ui.c */,
-				9DF8AA7220D9F97300E306E4 /* ui.h */,
-				9DF8AA9D20D9FAF500E306E4 /* sound */,
-				9DF8AA9C20D9FAC100E306E4 /* gaphics */,
-				9DF8AA9B20D9FABB00E306E4 /* mouse */,
-				9DF8AA9A20D9FAB300E306E4 /* joystick */,
-				9DF8AA9920D9FAA600E306E4 /* Mockingboard */,
-				9DF8AA5320D9F81600E306E4 /* make */,
-				9DF8AA6420D9F81600E306E4 /* Supporting Files */,
+				9D30A38622FBC49000A4DAFA /* Makefile */,
+				9D30A3AE22FBC4D300A4DAFA /* main.c */,
+				9D30A3B022FBC4D300A4DAFA /* game.c */,
+				9D30A3B322FBC4D400A4DAFA /* game.h */,
+				9D30A3B622FBC4D400A4DAFA /* machine.c */,
+				9D30A3B822FBC4D400A4DAFA /* machine.h */,
+				9D30A3B222FBC4D400A4DAFA /* types.h */,
+				9D30A3BD22FBC4D500A4DAFA /* ui.c */,
+				9D30A3B422FBC4D400A4DAFA /* ui.h */,
+				9D30A3CE22FBC4EC00A4DAFA /* sound */,
+				9D30A3CF22FBC50300A4DAFA /* graphics */,
+				9D30A3D022FBC52D00A4DAFA /* mouse */,
+				9D30A3D522FBC59600A4DAFA /* Mockingboard */,
+				9D30A3D422FBC57C00A4DAFA /* joystick */,
+				9D30A38822FBC49000A4DAFA /* make */,
+				9D30A39F22FBC49000A4DAFA /* Supporting Files */,
 			);
 			path = a2bejwld;
 			sourceTree = "<group>";
 		};
-		9DF8AA5320D9F81600E306E4 /* make */ = {
+		9D30A38822FBC49000A4DAFA /* make */ = {
 			isa = PBXGroup;
 			children = (
-				9D3A3E7B21782EAE00BE74C7 /* AppleCommander.jar */,
-				9D3A3E7E21782EAE00BE74C7 /* bastokenizer-tools-bt-0.2.0.jar */,
-				9D3A3E7C21782EAE00BE74C7 /* bt */,
-				9D3A3E7921782EAD00BE74C7 /* createDiskImage */,
-				9DF8AA5820D9F81600E306E4 /* DevApple.vii */,
-				9DF8AA5A20D9F81600E306E4 /* dos33_template.dsk */,
-				9D45ABB220E1E314008C3F16 /* errorFilter.sh */,
-				9DF8AA5C20D9F81600E306E4 /* head.mk */,
-				9DF8AA5E20D9F81600E306E4 /* prodos_template.dsk */,
-				9DF8AA6020D9F81600E306E4 /* tail.mk */,
-				9DF8AA6220D9F81600E306E4 /* V2Make.scpt */,
+				9D30A38922FBC49000A4DAFA /* AppleCommander.jar */,
+				9D30A38B22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar */,
+				9D30A38D22FBC49000A4DAFA /* createDiskImage */,
+				9D30A38F22FBC49000A4DAFA /* bt */,
+				9D30A39122FBC49000A4DAFA /* DevApple.vii */,
+				9D30A39322FBC49000A4DAFA /* dos33_template.dsk */,
+				9D30A39522FBC49000A4DAFA /* errorFilter.sh */,
+				9D30A39722FBC49000A4DAFA /* head.mk */,
+				9D30A39922FBC49000A4DAFA /* prodos_template.dsk */,
+				9D30A39B22FBC49000A4DAFA /* tail.mk */,
+				9D30A39D22FBC49000A4DAFA /* V2Make.scpt */,
 			);
 			name = make;
 			sourceTree = "<group>";
 		};
-		9DF8AA6420D9F81600E306E4 /* Supporting Files */ = {
+		9D30A39F22FBC49000A4DAFA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA6520D9F81600E306E4 /* a2bejwld.xcscheme */,
+				9D30A3A022FBC49000A4DAFA /* a2bejwld.xcscheme */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9DF8AA9920D9FAA600E306E4 /* Mockingboard */ = {
+		9D30A3CE22FBC4EC00A4DAFA /* sound */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA7720D9F97300E306E4 /* mockingboard_speech.h */,
-				9DF8AA7320D9F97300E306E4 /* mockingboard_speech.s */,
-				9DF8AA7D20D9F97400E306E4 /* mockingboard.c */,
-				9DF8AA7F20D9F97400E306E4 /* mockingboard.h */,
+				9D30A3BC22FBC4D500A4DAFA /* sound.c */,
+				9D30A3AB22FBC4D300A4DAFA /* sound.h */,
 			);
-			name = Mockingboard;
+			name = sound;
 			sourceTree = "<group>";
 		};
-		9DF8AA9A20D9FAB300E306E4 /* joystick */ = {
+		9D30A3CF22FBC50300A4DAFA /* graphics */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA8520D9F97400E306E4 /* joystick.c */,
-				9DF8AA8220D9F97400E306E4 /* joystick.h */,
+				9D30A3BB22FBC4D500A4DAFA /* anim.c */,
+				9D30A3B722FBC4D400A4DAFA /* anim.h */,
+				9D30A3AC22FBC4D300A4DAFA /* dbllores.h */,
+				9D30A3C122FBC4D600A4DAFA /* dbllores.s */,
+				9D30A3AF22FBC4D300A4DAFA /* vbl.h */,
+				9D30A3BE22FBC4D600A4DAFA /* vbl.s */,
 			);
-			name = joystick;
+			name = graphics;
 			sourceTree = "<group>";
 		};
-		9DF8AA9B20D9FABB00E306E4 /* mouse */ = {
+		9D30A3D022FBC52D00A4DAFA /* mouse */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA7A20D9F97300E306E4 /* mouseWrapper.c */,
-				9DF8AA7C20D9F97400E306E4 /* mouseWrapper.h */,
+				9D30A3AD22FBC4D300A4DAFA /* mouseWrapper.c */,
+				9D30A3B122FBC4D300A4DAFA /* mouseWrapper.h */,
 			);
 			name = mouse;
 			sourceTree = "<group>";
 		};
-		9DF8AA9C20D9FAC100E306E4 /* gaphics */ = {
+		9D30A3D422FBC57C00A4DAFA /* joystick */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA7520D9F97300E306E4 /* anim.c */,
-				9DF8AA8120D9F97400E306E4 /* anim.h */,
-				9DF8AA7B20D9F97300E306E4 /* dbllores.h */,
-				9DF8AA8720D9F97400E306E4 /* dbllores.s */,
-				9DF8AA7820D9F97300E306E4 /* vbl.h */,
-				9DF8AA8420D9F97400E306E4 /* vbl.s */,
+				9D30A3B522FBC4D400A4DAFA /* joystick.c */,
+				9D30A3C022FBC4D600A4DAFA /* joystick.h */,
 			);
-			name = gaphics;
+			name = joystick;
 			sourceTree = "<group>";
 		};
-		9DF8AA9D20D9FAF500E306E4 /* sound */ = {
+		9D30A3D522FBC59600A4DAFA /* Mockingboard */ = {
 			isa = PBXGroup;
 			children = (
-				9DF8AA8820D9F97400E306E4 /* sound.c */,
-				9DF8AA7120D9F97300E306E4 /* sound.h */,
+				9D30A3BA22FBC4D500A4DAFA /* mockingboard_speech.h */,
+				9D30A3B922FBC4D500A4DAFA /* mockingboard_speech.s */,
+				9D30A3BF22FBC4D600A4DAFA /* mockingboard.c */,
+				9D30A3AA22FBC4D300A4DAFA /* mockingboard.h */,
 			);
-			name = sound;
+			name = Mockingboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
-		9DF8AA4720D9F81600E306E4 /* a2bejwld */ = {
+		9D30A37C22FBC49000A4DAFA /* a2bejwld */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "-C a2bejwld $(ACTION)";
-			buildConfigurationList = 9DF8AA6920D9F81600E306E4 /* Build configuration list for PBXLegacyTarget "a2bejwld" */;
+			buildConfigurationList = 9D30A3A422FBC49000A4DAFA /* Build configuration list for PBXLegacyTarget "a2bejwld" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
@@ -243,13 +251,13 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
-		9DF8AA4B20D9F81600E306E4 /* doNotBuild */ = {
+		9D30A38022FBC49000A4DAFA /* doNotBuild */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9DF8AA6C20D9F81600E306E4 /* Build configuration list for PBXNativeTarget "doNotBuild" */;
+			buildConfigurationList = 9D30A3A722FBC49000A4DAFA /* Build configuration list for PBXNativeTarget "doNotBuild" */;
 			buildPhases = (
-				9DF8AA4820D9F81600E306E4 /* Sources */,
-				9DF8AA4920D9F81600E306E4 /* Frameworks */,
-				9DF8AA4A20D9F81600E306E4 /* CopyFiles */,
+				9D30A37D22FBC49000A4DAFA /* Sources */,
+				9D30A37E22FBC49000A4DAFA /* Frameworks */,
+				9D30A37F22FBC49000A4DAFA /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -257,69 +265,69 @@
 			);
 			name = doNotBuild;
 			productName = doNotBuild;
-			productReference = 9DF8AA4C20D9F81600E306E4 /* doNotBuild */;
+			productReference = 9D30A38122FBC49000A4DAFA /* doNotBuild */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		9DF8AA4320D9F81600E306E4 /* Project object */ = {
+		9D30A37822FBC49000A4DAFA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = "Jeremy Rand";
 				TargetAttributes = {
-					9DF8AA4720D9F81600E306E4 = {
-						CreatedOnToolsVersion = 9.4.1;
+					9D30A37C22FBC49000A4DAFA = {
+						CreatedOnToolsVersion = 10.3;
 					};
-					9DF8AA4B20D9F81600E306E4 = {
-						CreatedOnToolsVersion = 9.4.1;
+					9D30A38022FBC49000A4DAFA = {
+						CreatedOnToolsVersion = 10.3;
 					};
 				};
 			};
-			buildConfigurationList = 9DF8AA4620D9F81600E306E4 /* Build configuration list for PBXProject "a2bejwld" */;
+			buildConfigurationList = 9D30A37B22FBC49000A4DAFA /* Build configuration list for PBXProject "a2bejwld" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 9DF8AA4220D9F81600E306E4;
-			productRefGroup = 9DF8AA4D20D9F81600E306E4 /* Products */;
+			mainGroup = 9D30A37722FBC49000A4DAFA;
+			productRefGroup = 9D30A38222FBC49000A4DAFA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9DF8AA4720D9F81600E306E4 /* a2bejwld */,
-				9DF8AA4B20D9F81600E306E4 /* doNotBuild */,
+				9D30A37C22FBC49000A4DAFA /* a2bejwld */,
+				9D30A38022FBC49000A4DAFA /* doNotBuild */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		9DF8AA4820D9F81600E306E4 /* Sources */ = {
+		9D30A37D22FBC49000A4DAFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9DF8AA9820D9FA8100E306E4 /* main.c in Sources */,
-				9DF8AA8F20D9F97400E306E4 /* machine.c in Sources */,
-				9DF8AA8B20D9F97400E306E4 /* game.c in Sources */,
-				9DF8AA8C20D9F97400E306E4 /* ui.c in Sources */,
-				9DF8AA8A20D9F97400E306E4 /* anim.c in Sources */,
-				9DF8AA9120D9F97400E306E4 /* joystick.c in Sources */,
-				9DF8AA8920D9F97400E306E4 /* mockingboard_speech.s in Sources */,
-				9DF8AA8D20D9F97400E306E4 /* mouseWrapper.c in Sources */,
-				9DF8AA5220D9F81600E306E4 /* Makefile in Sources */,
-				9DF8AA9320D9F97400E306E4 /* dbllores.s in Sources */,
-				9DF8AA9420D9F97400E306E4 /* sound.c in Sources */,
-				9DF8AA9020D9F97400E306E4 /* vbl.s in Sources */,
-				9DF8AA8E20D9F97400E306E4 /* mockingboard.c in Sources */,
+				9D30A3CB22FBC4D600A4DAFA /* vbl.s in Sources */,
+				9D30A38722FBC49000A4DAFA /* Makefile in Sources */,
+				9D30A3C422FBC4D600A4DAFA /* game.c in Sources */,
+				9D30A3C522FBC4D600A4DAFA /* joystick.c in Sources */,
+				9D30A3C622FBC4D600A4DAFA /* machine.c in Sources */,
+				9D30A3C822FBC4D600A4DAFA /* anim.c in Sources */,
+				9D30A3C222FBC4D600A4DAFA /* mouseWrapper.c in Sources */,
+				9D30A3CC22FBC4D600A4DAFA /* mockingboard.c in Sources */,
+				9D30A3CD22FBC4D600A4DAFA /* dbllores.s in Sources */,
+				9D30A3C922FBC4D600A4DAFA /* sound.c in Sources */,
+				9D30A3C722FBC4D600A4DAFA /* mockingboard_speech.s in Sources */,
+				9D30A3C322FBC4D600A4DAFA /* main.c in Sources */,
+				9D30A3CA22FBC4D600A4DAFA /* ui.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		9DF8AA6720D9F81600E306E4 /* Debug */ = {
+		9D30A3A222FBC49000A4DAFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -369,12 +377,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
-		9DF8AA6820D9F81600E306E4 /* Release */ = {
+		9D30A3A322FBC49000A4DAFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -419,10 +428,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
 			};
 			name = Release;
 		};
-		9DF8AA6A20D9F81600E306E4 /* Debug */ = {
+		9D30A3A522FBC49000A4DAFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -437,7 +447,7 @@
 			};
 			name = Debug;
 		};
-		9DF8AA6B20D9F81600E306E4 /* Release */ = {
+		9D30A3A622FBC49000A4DAFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -449,24 +459,30 @@
 			};
 			name = Release;
 		};
-		9DF8AA6D20D9F81600E306E4 /* Debug */ = {
+		9D30A3A822FBC49000A4DAFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VD9FGCW36C;
 				GCC_PREPROCESSOR_DEFINITIONS = "__fastcall__=\"\"";
-				HEADER_SEARCH_PATHS = /usr/local/lib/cc65/include;
+				HEADER_SEARCH_PATHS = (
+					$TEMP_ROOT/a2bejwld.build/$CONFIGURATION/a2bejwld.build/DerivedSources,
+					/usr/local/share/cc65/include,
+				);
 				PRODUCT_NAME = doNotBuild;
 			};
 			name = Debug;
 		};
-		9DF8AA6E20D9F81600E306E4 /* Release */ = {
+		9D30A3A922FBC49000A4DAFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = VD9FGCW36C;
 				GCC_PREPROCESSOR_DEFINITIONS = "__fastcall__=\"\"";
-				HEADER_SEARCH_PATHS = /usr/local/lib/cc65/include;
+				HEADER_SEARCH_PATHS = (
+					$TEMP_ROOT/a2bejwld.build/$CONFIGURATION/a2bejwld.build/DerivedSources,
+					/usr/local/share/cc65/include,
+				);
 				PRODUCT_NAME = doNotBuild;
 			};
 			name = Release;
@@ -474,34 +490,34 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9DF8AA4620D9F81600E306E4 /* Build configuration list for PBXProject "a2bejwld" */ = {
+		9D30A37B22FBC49000A4DAFA /* Build configuration list for PBXProject "a2bejwld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9DF8AA6720D9F81600E306E4 /* Debug */,
-				9DF8AA6820D9F81600E306E4 /* Release */,
+				9D30A3A222FBC49000A4DAFA /* Debug */,
+				9D30A3A322FBC49000A4DAFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9DF8AA6920D9F81600E306E4 /* Build configuration list for PBXLegacyTarget "a2bejwld" */ = {
+		9D30A3A422FBC49000A4DAFA /* Build configuration list for PBXLegacyTarget "a2bejwld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9DF8AA6A20D9F81600E306E4 /* Debug */,
-				9DF8AA6B20D9F81600E306E4 /* Release */,
+				9D30A3A522FBC49000A4DAFA /* Debug */,
+				9D30A3A622FBC49000A4DAFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9DF8AA6C20D9F81600E306E4 /* Build configuration list for PBXNativeTarget "doNotBuild" */ = {
+		9D30A3A722FBC49000A4DAFA /* Build configuration list for PBXNativeTarget "doNotBuild" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9DF8AA6D20D9F81600E306E4 /* Debug */,
-				9DF8AA6E20D9F81600E306E4 /* Release */,
+				9D30A3A822FBC49000A4DAFA /* Debug */,
+				9D30A3A922FBC49000A4DAFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 9DF8AA4320D9F81600E306E4 /* Project object */;
+	rootObject = 9D30A37822FBC49000A4DAFA /* Project object */;
 }

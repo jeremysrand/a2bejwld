@@ -52,7 +52,8 @@ CPU = 65C02
 # will only produce 8-bit code.
 
 # Add any other directories where you are putting C or assembly source
-# files to this list:
+# files to this list.  Note that if you are generating source files into
+# $(GENDIR), you should add $(GENDIR) to SRCDIRS here:
 SRCDIRS+=
 
 # If you have a non-standard cc65 install, you may need to change
@@ -235,6 +236,9 @@ COPYDIRS=
 # commands are called here, if any.  You can generate .c, .s or .h
 # files for example.  You can generate data files.  Whatever you
 # might need.
+#
+# You should generate these files in the $(GENDIR) directory or
+# within a subdirectory under $(GENDIR) which you create yourself.
 #
 # All of your commands associated with a rule _must_ start with a tab
 # character.  Xcode makes it a bit tough to type a tab character by
