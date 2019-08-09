@@ -7,238 +7,242 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9D30A38722FBC49000A4DAFA /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A38622FBC49000A4DAFA /* Makefile */; };
-		9D30A38A22FBC49000A4DAFA /* AppleCommander.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D30A38922FBC49000A4DAFA /* AppleCommander.jar */; };
-		9D30A38C22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D30A38B22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar */; };
-		9D30A38E22FBC49000A4DAFA /* createDiskImage in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A38D22FBC49000A4DAFA /* createDiskImage */; };
-		9D30A39022FBC49000A4DAFA /* bt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A38F22FBC49000A4DAFA /* bt */; };
-		9D30A39222FBC49000A4DAFA /* DevApple.vii in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39122FBC49000A4DAFA /* DevApple.vii */; };
-		9D30A39422FBC49000A4DAFA /* dos33_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39322FBC49000A4DAFA /* dos33_template.dsk */; };
-		9D30A39622FBC49000A4DAFA /* errorFilter.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39522FBC49000A4DAFA /* errorFilter.sh */; };
-		9D30A39822FBC49000A4DAFA /* head.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39722FBC49000A4DAFA /* head.mk */; };
-		9D30A39A22FBC49000A4DAFA /* prodos_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39922FBC49000A4DAFA /* prodos_template.dsk */; };
-		9D30A39C22FBC49000A4DAFA /* tail.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39B22FBC49000A4DAFA /* tail.mk */; };
-		9D30A39E22FBC49000A4DAFA /* V2Make.scpt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A39D22FBC49000A4DAFA /* V2Make.scpt */; };
-		9D30A3A122FBC49000A4DAFA /* a2bejwld.xcscheme in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9D30A3A022FBC49000A4DAFA /* a2bejwld.xcscheme */; };
-		9D30A3C222FBC4D600A4DAFA /* mouseWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3AD22FBC4D300A4DAFA /* mouseWrapper.c */; };
-		9D30A3C322FBC4D600A4DAFA /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3AE22FBC4D300A4DAFA /* main.c */; };
-		9D30A3C422FBC4D600A4DAFA /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3B022FBC4D300A4DAFA /* game.c */; };
-		9D30A3C522FBC4D600A4DAFA /* joystick.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3B522FBC4D400A4DAFA /* joystick.c */; };
-		9D30A3C622FBC4D600A4DAFA /* machine.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3B622FBC4D400A4DAFA /* machine.c */; };
-		9D30A3C722FBC4D600A4DAFA /* mockingboard_speech.s in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3B922FBC4D500A4DAFA /* mockingboard_speech.s */; };
-		9D30A3C822FBC4D600A4DAFA /* anim.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BB22FBC4D500A4DAFA /* anim.c */; };
-		9D30A3C922FBC4D600A4DAFA /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BC22FBC4D500A4DAFA /* sound.c */; };
-		9D30A3CA22FBC4D600A4DAFA /* ui.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BD22FBC4D500A4DAFA /* ui.c */; };
-		9D30A3CB22FBC4D600A4DAFA /* vbl.s in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BE22FBC4D600A4DAFA /* vbl.s */; };
-		9D30A3CC22FBC4D600A4DAFA /* mockingboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3BF22FBC4D600A4DAFA /* mockingboard.c */; };
-		9D30A3CD22FBC4D600A4DAFA /* dbllores.s in Sources */ = {isa = PBXBuildFile; fileRef = 9D30A3C122FBC4D600A4DAFA /* dbllores.s */; };
+		9DE4036422FD232B00EC061A /* AppleCommander.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DE4036322FD232B00EC061A /* AppleCommander.jar */; };
+		9DE4036622FD232B00EC061A /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DE4036522FD232B00EC061A /* bastokenizer-tools-bt-0.2.0.jar */; };
+		9DE4036822FD232B00EC061A /* createDiskImage in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4036722FD232B00EC061A /* createDiskImage */; };
+		9DE4036A22FD232B00EC061A /* bt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4036922FD232B00EC061A /* bt */; };
+		9DE4036C22FD232B00EC061A /* DevApple.vii in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4036B22FD232B00EC061A /* DevApple.vii */; };
+		9DE4036E22FD232B00EC061A /* dos33_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4036D22FD232B00EC061A /* dos33_template.dsk */; };
+		9DE4037022FD232B00EC061A /* errorFilter.sh in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4036F22FD232B00EC061A /* errorFilter.sh */; };
+		9DE4037222FD232B00EC061A /* head.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4037122FD232B00EC061A /* head.mk */; };
+		9DE4037422FD232B00EC061A /* prodos_template.dsk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4037322FD232B00EC061A /* prodos_template.dsk */; };
+		9DE4037622FD232B00EC061A /* tail.mk in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4037522FD232B00EC061A /* tail.mk */; };
+		9DE4037822FD232B00EC061A /* V2Make.scpt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4037722FD232B00EC061A /* V2Make.scpt */; };
+		9DE4037B22FD232B00EC061A /* a2bejwld.xcscheme in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9DE4037A22FD232B00EC061A /* a2bejwld.xcscheme */; };
+		9DE403A622FD235F00EC061A /* ui.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4038E22FD235E00EC061A /* ui.c */; };
+		9DE403A722FD235F00EC061A /* mockingboard.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039122FD235E00EC061A /* mockingboard.c */; };
+		9DE403A822FD235F00EC061A /* vbl.s in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039322FD235E00EC061A /* vbl.s */; };
+		9DE403A922FD235F00EC061A /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039522FD235E00EC061A /* main.c */; };
+		9DE403AA22FD235F00EC061A /* joystick.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039822FD235E00EC061A /* joystick.c */; };
+		9DE403AB22FD235F00EC061A /* anim.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039922FD235E00EC061A /* anim.c */; };
+		9DE403AC22FD235F00EC061A /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039B22FD235E00EC061A /* sound.c */; };
+		9DE403AD22FD235F00EC061A /* dbllores.s in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039C22FD235E00EC061A /* dbllores.s */; };
+		9DE403AE22FD235F00EC061A /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039D22FD235E00EC061A /* Makefile */; };
+		9DE403AF22FD235F00EC061A /* mockingboard_speech.s in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039E22FD235F00EC061A /* mockingboard_speech.s */; };
+		9DE403B022FD235F00EC061A /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE4039F22FD235F00EC061A /* game.c */; };
+		9DE403B122FD235F00EC061A /* mouseWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE403A022FD235F00EC061A /* mouseWrapper.c */; };
+		9DE403B222FD235F00EC061A /* machine.c in Sources */ = {isa = PBXBuildFile; fileRef = 9DE403A422FD235F00EC061A /* machine.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9D30A37F22FBC49000A4DAFA /* CopyFiles */ = {
+		9DE4035A22FD232B00EC061A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				9D30A39A22FBC49000A4DAFA /* prodos_template.dsk in CopyFiles */,
-				9D30A39022FBC49000A4DAFA /* bt in CopyFiles */,
-				9D30A39422FBC49000A4DAFA /* dos33_template.dsk in CopyFiles */,
-				9D30A38E22FBC49000A4DAFA /* createDiskImage in CopyFiles */,
-				9D30A3A122FBC49000A4DAFA /* a2bejwld.xcscheme in CopyFiles */,
-				9D30A39E22FBC49000A4DAFA /* V2Make.scpt in CopyFiles */,
-				9D30A39822FBC49000A4DAFA /* head.mk in CopyFiles */,
-				9D30A39222FBC49000A4DAFA /* DevApple.vii in CopyFiles */,
-				9D30A39622FBC49000A4DAFA /* errorFilter.sh in CopyFiles */,
-				9D30A39C22FBC49000A4DAFA /* tail.mk in CopyFiles */,
+				9DE4037422FD232B00EC061A /* prodos_template.dsk in CopyFiles */,
+				9DE4036A22FD232B00EC061A /* bt in CopyFiles */,
+				9DE4036E22FD232B00EC061A /* dos33_template.dsk in CopyFiles */,
+				9DE4036822FD232B00EC061A /* createDiskImage in CopyFiles */,
+				9DE4037B22FD232B00EC061A /* a2bejwld.xcscheme in CopyFiles */,
+				9DE4037822FD232B00EC061A /* V2Make.scpt in CopyFiles */,
+				9DE4037222FD232B00EC061A /* head.mk in CopyFiles */,
+				9DE4036C22FD232B00EC061A /* DevApple.vii in CopyFiles */,
+				9DE4037022FD232B00EC061A /* errorFilter.sh in CopyFiles */,
+				9DE4037622FD232B00EC061A /* tail.mk in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		9D30A38122FBC49000A4DAFA /* doNotBuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doNotBuild; sourceTree = BUILT_PRODUCTS_DIR; };
-		9D30A38622FBC49000A4DAFA /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
-		9D30A38922FBC49000A4DAFA /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
-		9D30A38B22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = "bastokenizer-tools-bt-0.2.0.jar"; path = "make/bastokenizer-tools-bt-0.2.0.jar"; sourceTree = "<group>"; };
-		9D30A38D22FBC49000A4DAFA /* createDiskImage */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = createDiskImage; path = make/createDiskImage; sourceTree = "<group>"; };
-		9D30A38F22FBC49000A4DAFA /* bt */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = bt; path = make/bt; sourceTree = "<group>"; };
-		9D30A39122FBC49000A4DAFA /* DevApple.vii */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = DevApple.vii; path = make/DevApple.vii; sourceTree = "<group>"; };
-		9D30A39322FBC49000A4DAFA /* dos33_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = dos33_template.dsk; path = make/dos33_template.dsk; sourceTree = "<group>"; };
-		9D30A39522FBC49000A4DAFA /* errorFilter.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = errorFilter.sh; path = make/errorFilter.sh; sourceTree = "<group>"; };
-		9D30A39722FBC49000A4DAFA /* head.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = head.mk; path = make/head.mk; sourceTree = "<group>"; };
-		9D30A39922FBC49000A4DAFA /* prodos_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = prodos_template.dsk; path = make/prodos_template.dsk; sourceTree = "<group>"; };
-		9D30A39B22FBC49000A4DAFA /* tail.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = tail.mk; path = make/tail.mk; sourceTree = "<group>"; };
-		9D30A39D22FBC49000A4DAFA /* V2Make.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = V2Make.scpt; path = make/V2Make.scpt; sourceTree = "<group>"; };
-		9D30A3A022FBC49000A4DAFA /* a2bejwld.xcscheme */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = a2bejwld.xcscheme; path = a2bejwld.xcodeproj/xcshareddata/xcschemes/a2bejwld.xcscheme; sourceTree = SOURCE_ROOT; };
-		9D30A3AA22FBC4D300A4DAFA /* mockingboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard.h; sourceTree = "<group>"; };
-		9D30A3AB22FBC4D300A4DAFA /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
-		9D30A3AC22FBC4D300A4DAFA /* dbllores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dbllores.h; sourceTree = "<group>"; };
-		9D30A3AD22FBC4D300A4DAFA /* mouseWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mouseWrapper.c; sourceTree = "<group>"; };
-		9D30A3AE22FBC4D300A4DAFA /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		9D30A3AF22FBC4D300A4DAFA /* vbl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbl.h; sourceTree = "<group>"; };
-		9D30A3B022FBC4D300A4DAFA /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
-		9D30A3B122FBC4D300A4DAFA /* mouseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mouseWrapper.h; sourceTree = "<group>"; };
-		9D30A3B222FBC4D400A4DAFA /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
-		9D30A3B322FBC4D400A4DAFA /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
-		9D30A3B422FBC4D400A4DAFA /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
-		9D30A3B522FBC4D400A4DAFA /* joystick.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = joystick.c; sourceTree = "<group>"; };
-		9D30A3B622FBC4D400A4DAFA /* machine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = machine.c; sourceTree = "<group>"; };
-		9D30A3B722FBC4D400A4DAFA /* anim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = anim.h; sourceTree = "<group>"; };
-		9D30A3B822FBC4D400A4DAFA /* machine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machine.h; sourceTree = "<group>"; };
-		9D30A3B922FBC4D500A4DAFA /* mockingboard_speech.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = mockingboard_speech.s; sourceTree = "<group>"; };
-		9D30A3BA22FBC4D500A4DAFA /* mockingboard_speech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard_speech.h; sourceTree = "<group>"; };
-		9D30A3BB22FBC4D500A4DAFA /* anim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = anim.c; sourceTree = "<group>"; };
-		9D30A3BC22FBC4D500A4DAFA /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
-		9D30A3BD22FBC4D500A4DAFA /* ui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ui.c; sourceTree = "<group>"; };
-		9D30A3BE22FBC4D600A4DAFA /* vbl.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = vbl.s; sourceTree = "<group>"; };
-		9D30A3BF22FBC4D600A4DAFA /* mockingboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mockingboard.c; sourceTree = "<group>"; };
-		9D30A3C022FBC4D600A4DAFA /* joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = joystick.h; sourceTree = "<group>"; };
-		9D30A3C122FBC4D600A4DAFA /* dbllores.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = dbllores.s; sourceTree = "<group>"; };
-		9D30A3D122FBC55400A4DAFA /* a2bejwld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a2bejwld.png; sourceTree = "<group>"; };
-		9D30A3D222FBC55400A4DAFA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		9D30A3D322FBC56A00A4DAFA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		9DE4035422FD232B00EC061A /* a2bejwld */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = a2bejwld; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DE4035722FD232B00EC061A /* a2bejwld.dsk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = a2bejwld.dsk; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DE4035C22FD232B00EC061A /* doNotBuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doNotBuild; sourceTree = BUILT_PRODUCTS_DIR; };
+		9DE4036322FD232B00EC061A /* AppleCommander.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = AppleCommander.jar; path = make/AppleCommander.jar; sourceTree = "<group>"; };
+		9DE4036522FD232B00EC061A /* bastokenizer-tools-bt-0.2.0.jar */ = {isa = PBXFileReference; lastKnownFileType = archive.jar; name = "bastokenizer-tools-bt-0.2.0.jar"; path = "make/bastokenizer-tools-bt-0.2.0.jar"; sourceTree = "<group>"; };
+		9DE4036722FD232B00EC061A /* createDiskImage */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = createDiskImage; path = make/createDiskImage; sourceTree = "<group>"; };
+		9DE4036922FD232B00EC061A /* bt */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = bt; path = make/bt; sourceTree = "<group>"; };
+		9DE4036B22FD232B00EC061A /* DevApple.vii */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = DevApple.vii; path = make/DevApple.vii; sourceTree = "<group>"; };
+		9DE4036D22FD232B00EC061A /* dos33_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = dos33_template.dsk; path = make/dos33_template.dsk; sourceTree = "<group>"; };
+		9DE4036F22FD232B00EC061A /* errorFilter.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; name = errorFilter.sh; path = make/errorFilter.sh; sourceTree = "<group>"; };
+		9DE4037122FD232B00EC061A /* head.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = head.mk; path = make/head.mk; sourceTree = "<group>"; };
+		9DE4037322FD232B00EC061A /* prodos_template.dsk */ = {isa = PBXFileReference; lastKnownFileType = file; name = prodos_template.dsk; path = make/prodos_template.dsk; sourceTree = "<group>"; };
+		9DE4037522FD232B00EC061A /* tail.mk */ = {isa = PBXFileReference; lastKnownFileType = text; name = tail.mk; path = make/tail.mk; sourceTree = "<group>"; };
+		9DE4037722FD232B00EC061A /* V2Make.scpt */ = {isa = PBXFileReference; lastKnownFileType = file; name = V2Make.scpt; path = make/V2Make.scpt; sourceTree = "<group>"; };
+		9DE4037A22FD232B00EC061A /* a2bejwld.xcscheme */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = a2bejwld.xcscheme; path = a2bejwld.xcodeproj/xcshareddata/xcschemes/a2bejwld.xcscheme; sourceTree = SOURCE_ROOT; };
+		9DE4038A22FD234700EC061A /* a2bejwld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = a2bejwld.png; sourceTree = "<group>"; };
+		9DE4038B22FD234700EC061A /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		9DE4038C22FD234700EC061A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9DE4038D22FD235E00EC061A /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		9DE4038E22FD235E00EC061A /* ui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ui.c; sourceTree = "<group>"; };
+		9DE4038F22FD235E00EC061A /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
+		9DE4039022FD235E00EC061A /* game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = game.h; sourceTree = "<group>"; };
+		9DE4039122FD235E00EC061A /* mockingboard.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mockingboard.c; sourceTree = "<group>"; };
+		9DE4039222FD235E00EC061A /* mouseWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mouseWrapper.h; sourceTree = "<group>"; };
+		9DE4039322FD235E00EC061A /* vbl.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = vbl.s; sourceTree = "<group>"; };
+		9DE4039422FD235E00EC061A /* ui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ui.h; sourceTree = "<group>"; };
+		9DE4039522FD235E00EC061A /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		9DE4039622FD235E00EC061A /* anim.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = anim.h; sourceTree = "<group>"; };
+		9DE4039722FD235E00EC061A /* joystick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = joystick.h; sourceTree = "<group>"; };
+		9DE4039822FD235E00EC061A /* joystick.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = joystick.c; sourceTree = "<group>"; };
+		9DE4039922FD235E00EC061A /* anim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = anim.c; sourceTree = "<group>"; };
+		9DE4039A22FD235E00EC061A /* machine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machine.h; sourceTree = "<group>"; };
+		9DE4039B22FD235E00EC061A /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
+		9DE4039C22FD235E00EC061A /* dbllores.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = dbllores.s; sourceTree = "<group>"; };
+		9DE4039D22FD235E00EC061A /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		9DE4039E22FD235F00EC061A /* mockingboard_speech.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = mockingboard_speech.s; sourceTree = "<group>"; };
+		9DE4039F22FD235F00EC061A /* game.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = game.c; sourceTree = "<group>"; };
+		9DE403A022FD235F00EC061A /* mouseWrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mouseWrapper.c; sourceTree = "<group>"; };
+		9DE403A122FD235F00EC061A /* mockingboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard.h; sourceTree = "<group>"; };
+		9DE403A222FD235F00EC061A /* dbllores.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dbllores.h; sourceTree = "<group>"; };
+		9DE403A322FD235F00EC061A /* vbl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vbl.h; sourceTree = "<group>"; };
+		9DE403A422FD235F00EC061A /* machine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = machine.c; sourceTree = "<group>"; };
+		9DE403A522FD235F00EC061A /* mockingboard_speech.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mockingboard_speech.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		9D30A37E22FBC49000A4DAFA /* Frameworks */ = {
+		9DE4035922FD232B00EC061A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D30A38A22FBC49000A4DAFA /* AppleCommander.jar in Frameworks */,
-				9D30A38C22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */,
+				9DE4036422FD232B00EC061A /* AppleCommander.jar in Frameworks */,
+				9DE4036622FD232B00EC061A /* bastokenizer-tools-bt-0.2.0.jar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9D30A37722FBC49000A4DAFA = {
+		9DE4034D22FD232B00EC061A = {
 			isa = PBXGroup;
 			children = (
-				9D30A3D122FBC55400A4DAFA /* a2bejwld.png */,
-				9D30A3D222FBC55400A4DAFA /* README.md */,
-				9D30A3D322FBC56A00A4DAFA /* LICENSE */,
-				9D30A38322FBC49000A4DAFA /* a2bejwld */,
-				9D30A38222FBC49000A4DAFA /* Products */,
+				9DE4038A22FD234700EC061A /* a2bejwld.png */,
+				9DE4038B22FD234700EC061A /* LICENSE */,
+				9DE4038C22FD234700EC061A /* README.md */,
+				9DE4035D22FD232B00EC061A /* a2bejwld */,
+				9DE4035522FD232B00EC061A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		9D30A38222FBC49000A4DAFA /* Products */ = {
+		9DE4035522FD232B00EC061A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9D30A38122FBC49000A4DAFA /* doNotBuild */,
+				9DE4035422FD232B00EC061A /* a2bejwld */,
+				9DE4035722FD232B00EC061A /* a2bejwld.dsk */,
+				9DE4035C22FD232B00EC061A /* doNotBuild */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9D30A38322FBC49000A4DAFA /* a2bejwld */ = {
+		9DE4035D22FD232B00EC061A /* a2bejwld */ = {
 			isa = PBXGroup;
 			children = (
-				9D30A38622FBC49000A4DAFA /* Makefile */,
-				9D30A3AE22FBC4D300A4DAFA /* main.c */,
-				9D30A3B022FBC4D300A4DAFA /* game.c */,
-				9D30A3B322FBC4D400A4DAFA /* game.h */,
-				9D30A3B622FBC4D400A4DAFA /* machine.c */,
-				9D30A3B822FBC4D400A4DAFA /* machine.h */,
-				9D30A3B222FBC4D400A4DAFA /* types.h */,
-				9D30A3BD22FBC4D500A4DAFA /* ui.c */,
-				9D30A3B422FBC4D400A4DAFA /* ui.h */,
-				9D30A3CE22FBC4EC00A4DAFA /* sound */,
-				9D30A3CF22FBC50300A4DAFA /* graphics */,
-				9D30A3D022FBC52D00A4DAFA /* mouse */,
-				9D30A3D522FBC59600A4DAFA /* Mockingboard */,
-				9D30A3D422FBC57C00A4DAFA /* joystick */,
-				9D30A38822FBC49000A4DAFA /* make */,
-				9D30A39F22FBC49000A4DAFA /* Supporting Files */,
+				9DE4039D22FD235E00EC061A /* Makefile */,
+				9DE4039522FD235E00EC061A /* main.c */,
+				9DE4039F22FD235F00EC061A /* game.c */,
+				9DE4039022FD235E00EC061A /* game.h */,
+				9DE403A422FD235F00EC061A /* machine.c */,
+				9DE4039A22FD235E00EC061A /* machine.h */,
+				9DE4038D22FD235E00EC061A /* types.h */,
+				9DE4038E22FD235E00EC061A /* ui.c */,
+				9DE4039422FD235E00EC061A /* ui.h */,
+				9DE403B322FD237600EC061A /* sound */,
+				9DE403B722FD23D600EC061A /* graphics */,
+				9DE403B622FD239900EC061A /* mouse */,
+				9DE403B522FD239100EC061A /* Mockingboard */,
+				9DE403B422FD238400EC061A /* joystick */,
+				9DE4036222FD232B00EC061A /* make */,
+				9DE4037922FD232B00EC061A /* Supporting Files */,
 			);
 			path = a2bejwld;
 			sourceTree = "<group>";
 		};
-		9D30A38822FBC49000A4DAFA /* make */ = {
+		9DE4036222FD232B00EC061A /* make */ = {
 			isa = PBXGroup;
 			children = (
-				9D30A38922FBC49000A4DAFA /* AppleCommander.jar */,
-				9D30A38B22FBC49000A4DAFA /* bastokenizer-tools-bt-0.2.0.jar */,
-				9D30A38D22FBC49000A4DAFA /* createDiskImage */,
-				9D30A38F22FBC49000A4DAFA /* bt */,
-				9D30A39122FBC49000A4DAFA /* DevApple.vii */,
-				9D30A39322FBC49000A4DAFA /* dos33_template.dsk */,
-				9D30A39522FBC49000A4DAFA /* errorFilter.sh */,
-				9D30A39722FBC49000A4DAFA /* head.mk */,
-				9D30A39922FBC49000A4DAFA /* prodos_template.dsk */,
-				9D30A39B22FBC49000A4DAFA /* tail.mk */,
-				9D30A39D22FBC49000A4DAFA /* V2Make.scpt */,
+				9DE4036322FD232B00EC061A /* AppleCommander.jar */,
+				9DE4036522FD232B00EC061A /* bastokenizer-tools-bt-0.2.0.jar */,
+				9DE4036722FD232B00EC061A /* createDiskImage */,
+				9DE4036922FD232B00EC061A /* bt */,
+				9DE4036B22FD232B00EC061A /* DevApple.vii */,
+				9DE4036D22FD232B00EC061A /* dos33_template.dsk */,
+				9DE4036F22FD232B00EC061A /* errorFilter.sh */,
+				9DE4037122FD232B00EC061A /* head.mk */,
+				9DE4037322FD232B00EC061A /* prodos_template.dsk */,
+				9DE4037522FD232B00EC061A /* tail.mk */,
+				9DE4037722FD232B00EC061A /* V2Make.scpt */,
 			);
 			name = make;
 			sourceTree = "<group>";
 		};
-		9D30A39F22FBC49000A4DAFA /* Supporting Files */ = {
+		9DE4037922FD232B00EC061A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				9D30A3A022FBC49000A4DAFA /* a2bejwld.xcscheme */,
+				9DE4037A22FD232B00EC061A /* a2bejwld.xcscheme */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9D30A3CE22FBC4EC00A4DAFA /* sound */ = {
+		9DE403B322FD237600EC061A /* sound */ = {
 			isa = PBXGroup;
 			children = (
-				9D30A3BC22FBC4D500A4DAFA /* sound.c */,
-				9D30A3AB22FBC4D300A4DAFA /* sound.h */,
+				9DE4039B22FD235E00EC061A /* sound.c */,
+				9DE4038F22FD235E00EC061A /* sound.h */,
 			);
 			name = sound;
 			sourceTree = "<group>";
 		};
-		9D30A3CF22FBC50300A4DAFA /* graphics */ = {
+		9DE403B422FD238400EC061A /* joystick */ = {
 			isa = PBXGroup;
 			children = (
-				9D30A3BB22FBC4D500A4DAFA /* anim.c */,
-				9D30A3B722FBC4D400A4DAFA /* anim.h */,
-				9D30A3AC22FBC4D300A4DAFA /* dbllores.h */,
-				9D30A3C122FBC4D600A4DAFA /* dbllores.s */,
-				9D30A3AF22FBC4D300A4DAFA /* vbl.h */,
-				9D30A3BE22FBC4D600A4DAFA /* vbl.s */,
-			);
-			name = graphics;
-			sourceTree = "<group>";
-		};
-		9D30A3D022FBC52D00A4DAFA /* mouse */ = {
-			isa = PBXGroup;
-			children = (
-				9D30A3AD22FBC4D300A4DAFA /* mouseWrapper.c */,
-				9D30A3B122FBC4D300A4DAFA /* mouseWrapper.h */,
-			);
-			name = mouse;
-			sourceTree = "<group>";
-		};
-		9D30A3D422FBC57C00A4DAFA /* joystick */ = {
-			isa = PBXGroup;
-			children = (
-				9D30A3B522FBC4D400A4DAFA /* joystick.c */,
-				9D30A3C022FBC4D600A4DAFA /* joystick.h */,
+				9DE4039822FD235E00EC061A /* joystick.c */,
+				9DE4039722FD235E00EC061A /* joystick.h */,
 			);
 			name = joystick;
 			sourceTree = "<group>";
 		};
-		9D30A3D522FBC59600A4DAFA /* Mockingboard */ = {
+		9DE403B522FD239100EC061A /* Mockingboard */ = {
 			isa = PBXGroup;
 			children = (
-				9D30A3BA22FBC4D500A4DAFA /* mockingboard_speech.h */,
-				9D30A3B922FBC4D500A4DAFA /* mockingboard_speech.s */,
-				9D30A3BF22FBC4D600A4DAFA /* mockingboard.c */,
-				9D30A3AA22FBC4D300A4DAFA /* mockingboard.h */,
+				9DE403A522FD235F00EC061A /* mockingboard_speech.h */,
+				9DE4039E22FD235F00EC061A /* mockingboard_speech.s */,
+				9DE4039122FD235E00EC061A /* mockingboard.c */,
+				9DE403A122FD235F00EC061A /* mockingboard.h */,
 			);
 			name = Mockingboard;
+			sourceTree = "<group>";
+		};
+		9DE403B622FD239900EC061A /* mouse */ = {
+			isa = PBXGroup;
+			children = (
+				9DE403A022FD235F00EC061A /* mouseWrapper.c */,
+				9DE4039222FD235E00EC061A /* mouseWrapper.h */,
+			);
+			name = mouse;
+			sourceTree = "<group>";
+		};
+		9DE403B722FD23D600EC061A /* graphics */ = {
+			isa = PBXGroup;
+			children = (
+				9DE4039922FD235E00EC061A /* anim.c */,
+				9DE4039622FD235E00EC061A /* anim.h */,
+				9DE403A222FD235F00EC061A /* dbllores.h */,
+				9DE4039C22FD235E00EC061A /* dbllores.s */,
+				9DE403A322FD235F00EC061A /* vbl.h */,
+				9DE4039322FD235E00EC061A /* vbl.s */,
+			);
+			name = graphics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
-		9D30A37C22FBC49000A4DAFA /* a2bejwld */ = {
+		9DE4035222FD232B00EC061A /* a2bejwld */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "-C a2bejwld $(ACTION)";
-			buildConfigurationList = 9D30A3A422FBC49000A4DAFA /* Build configuration list for PBXLegacyTarget "a2bejwld" */;
+			buildConfigurationList = 9DE4037E22FD232B00EC061A /* Build configuration list for PBXLegacyTarget "a2bejwld" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/bin/make;
@@ -251,13 +255,41 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
-		9D30A38022FBC49000A4DAFA /* doNotBuild */ = {
+		9DE4035322FD232B00EC061A /* Binary */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9D30A3A722FBC49000A4DAFA /* Build configuration list for PBXNativeTarget "doNotBuild" */;
+			buildConfigurationList = 9DE4038122FD232B00EC061A /* Build configuration list for PBXNativeTarget "Binary" */;
 			buildPhases = (
-				9D30A37D22FBC49000A4DAFA /* Sources */,
-				9D30A37E22FBC49000A4DAFA /* Frameworks */,
-				9D30A37F22FBC49000A4DAFA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Binary;
+			productName = Binary;
+			productReference = 9DE4035422FD232B00EC061A /* a2bejwld */;
+			productType = "com.apple.product-type.tool";
+		};
+		9DE4035622FD232B00EC061A /* DiskImage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9DE4038422FD232B00EC061A /* Build configuration list for PBXNativeTarget "DiskImage" */;
+			buildPhases = (
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DiskImage;
+			productName = DiskImage;
+			productReference = 9DE4035722FD232B00EC061A /* a2bejwld.dsk */;
+			productType = "com.apple.product-type.tool";
+		};
+		9DE4035B22FD232B00EC061A /* doNotBuild */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9DE4038722FD232B00EC061A /* Build configuration list for PBXNativeTarget "doNotBuild" */;
+			buildPhases = (
+				9DE4035822FD232B00EC061A /* Sources */,
+				9DE4035922FD232B00EC061A /* Frameworks */,
+				9DE4035A22FD232B00EC061A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -265,69 +297,77 @@
 			);
 			name = doNotBuild;
 			productName = doNotBuild;
-			productReference = 9D30A38122FBC49000A4DAFA /* doNotBuild */;
+			productReference = 9DE4035C22FD232B00EC061A /* doNotBuild */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		9D30A37822FBC49000A4DAFA /* Project object */ = {
+		9DE4034E22FD232B00EC061A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = "Jeremy Rand";
 				TargetAttributes = {
-					9D30A37C22FBC49000A4DAFA = {
+					9DE4035222FD232B00EC061A = {
 						CreatedOnToolsVersion = 10.3;
 					};
-					9D30A38022FBC49000A4DAFA = {
+					9DE4035322FD232B00EC061A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					9DE4035622FD232B00EC061A = {
+						CreatedOnToolsVersion = 10.3;
+					};
+					9DE4035B22FD232B00EC061A = {
 						CreatedOnToolsVersion = 10.3;
 					};
 				};
 			};
-			buildConfigurationList = 9D30A37B22FBC49000A4DAFA /* Build configuration list for PBXProject "a2bejwld" */;
+			buildConfigurationList = 9DE4035122FD232B00EC061A /* Build configuration list for PBXProject "a2bejwld" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 9D30A37722FBC49000A4DAFA;
-			productRefGroup = 9D30A38222FBC49000A4DAFA /* Products */;
+			mainGroup = 9DE4034D22FD232B00EC061A;
+			productRefGroup = 9DE4035522FD232B00EC061A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9D30A37C22FBC49000A4DAFA /* a2bejwld */,
-				9D30A38022FBC49000A4DAFA /* doNotBuild */,
+				9DE4035222FD232B00EC061A /* a2bejwld */,
+				9DE4035322FD232B00EC061A /* Binary */,
+				9DE4035622FD232B00EC061A /* DiskImage */,
+				9DE4035B22FD232B00EC061A /* doNotBuild */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		9D30A37D22FBC49000A4DAFA /* Sources */ = {
+		9DE4035822FD232B00EC061A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D30A3CB22FBC4D600A4DAFA /* vbl.s in Sources */,
-				9D30A38722FBC49000A4DAFA /* Makefile in Sources */,
-				9D30A3C422FBC4D600A4DAFA /* game.c in Sources */,
-				9D30A3C522FBC4D600A4DAFA /* joystick.c in Sources */,
-				9D30A3C622FBC4D600A4DAFA /* machine.c in Sources */,
-				9D30A3C822FBC4D600A4DAFA /* anim.c in Sources */,
-				9D30A3C222FBC4D600A4DAFA /* mouseWrapper.c in Sources */,
-				9D30A3CC22FBC4D600A4DAFA /* mockingboard.c in Sources */,
-				9D30A3CD22FBC4D600A4DAFA /* dbllores.s in Sources */,
-				9D30A3C922FBC4D600A4DAFA /* sound.c in Sources */,
-				9D30A3C722FBC4D600A4DAFA /* mockingboard_speech.s in Sources */,
-				9D30A3C322FBC4D600A4DAFA /* main.c in Sources */,
-				9D30A3CA22FBC4D600A4DAFA /* ui.c in Sources */,
+				9DE403AE22FD235F00EC061A /* Makefile in Sources */,
+				9DE403B222FD235F00EC061A /* machine.c in Sources */,
+				9DE403B022FD235F00EC061A /* game.c in Sources */,
+				9DE403A922FD235F00EC061A /* main.c in Sources */,
+				9DE403A822FD235F00EC061A /* vbl.s in Sources */,
+				9DE403AD22FD235F00EC061A /* dbllores.s in Sources */,
+				9DE403B122FD235F00EC061A /* mouseWrapper.c in Sources */,
+				9DE403AB22FD235F00EC061A /* anim.c in Sources */,
+				9DE403AF22FD235F00EC061A /* mockingboard_speech.s in Sources */,
+				9DE403AA22FD235F00EC061A /* joystick.c in Sources */,
+				9DE403AC22FD235F00EC061A /* sound.c in Sources */,
+				9DE403A622FD235F00EC061A /* ui.c in Sources */,
+				9DE403A722FD235F00EC061A /* mockingboard.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		9D30A3A222FBC49000A4DAFA /* Debug */ = {
+		9DE4037C22FD232B00EC061A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -383,7 +423,7 @@
 			};
 			name = Debug;
 		};
-		9D30A3A322FBC49000A4DAFA /* Release */ = {
+		9DE4037D22FD232B00EC061A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -432,7 +472,7 @@
 			};
 			name = Release;
 		};
-		9D30A3A522FBC49000A4DAFA /* Debug */ = {
+		9DE4037F22FD232B00EC061A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -447,7 +487,7 @@
 			};
 			name = Debug;
 		};
-		9D30A3A622FBC49000A4DAFA /* Release */ = {
+		9DE4038022FD232B00EC061A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -459,7 +499,43 @@
 			};
 			name = Release;
 		};
-		9D30A3A822FBC49000A4DAFA /* Debug */ = {
+		9DE4038222FD232B00EC061A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VD9FGCW36C;
+				PRODUCT_NAME = a2bejwld;
+			};
+			name = Debug;
+		};
+		9DE4038322FD232B00EC061A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VD9FGCW36C;
+				PRODUCT_NAME = a2bejwld;
+			};
+			name = Release;
+		};
+		9DE4038522FD232B00EC061A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VD9FGCW36C;
+				PRODUCT_NAME = a2bejwld.dsk;
+			};
+			name = Debug;
+		};
+		9DE4038622FD232B00EC061A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = VD9FGCW36C;
+				PRODUCT_NAME = a2bejwld.dsk;
+			};
+			name = Release;
+		};
+		9DE4038822FD232B00EC061A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -473,7 +549,7 @@
 			};
 			name = Debug;
 		};
-		9D30A3A922FBC49000A4DAFA /* Release */ = {
+		9DE4038922FD232B00EC061A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
@@ -490,34 +566,52 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9D30A37B22FBC49000A4DAFA /* Build configuration list for PBXProject "a2bejwld" */ = {
+		9DE4035122FD232B00EC061A /* Build configuration list for PBXProject "a2bejwld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9D30A3A222FBC49000A4DAFA /* Debug */,
-				9D30A3A322FBC49000A4DAFA /* Release */,
+				9DE4037C22FD232B00EC061A /* Debug */,
+				9DE4037D22FD232B00EC061A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9D30A3A422FBC49000A4DAFA /* Build configuration list for PBXLegacyTarget "a2bejwld" */ = {
+		9DE4037E22FD232B00EC061A /* Build configuration list for PBXLegacyTarget "a2bejwld" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9D30A3A522FBC49000A4DAFA /* Debug */,
-				9D30A3A622FBC49000A4DAFA /* Release */,
+				9DE4037F22FD232B00EC061A /* Debug */,
+				9DE4038022FD232B00EC061A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9D30A3A722FBC49000A4DAFA /* Build configuration list for PBXNativeTarget "doNotBuild" */ = {
+		9DE4038122FD232B00EC061A /* Build configuration list for PBXNativeTarget "Binary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9D30A3A822FBC49000A4DAFA /* Debug */,
-				9D30A3A922FBC49000A4DAFA /* Release */,
+				9DE4038222FD232B00EC061A /* Debug */,
+				9DE4038322FD232B00EC061A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9DE4038422FD232B00EC061A /* Build configuration list for PBXNativeTarget "DiskImage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DE4038522FD232B00EC061A /* Debug */,
+				9DE4038622FD232B00EC061A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9DE4038722FD232B00EC061A /* Build configuration list for PBXNativeTarget "doNotBuild" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DE4038822FD232B00EC061A /* Debug */,
+				9DE4038922FD232B00EC061A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 9D30A37822FBC49000A4DAFA /* Project object */;
+	rootObject = 9DE4034E22FD232B00EC061A /* Project object */;
 }
