@@ -38,7 +38,10 @@ RDVBLBAR      :=  $C019
 
 
 .proc _vblIRQCallback
-    stz vbl2cByte
+    pha
+    lda #0
+    sta vbl2cByte
+    pla
     rts
 .endproc
 

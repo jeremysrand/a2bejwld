@@ -83,12 +83,28 @@ gemmask     := $88
 
 
 .proc _unshowDblLoRes
+    lda #0
+    sta WNDTOP
     lda TXTSET
     rts
 .endproc
 
 
 .proc _mixedTextMode
+    ; Set the text window top to line 20
+    lda #20
+    sta WNDTOP
+    
+    ; Move the Y position of the cursor to line 20
+    sta CV
+    bit $C082
+    jsr $FC24           ; Generate text base address
+    bit $C080
+    
+    ; And the X position of the cursor to column 0
+    lda #0
+    sta CH
+    
     lda MIXSET
     sta LOWSCR
     ldx #40
@@ -129,62 +145,63 @@ gemmask     := $88
 .proc _clearDblLoRes
     sta LOWSCR
     ldx #40
+    lda #0
 @L1:
     dex
-    stz LINE1, X
-    stz LINE2, X
-    stz LINE3, X
-    stz LINE4, X
-    stz LINE5, X
-    stz LINE6, X
-    stz LINE7, X
-    stz LINE8, X
-    stz LINE9, X
-    stz LINE10, X
-    stz LINE11, X
-    stz LINE12, X
-    stz LINE13, X
-    stz LINE14, X
-    stz LINE15, X
-    stz LINE16, X
-    stz LINE17, X
-    stz LINE18, X
-    stz LINE19, X
-    stz LINE20, X
-    stz LINE21, X
-    stz LINE22, X
-    stz LINE23, X
-    stz LINE24, X
+    sta LINE1, X
+    sta LINE2, X
+    sta LINE3, X
+    sta LINE4, X
+    sta LINE5, X
+    sta LINE6, X
+    sta LINE7, X
+    sta LINE8, X
+    sta LINE9, X
+    sta LINE10, X
+    sta LINE11, X
+    sta LINE12, X
+    sta LINE13, X
+    sta LINE14, X
+    sta LINE15, X
+    sta LINE16, X
+    sta LINE17, X
+    sta LINE18, X
+    sta LINE19, X
+    sta LINE20, X
+    sta LINE21, X
+    sta LINE22, X
+    sta LINE23, X
+    sta LINE24, X
     bne @L1
 
     sta HISCR
     ldx #40
 @L2:
     dex
-    stz LINE1, X
-    stz LINE2, X
-    stz LINE3, X
-    stz LINE4, X
-    stz LINE5, X
-    stz LINE6, X
-    stz LINE7, X
-    stz LINE8, X
-    stz LINE9, X
-    stz LINE10, X
-    stz LINE11, X
-    stz LINE12, X
-    stz LINE13, X
-    stz LINE14, X
-    stz LINE15, X
-    stz LINE16, X
-    stz LINE17, X
-    stz LINE18, X
-    stz LINE19, X
-    stz LINE20, X
-    stz LINE21, X
-    stz LINE22, X
-    stz LINE23, X
-    stz LINE24, X
+    sta LINE1, X
+    sta LINE2, X
+    sta LINE3, X
+    sta LINE4, X
+    sta LINE5, X
+    sta LINE6, X
+    sta LINE7, X
+    sta LINE8, X
+    sta LINE9, X
+    sta LINE10, X
+    sta LINE11, X
+    sta LINE12, X
+    sta LINE13, X
+    sta LINE14, X
+    sta LINE15, X
+    sta LINE16, X
+    sta LINE17, X
+    sta LINE18, X
+    sta LINE19, X
+    sta LINE20, X
+    sta LINE21, X
+    sta LINE22, X
+    sta LINE23, X
+    sta LINE24, X
     bne @L2
 
     rts
@@ -269,7 +286,7 @@ colorAux:   .BYTE $0
     ora #$80
     tax
     bcc @L3
-    bra @L9
+    bcs @L9
 
 @L8:
     lsr
@@ -281,7 +298,8 @@ colorAux:   .BYTE $0
     sta gemmask
     lda maskHiAddrs2,Y
     sta gemmask+1
-    bra @L4
+    clc
+    bcc @L4
 
 @L3:
     lda maskLoAddrs,Y
@@ -295,7 +313,8 @@ colorAux:   .BYTE $0
     lda gemAuxColours,Y
     sta gemAuxColour
 
-    stz isAux
+    lda #0
+    sta isAux
     lda xPos
     lsr
     sta xPos
@@ -332,77 +351,81 @@ colorAux:   .BYTE $0
 
     ; Draw the gem
     ldy #0
-    ldx #8
+    ldx #0
+    lda #8
+    sta counter
 @L1:
 
     lda isAux
     beq @L6
 
     sta HISCR
-    lda (line1addr)
+    lda (line1addr,X)
     and (gemmask),Y
     sta square
     lda (gemmask),Y
     eor #$ff
     and gemAuxColour
     ora square
-    sta (line1addr)
+    sta (line1addr,X)
     iny
 
-    lda (line2addr)
+    lda (line2addr,X)
     and (gemmask),Y
     sta square
     lda (gemmask),Y
     eor #$ff
     and gemAuxColour
     ora square
-    sta (line2addr)
+    sta (line2addr,X)
     iny
 
-    lda (line3addr)
+    lda (line3addr,X)
     and (gemmask),Y
     sta square
     lda (gemmask),Y
     eor #$ff
     and gemAuxColour
     ora square
-    sta (line3addr)
+    sta (line3addr,X)
     iny
+    
+    lda #0
+    sta isAux
 
-    stz isAux
-
-    bra @L7
+    clc
+    bcc @L7
 
 @L6:
     sta LOWSCR
-    lda (line1addr)
+    lda (line1addr,X)
     and (gemmask),Y
     sta square
     lda (gemmask),Y
     eor #$ff
     and gemColour
     ora square
-    sta (line1addr)
+    sta (line1addr,X)
     iny
 
-    lda (line2addr)
+    lda (line2addr,X)
     and (gemmask),Y
     sta square
     lda (gemmask),Y
     eor #$ff
     and gemColour
     ora square
-    sta (line2addr)
+    sta (line2addr,X)
     iny
 
-    lda (line3addr)
+    lda (line3addr,X)
     and (gemmask),Y
     sta square
     lda (gemmask),Y
     eor #$ff
     and gemColour
     ora square
-    sta (line3addr)
+    sta (line3addr,X)
     iny
 
     inc line1addr
@@ -412,7 +435,7 @@ colorAux:   .BYTE $0
     inc isAux
 
 @L7:
-    dex
+    dec counter
     beq @L2
 
     jmp @L1
@@ -426,6 +449,7 @@ square:       .BYTE $0
 gemColour:    .BYTE $0
 gemAuxColour: .BYTE $0
 isAux:        .BYTE $0
+counter:      .BYTE $0
 .endproc
 
 
@@ -473,14 +497,16 @@ square:     .BYTE $0
     tax
     bcc @L1
     lda #$f0
-    bra @L2
+    clc
+    bcc @L2
 
 @L4:
     lsr
     tax
     bcc @L1
     lda #$f0
-    bra @L2
+    clc
+    bcc @L2
 @L1:
     lda #$0f
 @L2:
@@ -507,9 +533,10 @@ square:     .BYTE $0
     lda lineHiAddrs,X
     sta line2addr+1
 
+    ldx #0
     lda starVal
-    ora (line2addr)
-    sta (line2addr)
+    ora (line2addr,X)
+    sta (line2addr,X)
     rts
 
 ; Locals
@@ -569,20 +596,22 @@ square:     .BYTE $0
 
 .proc _drawScore
 ; A is a number from 0 to 24
-    tay
+    sta score
     ldx #24
     lda #$dd
+    ldy #0
     sta color
     sta LOWSCR
 @L1:
     dex
     bmi @L2
-    cpy #0
+    lda score
+    cmp #0
     bne @L3
     lda #$22
     sta color
 @L3:
-    dey
+    dec score
 
     lda lineLoAddrs,X
     clc
@@ -592,9 +621,10 @@ square:     .BYTE $0
     sta line1addr+1
 
     lda color
-    sta (line1addr)
+    sta (line1addr),Y
 
-    bra @L1
+    clc
+    bcc @L1
 
 @L2:
     rts
@@ -602,6 +632,7 @@ square:     .BYTE $0
 ; Locals
 
 color:      .BYTE $0
+score:      .BYTE $0
 .endproc
     
 .proc _explodeGemFrame1

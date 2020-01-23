@@ -20,12 +20,13 @@
 #include "machine.h"
 #include "mouseWrapper.h"
 #include "sound.h"
+#include "text.h"
 
 
 // Defines
 
 #define SAVE_OPTIONS_FILE "a2bejwld.opts"
-#define VERSION "v2.0"
+#define VERSION "v2.1a1"
 
 
 // Typedefs
@@ -112,10 +113,33 @@ static tGameOptions gGameOptions = {
 // Implementation
 
 
+static void printString(char * buffer)
+{
+    char ch;
+    
+    while (*buffer != '\0') {
+        ch = *buffer;
+        if (ch == '\n')
+            ch = '\r';
+        ch |= 0x80;
+        cout(ch);
+        buffer++;
+    }
+}
+
+
+static void printInteger(uint16_t val)
+{
+    static char buffer[7];
+    snprintf(buffer, sizeof(buffer), "%u", val);
+    printString(buffer);
+}
+
+
 static void badThingHappened(void)
 {
     if (gGameOptions.enableSound)
-        printf("\007");
+        printString("\007");
 }
 
 
@@ -190,16 +214,14 @@ static void applyNewOptions(tGameOptions *newOptions)
 
 static void showCursor(void)
 {
-    revers(true);
-    cputc(' ');
-    revers(false);
+    cout(0x20);
 }
 
 
 static void replaceCursor(char ch)
 {
-    gotox(wherex() - 1);
-    cputc(ch);
+    cout(CH_CURS_LEFT);
+    cout(ch | 0x80);
 }
 
 
@@ -207,7 +229,7 @@ static void getSoundOptions(tGameOptions *newOptions)
 {
     char ch;
     
-    cputs("\n\nEnable sounds? (Y/N) ");
+    printString("\n\nEnable sounds? (Y/N) ");
     showCursor();
     while (true) {
         ch = cgetc();
@@ -228,7 +250,7 @@ static void getSoundOptions(tGameOptions *newOptions)
         badThingHappened();
     }
     
-    cputs("\n\rMockingBoard slot number (0 for none) ");
+    printString("\nMockingBoard slot number (0 for none) ");
     showCursor();
     while (true) {
         ch = cgetc();
@@ -247,7 +269,7 @@ static void getSoundOptions(tGameOptions *newOptions)
         badThingHappened();
     }
     
-    cputs("\n\rMockingBoard has a speech chip? (Y/N) ");
+    printString("\nMockingBoard has a speech chip? (Y/N) ");
     showCursor();
     while (true) {
         ch = cgetc();
@@ -272,43 +294,46 @@ static void selectOptions(void)
     tGameOptions newOptions;
     
     unshowDblLoRes();
-    videomode(VIDEOMODE_80x24);
+    videomode(0x12);
     clrscr();
     
     memcpy(&newOptions, &gGameOptions, sizeof(newOptions));
     
     while (true) {
         clrscr();
-        printf(
+        printString(
                //      0000000001111111111222222222233333333334444444444555555555566666666667
                //      1234567890123456789012345678901234567890123456789012345678901234567890
                "                               Apple // Bejeweled\n"
                "                                    Options\n"
                "\n"
-               "                        J - Joystick control - %s\n"
-               "                        M - Mouse control    - %s\n"
-               "                        S - Sound            - %s\n",
-               (newOptions.enableJoystick ? "Enable" : "Disabled"),
-               (newOptions.enableMouse ? "Enable" : "Disabled"),
-               (newOptions.enableSound ? "Enable" : "Disabled"));
+               "                        J - Joystick control - ");
+        printString(newOptions.enableJoystick ? "Enable\n" : "Disabled\n");
+        printString(
+               "                        M - Mouse control    - ");
+        printString(newOptions.enableMouse ? "Enable\n" : "Disabled\n");
+        printString(
+               "                        S - Sound            - ");
+        printString(newOptions.enableSound ? "Enable\n" : "Disabled\n");
         
         if (newOptions.enableSound) {
             if (newOptions.mockingBoardSlot > 0) {
-                printf(
+                printString(
                        //      0000000001111111111222222222233333333334444444444555555555566666666667
                        //      1234567890123456789012345678901234567890123456789012345678901234567890
-                       "                                MockingBoard - Slot %u\n"
-                       "                                Speech Chip  - %s\n",
-                       newOptions.mockingBoardSlot,
-                       (newOptions.enableSpeechChip ? "Enable" : "Disable"));
+                       "                                MockingBoard - Slot ");
+                printInteger(newOptions.mockingBoardSlot);
+                printString("\n"
+                       "                                Speech Chip  - ");
+                printString(newOptions.enableSpeechChip ? "Enable\n" : "Disable\n");
             } else {
-                printf(
+                printString(
                        //      0000000001111111111222222222233333333334444444444555555555566666666667
                        //      1234567890123456789012345678901234567890123456789012345678901234567890
                        "                                MockingBoard - Disabled\n");
             }
         }
-        printf(
+        printString(
                //      0000000001111111111222222222233333333334444444444555555555566666666667
                //      1234567890123456789012345678901234567890123456789012345678901234567890
                "\n"
@@ -351,9 +376,9 @@ void printInstructions(void)
     int seed = 0;
     
     unshowDblLoRes();
-    videomode(VIDEOMODE_80x24);
+    videomode(0x12);
     clrscr();
-    printf(
+    printString(
           //      0000000001111111111222222222233333333334444444444555555555566666666667
           //      1234567890123456789012345678901234567890123456789012345678901234567890
            "                              Apple // Bejeweled             (" VERSION ")\n"
@@ -428,7 +453,7 @@ static void drawBoard(void)
 static void quitGame(void)
 {
     unshowDblLoRes();
-    videomode(VIDEOMODE_40x24);
+    videomode(0x11);
     clrscr();
     shutdownMouse();
     soundShutdown();
@@ -584,20 +609,26 @@ static bool isAppleButtonPressed(void)
 
 static void endGame(void)
 {
-    videomode(VIDEOMODE_80x24);
+    char ch;
+    
+    videomode(0x12);
     mixedTextMode();
     
     speakNoMoreMoves();
     
-    cputsxy(0, 0, "               No more moves  -  GAME OVER!!");
-    gotoxy(0,1);
-    cprintf(      "               You made it to level %u", getLevel());
-    cputsxy(0, 3, "                    Play again (Y/N)?");
+    printString("               No more moves  -  GAME OVER!!\n"
+                "               You made it to level ");
+    printInteger(getLevel());
+    printString("\n"
+                "                    Play again (Y/N)? ");
     
+    showCursor();
     while (true) {
-        switch (cgetc()) {
+        ch = cgetc();
+        switch (ch) {
             case 'y':
             case 'Y':
+                replaceCursor(ch);
                 return;
                 
             case 'n':
@@ -605,6 +636,7 @@ static void endGame(void)
             case CH_ESC:
             case 'q':
             case 'Q':
+                replaceCursor(ch);
                 quitGame();
                 break;
                 
@@ -630,13 +662,14 @@ static void refreshLevel(tLevel level)
 {
     bool waiting = true;
     
-    videomode(VIDEOMODE_80x24);
+    videomode(0x12);
     mixedTextMode();
     speakLevelComplete();
     
-    gotoxy(0, 0);
-    cprintf(      "               Completed level %u!!", level);
-    cputsxy(0, 2, "               Press space to continue to the next level...");
+    printString("               Completed level ");
+    printInteger(level);
+    printString("!!\n"
+                "               Press space to continue to the next level...");
     
     while (waiting) {
         switch (cgetc()) {
@@ -811,7 +844,8 @@ static bool pollKeyboard(void)
     switch (ch) {
         case 'i':
         case 'I':
-        case CH_CURS_UP:
+        // case CH_CURS_UP:
+        case 0x0b:
             if (!isAppleButtonPressed()) {
                 moveDir(DIR_UP);
                 break;
@@ -847,7 +881,8 @@ static bool pollKeyboard(void)
             
         case 'm':
         case 'M':
-        case CH_CURS_DOWN:
+        // case CH_CURS_DOWN:
+        case 0x0a:
             if (!isAppleButtonPressed()) {
                 moveDir(DIR_DOWN);
                 break;
@@ -861,10 +896,10 @@ static bool pollKeyboard(void)
         case 'q':
         case 'Q':
             if (gShouldSave) {
-                videomode(VIDEOMODE_80x24);
+                videomode(0x12);
                 mixedTextMode();
                 gotoxy(0, 0);
-                cprintf("Saving your game so you can continue\r\n    later...");
+                printString("Saving your game so you can continue\n    later...");
                 saveGame();
             }
             quitGame();
@@ -913,19 +948,21 @@ void playGame(void)
     gScoreBar = 0;
     gShouldSave = false;
     
-    printf("\n\nChecking for a saved game...");
+    printString("\n\nChecking for a saved game...");
     
     if (loadGame()) {
         bool gotAnswer = false;
         
-        printf("\n\nYou have a saved game!\n    Would you like to continue it (Y/N)");
+        printString("\n\nYou have a saved game!\n    Would you like to continue it (Y/N) ");
         
+        showCursor();
         while (!gotAnswer) {
             ch = cgetc();
             switch (ch) {
                 case 'y':
                 case 'Y':
-                    printf("\n\nLoading your saved puzzle");
+                    replaceCursor(ch);
+                    printString("\n\nLoading your saved puzzle");
                     gotAnswer = true;
                     gShouldSave = true;
                     gameLoaded = true;
@@ -933,6 +970,7 @@ void playGame(void)
                     
                 case 'n':
                 case 'N':
+                    replaceCursor(ch);
                     gotAnswer = true;
                     break;
                     

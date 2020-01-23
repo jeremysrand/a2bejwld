@@ -57,6 +57,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9DC0327323D948D000797D62 /* text.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = text.s; sourceTree = "<group>"; };
+		9DC0327423D9497600797D62 /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		9DE4035422FD232B00EC061A /* a2bejwld */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = a2bejwld; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE4035722FD232B00EC061A /* a2bejwld.dsk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = a2bejwld.dsk; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE4035C22FD232B00EC061A /* doNotBuild */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = doNotBuild; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -230,6 +232,8 @@
 				9DE4039622FD235E00EC061A /* anim.h */,
 				9DE403A222FD235F00EC061A /* dbllores.h */,
 				9DE4039C22FD235E00EC061A /* dbllores.s */,
+				9DC0327423D9497600797D62 /* text.h */,
+				9DC0327323D948D000797D62 /* text.s */,
 				9DE403A322FD235F00EC061A /* vbl.h */,
 				9DE4039322FD235E00EC061A /* vbl.s */,
 			);
