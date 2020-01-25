@@ -71,6 +71,7 @@ SRCDIRS+=
 
 # If you want to add arguments to the compile commandline, add them
 # to this variable:
+# CFLAGS += -DTOTAL_REPLAY_BUILD
 CFLAGS += -Os
 
 # If you want to add arguments to the assembly commandline, add them

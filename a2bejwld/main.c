@@ -9,14 +9,27 @@
 
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 #include "ui.h"
 
 
 // Implementation
 
+#ifdef TOTAL_REPLAY_BUILD
+void totalReplayQuit(void)
+{
+    __asm__ ("BIT $C082");
+    __asm__ ("JMP ($FFFC)");
+}
+#endif
+
 int main(void)
 {
+#ifdef TOTAL_REPLAY_BUILD
+    atexit(totalReplayQuit);
+#endif
+    
     initUI();
     
     printInstructions();

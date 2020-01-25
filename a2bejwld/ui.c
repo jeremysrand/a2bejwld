@@ -26,7 +26,13 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "a2bejwld.opts"
-#define VERSION "v2.1a1"
+#define BASE_VERSION "v2.1"
+
+#ifdef TOTAL_REPLAY_BUILD
+#define VERSION BASE_VERSION ".tr"
+#else
+#define VERSION BASE_VERSION
+#endif
 
 
 // Typedefs
