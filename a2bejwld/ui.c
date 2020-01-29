@@ -25,8 +25,8 @@
 
 // Defines
 
-#define SAVE_OPTIONS_FILE "a2bejwld.opts"
-#define BASE_VERSION "v2.1"
+#define SAVE_OPTIONS_FILE "A2BEJWLD.OPTS"
+#define BASE_VERSION "v2.2a1"
 
 #ifdef TOTAL_REPLAY_BUILD
 #define VERSION BASE_VERSION ".tr"
@@ -635,6 +635,7 @@ static void endGame(void)
             case 'y':
             case 'Y':
                 replaceCursor(ch);
+                printString("\n");
                 return;
                 
             case 'n':
@@ -672,10 +673,11 @@ static void refreshLevel(tLevel level)
     mixedTextMode();
     speakLevelComplete();
     
-    printString("               Completed level ");
+    printString("\n"
+                "         Completed level ");
     printInteger(level);
     printString("!!\n"
-                "               Press space to continue to the next level...");
+                "         Press space to continue to the next level...");
     
     while (waiting) {
         switch (cgetc()) {
@@ -689,6 +691,7 @@ static void refreshLevel(tLevel level)
         }
     }
     
+    printString("\n");
     showAndClearDblLoRes();
     speakGetReady();
 }
@@ -904,8 +907,7 @@ static bool pollKeyboard(void)
             if (gShouldSave) {
                 videomode(0x12);
                 mixedTextMode();
-                gotoxy(0, 0);
-                printString("Saving your game so you can continue\n    later...");
+                printString("\nSaving your game so you can continue\n    later...");
                 saveGame();
             }
             quitGame();

@@ -91,22 +91,8 @@ gemmask     := $88
 
 
 .proc _mixedTextMode
-    ; Set the text window top to line 20
-    lda #20
-    sta WNDTOP
-    
-    ; Move the Y position of the cursor to line 20
-    sta CV
-    bit $C082
-    jsr $FC24           ; Generate text base address
-    bit $C080
-    
-    ; And the X position of the cursor to column 0
-    lda #0
-    sta CH
-    
     lda MIXSET
-    sta LOWSCR
+    sta HISCR
     ldx #40
     lda #$a0
 @L1:
@@ -118,7 +104,7 @@ gemmask     := $88
     cpx #0
     bne @L1
 
-    sta HISCR
+    sta LOWSCR
     ldx #40
 @L2:
     dex
@@ -131,10 +117,18 @@ gemmask     := $88
 
     lda #0
     sta WNDLFT
+    sta CH
+    
     lda #80
     sta WNDWDTH
+    
     lda #20
     sta WNDTOP
+    sta CV
+    bit $C082
+    jsr $FC24           ; Generate text base address
+    bit $C080
+    
     lda #24
     sta WNDBTM
 

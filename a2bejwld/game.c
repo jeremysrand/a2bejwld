@@ -33,7 +33,7 @@
 #define GEM_TYPE_AT_SQUARE(square) gGameState.squareStates[square].gemType
 #define GEM_STARRED_AT_SQUARE(square) gGameState.squareStates[square].isStarred
 
-#define SAVE_GAME_FILE "a2bejwld.game"
+#define SAVE_GAME_FILE "A2BEJWLD.GAME"
 
 
 // Typedefs
