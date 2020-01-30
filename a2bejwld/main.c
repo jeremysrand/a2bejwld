@@ -20,7 +20,7 @@
 void totalReplayQuit(void)
 {
     __asm__ ("BIT $C082");
-    __asm__ ("JMP ($FFFC)");
+    __asm__ ("JMP $100");
 }
 #endif
 
