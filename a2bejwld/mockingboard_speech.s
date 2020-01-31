@@ -10,6 +10,7 @@
     .export _mockingBoardSpeechInit, _mockingBoardSpeechShutdown, _mockingBoardSpeakPriv
     .export _mockingBoardSpeechData, _mockingBoardSpeechLen
     .export _mockingBoardSpeechBusy, _mockingBoardSpeechPlaying
+    .export _getMockingBoardSlot
     .interruptor mock_irq
 
 
@@ -51,6 +52,86 @@ writeChip:
 readChip:
     lda $C000,X
     rts
+    
+    
+;license:MIT
+; By Andrew Roughan
+;   in the style of 4am for Total Replay
+;   ported into a2bejewld by jrand
+;
+; Mockingboard support functions
+;
+
+;------------------------------------------------------------------------------
+; GetMockingboardSlot
+; detect Mockingboard card by searching for 6522 timers across all slots 7->1
+; access 6522 timers with deterministic cycle counts
+;
+;   based on prior art in Mockingboard Developers Toolkit
+;   with optimisation from deater/french touch
+;   also takes into account FastChip //e clock difference
+;
+; in:    none
+;        accelerators should be off
+; out:
+;        if card was found, A = #$n where n is the slot number of the card, otherwise #$00
+;        flags clobbered
+;        zp $80-$82 clobbered
+;           (jrand - and then restored because I am chicken and afraid of breaking cc65 runtime)
+;        X/Y clobbered
+;------------------------------------------------------------------------------
+.proc _getMockingBoardSlot
+             lda   $80
+             sta   zp80Backup
+             lda   $81
+             sta   zp81Backup
+             lda   $82
+             sta   zp82Backup
+             
+             lda   #$00
+             sta   $80
+             ldx   #$C7
+@slotLoop:
+             stx   $81
+             ldy   #$04                  ; 6522 #1 $Cx04
+             jsr   timercheck
+             bne   @nextSlot
+             ldy   #$84                  ; 6522 #2 $Cx84
+             jsr   timercheck
+             bne   @nextSlot
+             beq   @cleanup
+@nextSlot:
+             dex
+             cpx   #$C0
+             bne   @slotLoop
+             ldx   #$00                  ; not found
+@cleanup:
+             lda   zp80Backup
+             sta   $80
+             lda   zp81Backup
+             sta   $81
+             lda   zp82Backup
+             sta   $82
+             txa
+             and   #$07
+             ldx   #$00
+             rts
+
+timercheck:
+             lda   ($80),y               ; read 6522 timer low byte
+             sta   $82
+             lda   ($80),y               ; second time
+             sec
+             sbc   $82
+             cmp   #$F8                  ; looking for (-)8 cycles between reads
+             beq   :+
+             cmp   #$F7                  ; FastChip //e clock is different
+:            rts
+; Locals
+zp80Backup: .BYTE $00
+zp81Backup: .BYTE $00
+zp82Backup: .BYTE $00
+.endproc
 
 
 .proc _mockingBoardSpeechInit

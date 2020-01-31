@@ -117,6 +117,7 @@ typedef struct tMockingSoundRegisters {
 
 // API
 
+extern uint8_t getMockingBoardSlot(void);
 extern void mockingBoardInit(tSlot slot, bool hasSpeechChip);
 extern void mockingBoardShutdown(void);
 

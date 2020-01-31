@@ -734,6 +734,9 @@ void initUI(void)
     initJoystick(&gJoyCallbacks);
     
     if (gGameOptions.enableSound) {
+        if (!optionsLoaded) {
+            gGameOptions.mockingBoardSlot = getMockingBoardSlot();
+        }
         soundInit(gGameOptions.mockingBoardSlot, gGameOptions.enableSpeechChip);
     }
     
