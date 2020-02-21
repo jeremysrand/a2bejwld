@@ -26,7 +26,7 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "A2BEJWLD.OPTS"
-#define BASE_VERSION "v2.2a3"
+#define BASE_VERSION "v2.2"
 
 #ifdef TOTAL_REPLAY_BUILD
 #define VERSION BASE_VERSION ".tr"
@@ -724,11 +724,6 @@ void initUI(void)
         (gGameOptions.enableMouse)) {
         gGameOptions.enableMouse = false;
         gGameOptions.optionsSaved = false;
-        
-        // If there were no options loaded, then let's turn on the joystick instead.
-        if (!optionsLoaded) {
-            gGameOptions.enableJoystick = true;
-        }
     }
     
     initJoystick(&gJoyCallbacks);
