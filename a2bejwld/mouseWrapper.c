@@ -32,19 +32,13 @@ bool initMouse(tMouseCallbacks *callbacks)
     if (!gMouseInstalled) {
         memcpy(&gMouseDrvCallbacks, &mouse_def_callbacks, sizeof(gMouseDrvCallbacks));
         // This callback is here for the //c VBL which is only detectable
-        // through the mouse interrupt.  By registering this as our "show"
+        // through the mouse interrupt.  By registering this as our "draw"
         // function, we can ensure that we get called on our VBL interrupt
         // and can unblock our VBL wait function.
-        gMouseDrvCallbacks.show = vblIRQCallback;
+        gMouseDrvCallbacks.draw = vblIRQCallback;
         
         if (mouse_install(&gMouseDrvCallbacks, &a2_mouse_drv) == 0) {
             gMouseInstalled = true;
-            
-            // This is required to ensure that the show callback is called
-            // by the interrupt handler.  This whole thing is a bit of a
-            // hack to get the default mouse interrupt handler to do what
-            // we want on the //c to detect the VBL but it works for now.
-            mouse_show();
         }
     }
     
