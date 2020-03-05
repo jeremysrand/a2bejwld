@@ -46,6 +46,9 @@ static uint8_t *gMockDataDirA[NUM_SOUND_CHIPS] = { (uint8_t *)0xc003, (uint8_t *
 
 static uint8_t gMockingBoardInitialized = false;
 static uint8_t gMockingBoardSpeechInitialized = false;
+static uint8_t gMockingBoardSearchDone = false;
+static tSlot   gMockingBoardSlot = 0;
+static bool    gMockingBoardHasSpeech = false;
 
 
 // Implementation
@@ -64,29 +67,47 @@ static uint8_t *mapIOPointer(tSlot slot, uint8_t *ptr)
 }
 
 
-void mockingBoardInit(tSlot slot, bool hasSpeechChip)
+bool mockingBoardInit(void)
 {
     tMockingBoardSoundChip soundChip;
+    
+    if (!gMockingBoardSearchDone)
+    {
+        gMockingBoardSlot = getMockingBoardSlot();
+        
+        if ((gMockingBoardSlot & 0x80) != 0)
+            gMockingBoardHasSpeech = true;
+        
+        gMockingBoardSlot &= 0x7;
+        
+        gMockingBoardSearchDone = true;
+    }
+    
+    if (gMockingBoardSlot == 0)
+        return false;
+    
+    if (gMockingBoardInitialized)
+        return true;
     
     if (sizeof(tMockingSoundRegisters) != 16) {
         printf("The sound registers must be 16 bytes long!\n");
     }
     
     for (soundChip = SOUND_CHIP_1; soundChip < NUM_SOUND_CHIPS; soundChip++) {
-        gMockPortB[soundChip] = mapIOPointer(slot, gMockPortB[soundChip]);
-        gMockPortA[soundChip] = mapIOPointer(slot, gMockPortA[soundChip]);
-        gMockDataDirB[soundChip] = mapIOPointer(slot, gMockDataDirB[soundChip]);
-        gMockDataDirA[soundChip] = mapIOPointer(slot, gMockDataDirA[soundChip]);
+        gMockPortB[soundChip] = mapIOPointer(gMockingBoardSlot, gMockPortB[soundChip]);
+        gMockPortA[soundChip] = mapIOPointer(gMockingBoardSlot, gMockPortA[soundChip]);
+        gMockDataDirB[soundChip] = mapIOPointer(gMockingBoardSlot, gMockDataDirB[soundChip]);
+        gMockDataDirA[soundChip] = mapIOPointer(gMockingBoardSlot, gMockDataDirA[soundChip]);
         
         *(gMockDataDirA[soundChip]) = 0xff;     // Set port A for output
         *(gMockDataDirB[soundChip]) = 0x7;      // Set port B for output
     }
     
-    if (hasSpeechChip) {
+    if (gMockingBoardHasSpeech) {
         if (gMockingBoardSpeechInitialized) {
             mockingBoardSpeechShutdown();
         }
-        mockingBoardSpeechInit(slot);
+        mockingBoardSpeechInit(gMockingBoardSlot);
         gMockingBoardSpeechInitialized = true;
     } else if (gMockingBoardSpeechInitialized) {
         mockingBoardSpeechShutdown();
@@ -94,6 +115,7 @@ void mockingBoardInit(tSlot slot, bool hasSpeechChip)
     }
     
     gMockingBoardInitialized = true;
+    return true;
 }
 
 
@@ -105,6 +127,18 @@ void mockingBoardShutdown(void)
     }
     
     gMockingBoardInitialized = false;
+}
+
+
+tSlot mockingBoardSlot(void)
+{
+    return gMockingBoardSlot;
+}
+
+
+bool mockingBoardHasSpeechChip(void)
+{
+    return gMockingBoardHasSpeech;
 }
 
 

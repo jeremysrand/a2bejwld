@@ -26,24 +26,20 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "A2BEJWLD.OPTS"
-#define BASE_VERSION "v2.3"
+#define VERSION "v2.4.a3"
 
-#ifdef TOTAL_REPLAY_BUILD
-#define VERSION BASE_VERSION ".tr"
-#else
-#define VERSION BASE_VERSION
-#endif
-
+#define OPTIONS_VERSION_UNSAVED 0
+#define OPTIONS_VERSION 2
 
 // Typedefs
 
 typedef struct tGameOptions {
-    bool optionsSaved;
+    uint8_t optionsVersion;
     bool enableJoystick;
     bool enableMouse;
     bool enableSound;
-    tSlot mockingBoardSlot;
-    bool enableSpeechChip;
+    bool enableMockingboard;
+    bool enableMockingboardSpeech;
 } tGameOptions;
 
 
@@ -107,12 +103,12 @@ static tMouseCallbacks gMouseCallbacks = {
 static bool gShouldSave = false;
 
 static tGameOptions gGameOptions = {
-    false,      // optionsSaved
-    false,      // enableJoystick
-    true,       // enableMouse
-    true,       // enableSound
-    0,          // mockingBoardSlot
-    false       // enableSpeechChip
+    OPTIONS_VERSION_UNSAVED,     // optionsVersion
+    false,                       // enableJoystick
+    true,                        // enableMouse
+    true,                        // enableSound
+    true,                        // enableMockingboard
+    true                         // enableMockingboardSpeech
 };
 
 
@@ -161,7 +157,7 @@ static void saveOptions(void)
     FILE *optionsFile = fopen(SAVE_OPTIONS_FILE, "wb");
 
     if (optionsFile != NULL) {
-        gGameOptions.optionsSaved = true;
+        gGameOptions.optionsVersion = OPTIONS_VERSION;
         fwrite(&gGameOptions, sizeof(gGameOptions), 1, optionsFile);
         fclose(optionsFile);
     }
@@ -183,6 +179,17 @@ static bool loadOptions(void)
     
     fclose(optionsFile);
     
+    // If we are upgrading from v1 of the options file, then:
+    //   - There used to be a tSlot of the mockingboard where we now have the enableMockingboard boolean.
+    //     Overwrite it with true, forcing mockingboard sound to be on if one is detected.
+    //   - There used to be a boolean to enable/disable the speech chip on the mockingboard.  It was only
+    //     true if the user enabled it.  Now that we can detect the speech chip, the value is default true
+    //     and the user can disable speech if they want.
+    if (gGameOptions < OPTIONS_VERSION) {
+        gGameOptions.enableMockingboard = true;
+        gGameOptions.enableMockingboardSpeech = true;
+    }
+    
     return true;
 }
 
@@ -196,19 +203,17 @@ static void applyNewOptions(tGameOptions *newOptions)
         return;
     }
     
+    printString("\n\n\n   Saving options...");
+    
     if ((gGameOptions.enableSound != newOptions->enableSound) ||
-        (gGameOptions.mockingBoardSlot != newOptions->mockingBoardSlot) ||
-        (gGameOptions.enableSpeechChip != gGameOptions.enableSpeechChip)) {
-        // If the sound parameters have changed, then re-init or shutdown sounds
-        if (newOptions->enableSound) {
-            soundInit(newOptions->mockingBoardSlot, newOptions->enableSpeechChip);
-        } else {
-            soundShutdown();
-        }
+        (gGameOptions.enableMockingboard != newOptions->enableMockingboard) ||
+        (gGameOptions.enableMockingboardSpeech != newOptions->enableMockingboardSpeech)) {
+        // If the sound parameters have changed, then re-init sounds
+        soundInit(newOptions->enableSound, newOptions->enableMockingboard, newOptions->enableMockingboardSpeech);
     }
     
     memcpy(&gGameOptions, newOptions, sizeof(gGameOptions));
-    gGameOptions.optionsSaved = false;
+    gGameOptions.optionsVersion = OPTIONS_VERSION_UNSAVED;
     if (oldEnableMouse != gGameOptions.enableMouse) {
         if (gGameOptions.enableMouse) {
             gGameOptions.enableMouse = initMouse(&gMouseCallbacks);
@@ -231,67 +236,62 @@ static void replaceCursor(char ch)
 }
 
 
-static void getSoundOptions(tGameOptions *newOptions)
+static bool yorn(void)
 {
     char ch;
+    bool result = true;
+    
+    showCursor();
+    while (true) {
+        ch = cgetc();
+        
+        if ((ch == 'N') ||
+            (ch == 'n')) {
+            result = false;
+            break;
+        }
+        
+        if ((ch == 'Y') ||
+            (ch == 'y'))
+            break;
+        
+        badThingHappened();
+    }
+    
+    replaceCursor(ch);
+    
+    return result;
+}
+
+
+static void getSoundOptions(tGameOptions *newOptions)
+{
+    tSlot slot;
     
     printString("\n\nEnable sounds? (Y/N) ");
-    showCursor();
-    while (true) {
-        ch = cgetc();
-        if ((ch == 'N') ||
-            (ch == 'n')) {
-            newOptions->enableSound = false;
-            newOptions->mockingBoardSlot = 0;
-            newOptions->enableSpeechChip = false;
-            return;
-        }
-        if ((ch == 'Y') ||
-            (ch == 'y')) {
-            replaceCursor(ch);
-            newOptions->enableSound = true;
-            break;
-        }
-        
-        badThingHappened();
-    }
+    newOptions->enableSound = yorn();
+    if (!newOptions->enableSound)
+        return;
     
-    printString("\nMockingBoard slot number (0 for none) ");
-    showCursor();
-    while (true) {
-        ch = cgetc();
-        if (ch == '0') {
-            newOptions->mockingBoardSlot = 0;
-            newOptions->enableSpeechChip = false;
-            return;
-        }
-        if ((ch >= '1') &&
-            (ch <= '7')) {
-            replaceCursor(ch);
-            newOptions->mockingBoardSlot = (ch - '0');
-            break;
-        }
-        
-        badThingHappened();
-    }
+    // If no mockingboard present, don't bother to ask whether to enable/disable it.
+    slot = mockingBoardSlot();
+    if (slot == 0)
+        return;
     
-    printString("\nMockingBoard has a speech chip? (Y/N) ");
-    showCursor();
-    while (true) {
-        ch = cgetc();
-        if ((ch == 'N') ||
-            (ch == 'n')) {
-            newOptions->enableSpeechChip = false;
-            break;
-        }
-        if ((ch == 'Y') ||
-            (ch == 'y')) {
-            newOptions->enableSpeechChip = true;
-            break;
-        }
-        
-        badThingHappened();
-    }
+    printString("\nEnable MockingBoard sound found in slot ");
+    printInteger(slot);
+    printString("? (Y/N) ");
+    newOptions->enableMockingboard = yorn();
+    if (!newOptions->enableMockingboard)
+        return;
+    
+    // If the mockingboard does not have a speech chip, do not prompt whether to
+    // enable/disable it.
+    if (!mockingBoardHasSpeechChip())
+        return;
+    
+    printString("\nEnable speech on the Mockingboard? (Y/N) ");
+    newOptions->enableMockingboardSpeech = yorn();
 }
 
 
@@ -314,29 +314,35 @@ static void selectOptions(void)
                "                                    Options\n"
                "\n"
                "                        J - Joystick control - ");
-        printString(newOptions.enableJoystick ? "Enable\n" : "Disabled\n");
+        printString(newOptions.enableJoystick ? "Enabled\n" : "Disabled\n");
         printString(
                "                        M - Mouse control    - ");
-        printString(newOptions.enableMouse ? "Enable\n" : "Disabled\n");
+        printString(newOptions.enableMouse ? "Enabled\n" : "Disabled\n");
         printString(
                "                        S - Sound            - ");
-        printString(newOptions.enableSound ? "Enable\n" : "Disabled\n");
+        printString(newOptions.enableSound ? "Enabled\n" : "Disabled\n");
         
         if (newOptions.enableSound) {
-            if (newOptions.mockingBoardSlot > 0) {
+            tSlot slot = mockingBoardSlot();
+            
+            if (slot != 0) {
                 printString(
                        //      0000000001111111111222222222233333333334444444444555555555566666666667
                        //      1234567890123456789012345678901234567890123456789012345678901234567890
-                       "                                MockingBoard - Slot ");
-                printInteger(newOptions.mockingBoardSlot);
-                printString("\n"
-                       "                                Speech Chip  - ");
-                printString(newOptions.enableSpeechChip ? "Enable\n" : "Disable\n");
-            } else {
-                printString(
-                       //      0000000001111111111222222222233333333334444444444555555555566666666667
-                       //      1234567890123456789012345678901234567890123456789012345678901234567890
-                       "                                MockingBoard - Disabled\n");
+                       "                                MockingBoard - ");
+                printString(newOptions.enableMockingboard ? "Enabled (Slot " : "Disabled (Slot ");
+                printInteger(slot);
+                printString(")\n");
+                
+                if ((newOptions.enableMockingboard) &&
+                    (mockingBoardHasSpeechChip()))
+                {
+                    printString(
+                    //      0000000001111111111222222222233333333334444444444555555555566666666667
+                    //      1234567890123456789012345678901234567890123456789012345678901234567890
+                    "                                      Speech - ");
+                    printString(newOptions.enableMockingboardSpeech ? "Enabled\n" : "Disabled\n");
+                }
             }
         }
         printString(
@@ -716,6 +722,8 @@ void initUI(void)
     
     optionsLoaded = loadOptions();
     
+    soundInit(gGameOptions.enableSound, gGameOptions.enableMockingboard, gGameOptions.enableMockingboardSpeech);
+    
     initGameEngine(&gCallbacks);
     mouseInitialized = initMouse(&gMouseCallbacks);
     
@@ -723,19 +731,12 @@ void initUI(void)
     if ((!mouseInitialized) &&
         (gGameOptions.enableMouse)) {
         gGameOptions.enableMouse = false;
-        gGameOptions.optionsSaved = false;
+        gGameOptions.optionsVersion = OPTIONS_VERSION_UNSAVED;
     }
     
     initJoystick(&gJoyCallbacks);
     
-    if (gGameOptions.enableSound) {
-        if (!optionsLoaded) {
-            gGameOptions.mockingBoardSlot = getMockingBoardSlot();
-        }
-        soundInit(gGameOptions.mockingBoardSlot, gGameOptions.enableSpeechChip);
-    }
-    
-    if (!gGameOptions.optionsSaved) {
+    if (gGameOptions.optionsVersion == OPTIONS_VERSION_UNSAVED) {
         saveOptions();
     }
 }
@@ -957,33 +958,14 @@ void playGame(void)
     printString("\n\nChecking for a saved game...");
     
     if (loadGame()) {
-        bool gotAnswer = false;
+        bool loadSavedGame = false;
         
         printString("\n\nYou have a saved game!\n    Would you like to continue it (Y/N) ");
-        
-        showCursor();
-        while (!gotAnswer) {
-            ch = cgetc();
-            switch (ch) {
-                case 'y':
-                case 'Y':
-                    replaceCursor(ch);
-                    printString("\n\nLoading your saved puzzle");
-                    gotAnswer = true;
-                    gShouldSave = true;
-                    gameLoaded = true;
-                    break;
-                    
-                case 'n':
-                case 'N':
-                    replaceCursor(ch);
-                    gotAnswer = true;
-                    break;
-                    
-                default:
-                    badThingHappened();
-                    break;
-            }
+        loadSavedGame = yorn();
+        if (loadSavedGame) {
+            printString("\n\nLoading your saved puzzle");
+            gShouldSave = true;
+            gameLoaded = true;
         }
     }
     

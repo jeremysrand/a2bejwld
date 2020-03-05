@@ -18,6 +18,7 @@ extern uint16_t mockingBoardSpeechLen;
 extern uint8_t mockingBoardSpeechBusy;
 extern uint8_t mockingBoardSpeechPlaying;
 
+extern uint8_t getMockingBoardSlot(void);
 extern void mockingBoardSpeechInit(uint8_t slot);
 extern void mockingBoardSpeechShutdown(void);
 extern void mockingBoardSpeakPriv(void);

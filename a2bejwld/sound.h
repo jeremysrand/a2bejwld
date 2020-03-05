@@ -16,7 +16,7 @@
 #include "mockingboard.h"
 
 
-extern void soundInit(tSlot mockingBoardSlot, bool enableSpeechChip);
+extern void soundInit(bool enableSounds, bool enableMockingBoard, bool enableSpeechChip);
 extern void soundShutdown(void);
 
 extern void beginClearGemSound(void);

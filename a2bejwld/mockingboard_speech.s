@@ -74,37 +74,128 @@ readChip:
 ; in:    none
 ;        accelerators should be off
 ; out:
-;        if card was found, A = #$n where n is the slot number of the card, otherwise #$00
+;        if card was found, A = #$?n where n is the slot number of the card, otherwise #$00
+;                           and    bit 6 = 0 if Mockingboard Sound I found
+;                               or bit 6 = 1 if Mockingboard Sound II or "A" found
+;                           and    bit 7 = 1 if Mockingboard Sound/Speech I or "C" found
 ;        flags clobbered
 ;        zp $80-$82 clobbered
 ;           (jrand - and then restored because I am chicken and afraid of breaking cc65 runtime)
 ;        X/Y clobbered
 ;------------------------------------------------------------------------------
 .proc _getMockingBoardSlot
+             php
              lda   $80
              sta   zp80Backup
              lda   $81
              sta   zp81Backup
              lda   $82
              sta   zp82Backup
+             lda   $3fe
+             sta   irq1Backup
+             lda   $3ff
+             sta   irq2Backup
              
              lda   #$00
              sta   $80
-             ldx   #$C7
+             sta   $82                  ; type
+             ldx   #$C1
 @slotLoop:
              stx   $81
              ldy   #$04                  ; 6522 #1 $Cx04
-             jsr   timercheck
-             bne   @nextSlot
-             ldy   #$84                  ; 6522 #2 $Cx84
-             jsr   timercheck
-             bne   @nextSlot
-             beq   @cleanup
-@nextSlot:
-             dex
-             cpx   #$C0
+             jsr   @timercheck
+             beq   @foundI
+             inx
+             cpx   #$C8
              bne   @slotLoop
-             ldx   #$00                  ; not found
+             ldx   #00                   ; not found
+             jmp   @cleanup
+             
+@foundI:     ; sound I or better
+             ldy   #$84                  ; 6522 #2 $Cx84
+             jsr   @timercheck
+             beq   @foundII
+             
+             ldy   #$0C
+             sty   @mb_smc3 + 1
+             iny
+             sty   @mb_smc8 + 1
+             iny
+             sty   @mb_smc7 + 1
+             sty   @mb_smc11 + 1
+             
+             .BYTE $2C                   ; Hide next 2 bytes using a BIT opcode
+@foundII:    ; stereo
+             ror   $82
+             
+             lda   $81
+             sta   @mb_smc1 + 2
+             sta   @mb_smc2 + 2
+             sta   @mb_smc3 + 2
+             sta   @mb_smc4 + 2
+             sta   @mb_smc5 + 2
+             sta   @mb_smc6 + 2
+             sta   @mb_smc7 + 2
+             sta   @mb_smc8 + 2
+             sta   @mb_smc9 + 2
+             sta   @mb_smc10 + 2
+             sta   @mb_smc11 + 2
+             sta   @mb_smc12 + 2
+             sta   @mb_smc13 + 2
+             
+             ; detect speech chip
+             
+             sei
+             lda   #<@mb_irq
+             sta   $3fe
+             lda   #>@mb_irq
+             sta   $3ff
+             
+             lda   #0
+@mb_smc1:
+             sta   $c403
+@mb_smc2:
+             sta   $c402
+             lda   #$0c
+@mb_smc3:
+             sta   $c48c
+             lda   #$80
+@mb_smc4:
+             sta   $c443
+             lda   #$c0
+@mb_smc5:
+             sta   $c440
+             lda   #$70
+@mb_smc6:
+             sta   $c443
+             lda   #$82
+@mb_smc7:
+             sta   $c48e
+             
+             ldx   #0
+             ldy   #0
+             sec
+             cli
+             
+@wait_irq:
+             lda   $80
+             bne   @got_irq
+             iny
+             bne   @wait_irq
+             inx
+             bne   @wait_irq
+             clc
+             
+@got_irq:
+
+             sei
+             ror   $82
+             
+             lda   $81
+             and   #7
+             ora   $82
+             tax
+             
 @cleanup:
              lda   zp80Backup
              sta   $80
@@ -112,25 +203,53 @@ readChip:
              sta   $81
              lda   zp82Backup
              sta   $82
+             lda   irq1Backup
+             sta   $3fe
+             lda   irq2Backup
+             sta   $3ff
              txa
-             and   #$07
              ldx   #$00
+             plp
              rts
 
-timercheck:
-             lda   ($80),y               ; read 6522 timer low byte
-             sta   $82
-             lda   ($80),y               ; second time
+@timercheck:
              sec
-             sbc   $82
-             cmp   #$F8                  ; looking for (-)8 cycles between reads
+             lda   ($80),y               ; read 6522 timer low byte
+             sbc   ($80),y               ; second time
+             cmp   #5                    ; looking for (-)8 cycles between reads
              beq   :+
-             cmp   #$F7                  ; FastChip //e clock is different
+             cmp   #6                    ; FastChip //e clock is different
 :            rts
+
+@mb_irq:
+             lda   #2
+@mb_smc8:
+             sta   $c48d
+             lda   #0
+@mb_smc9:
+             sta   $c440
+             lda   #$70
+@mb_smc10:
+             sta   $c443
+             sta   $80
+             lda   #2
+@mb_smc11:
+             sta   $c48e
+             lda   #$ff
+@mb_smc12:
+             sta   $c403
+             lda   #7
+@mb_smc13:
+             sta   $c402
+             lda   $45
+             rti
+
 ; Locals
 zp80Backup: .BYTE $00
 zp81Backup: .BYTE $00
 zp82Backup: .BYTE $00
+irq1Backup: .BYTE $00
+irq2Backup: .BYTE $00
 .endproc
 
 

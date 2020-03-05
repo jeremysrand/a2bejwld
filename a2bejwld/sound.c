@@ -185,6 +185,7 @@ static uint8_t gSpeakIncredible[] = {
 
 
 static bool gSoundEnabled = false;
+static bool gMockingBoardInitialized = false;
 static bool gMockingBoardEnabled = false;
 static bool gMockingBoardSpeechEnabled = false;
 
@@ -194,35 +195,30 @@ static tMockingBoardSpeaker gMockingBoardSoundSpeaker = SPEAKER_BOTH;
 // Implementation
 
 
-void soundInit(tSlot mockingBoardSlot, bool enableSpeechChip)
+void soundInit(bool enableSounds, bool enableMockingBoard, bool enableSpeechChip)
 {
-    gSoundEnabled = true;
-    if (mockingBoardSlot > 0) {
-        mockingBoardInit(mockingBoardSlot, enableSpeechChip);
-        gMockingBoardEnabled = true;
-        gMockingBoardSpeechEnabled = enableSpeechChip;
-        // When the speech chip is on, sound effects go out the right speaker
-        // only and the left speaker is used for speech.  If the speech chip is
-        // off, then sound effects go to both speakers.
-        if (enableSpeechChip) {
-            gMockingBoardSoundSpeaker = SPEAKER_RIGHT;
-        } else {
-            gMockingBoardSoundSpeaker = SPEAKER_BOTH;
-        }
+    gMockingBoardInitialized = mockingBoardInit();
+    gSoundEnabled = enableSounds;
+    
+    gMockingBoardEnabled = ((gSoundEnabled) && (gMockingBoardInitialized) && (enableMockingBoard));
+    gMockingBoardSpeechEnabled = ((enableSpeechChip) && (gMockingBoardEnabled) && (mockingBoardHasSpeechChip()));
+
+    // When the speech chip is on, sound effects go out the right speaker
+    // only and the left speaker is used for speech.  If the speech chip is
+    // off, then sound effects go to both speakers.
+    if (gMockingBoardSpeechEnabled) {
+        gMockingBoardSoundSpeaker = SPEAKER_RIGHT;
     } else {
-        if (gMockingBoardEnabled) {
-            mockingBoardShutdown();
-        }
-        gMockingBoardEnabled = false;
-        gMockingBoardSpeechEnabled = false;
+        gMockingBoardSoundSpeaker = SPEAKER_BOTH;
     }
 }
 
 
 void soundShutdown(void)
 {
-    if (gMockingBoardEnabled) {
+    if (gMockingBoardInitialized) {
         mockingBoardShutdown();
+        gMockingBoardInitialized = false;
         gMockingBoardEnabled = false;
         gMockingBoardSpeechEnabled = false;
     }
@@ -367,6 +363,7 @@ void speakNoMoreMoves(void)
     mockingBoardSpeak(gSpeakNoMoreMoves, sizeof(gSpeakNoMoreMoves));
 }
 
+
 bool speakGood(void)
 {
     if (!gMockingBoardSpeechEnabled)
@@ -391,6 +388,7 @@ bool speakExcellent(void)
     mockingBoardSpeak(gSpeakExcellent, sizeof(gSpeakExcellent));
     return true;
 }
+
 
 bool speakIncredible(void)
 {

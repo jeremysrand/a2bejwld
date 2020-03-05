@@ -117,13 +117,15 @@ typedef struct tMockingSoundRegisters {
 
 // API
 
-extern uint8_t getMockingBoardSlot(void);
-extern void mockingBoardInit(tSlot slot, bool hasSpeechChip);
+extern bool mockingBoardInit(void);
 extern void mockingBoardShutdown(void);
+
+extern tSlot mockingBoardSlot(void);
 
 extern void mockingBoardPlaySound(tMockingBoardSpeaker speaker, tMockingSoundRegisters *registers);
 extern void mockingBoardStopSound(tMockingBoardSpeaker speaker);
 
+extern bool mockingBoardHasSpeechChip(void);
 extern bool mockingBoardSpeechIsBusy(void);
 extern bool mockingBoardSpeechIsPlaying(void);
 extern bool mockingBoardSpeak(uint8_t *data, uint16_t dataLen);
