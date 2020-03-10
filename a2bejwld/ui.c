@@ -26,7 +26,7 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "A2BEJWLD.OPTS"
-#define VERSION "v2.4.a3"
+#define VERSION "v2.4"
 
 #define OPTIONS_VERSION_UNSAVED 0
 #define OPTIONS_VERSION 2
@@ -180,12 +180,15 @@ static bool loadOptions(void)
     fclose(optionsFile);
     
     // If we are upgrading from v1 of the options file, then:
+    //   - Force the mouse option on.  This option is now only used to disable the mouse when one is
+    //     present.  When no mouse is installed, this option does nothing.
     //   - There used to be a tSlot of the mockingboard where we now have the enableMockingboard boolean.
     //     Overwrite it with true, forcing mockingboard sound to be on if one is detected.
     //   - There used to be a boolean to enable/disable the speech chip on the mockingboard.  It was only
     //     true if the user enabled it.  Now that we can detect the speech chip, the value is default true
     //     and the user can disable speech if they want.
     if (gGameOptions < OPTIONS_VERSION) {
+        gGameOptions.enableMouse = true;
         gGameOptions.enableMockingboard = true;
         gGameOptions.enableMockingboardSpeech = true;
     }
@@ -196,8 +199,6 @@ static bool loadOptions(void)
 
 static void applyNewOptions(tGameOptions *newOptions)
 {
-    bool oldEnableMouse = gGameOptions.enableMouse;
-    
     // If there is no change in game options, then nothing to do.
     if (memcmp(newOptions, &gGameOptions, sizeof(gGameOptions)) == 0) {
         return;
@@ -214,11 +215,6 @@ static void applyNewOptions(tGameOptions *newOptions)
     
     memcpy(&gGameOptions, newOptions, sizeof(gGameOptions));
     gGameOptions.optionsVersion = OPTIONS_VERSION_UNSAVED;
-    if (oldEnableMouse != gGameOptions.enableMouse) {
-        if (gGameOptions.enableMouse) {
-            gGameOptions.enableMouse = initMouse(&gMouseCallbacks);
-        }
-    }
     saveOptions();
 }
 
@@ -315,9 +311,12 @@ static void selectOptions(void)
                "\n"
                "                        J - Joystick control - ");
         printString(newOptions.enableJoystick ? "Enabled\n" : "Disabled\n");
-        printString(
+        if (hasMouse())
+        {
+            printString(
                "                        M - Mouse control    - ");
-        printString(newOptions.enableMouse ? "Enabled\n" : "Disabled\n");
+            printString(newOptions.enableMouse ? "Enabled\n" : "Disabled\n");
+        }
         printString(
                "                        S - Sound            - ");
         printString(newOptions.enableSound ? "Enabled\n" : "Disabled\n");
@@ -356,23 +355,20 @@ static void selectOptions(void)
             case 'j':
             case 'J':
                 newOptions.enableJoystick = !newOptions.enableJoystick;
-                if (newOptions.enableJoystick) {
-                    newOptions.enableMouse = false;
-                }
-                break;
-                
-            case 'm':
-            case 'M':
-                newOptions.enableMouse = !newOptions.enableMouse;
-                if (newOptions.enableMouse) {
-                    newOptions.enableJoystick = false;
-                }
                 break;
                 
             case 's':
             case 'S':
                 getSoundOptions(&newOptions);
                 break;
+
+            case 'm':
+            case 'M':
+                if (hasMouse()) {
+                    newOptions.enableMouse = !newOptions.enableMouse;
+                    break;
+                }
+                // Fall through.  If no mouse, then pressing m is a fall through into the save code.
                 
             default:
                 applyNewOptions(&newOptions);
@@ -716,7 +712,6 @@ static void getHint(void)
 void initUI(void)
 {
     bool optionsLoaded;
-    bool mouseInitialized;
     
     initMachine();
     
@@ -725,14 +720,8 @@ void initUI(void)
     soundInit(gGameOptions.enableSound, gGameOptions.enableMockingboard, gGameOptions.enableMockingboardSpeech);
     
     initGameEngine(&gCallbacks);
-    mouseInitialized = initMouse(&gMouseCallbacks);
     
-    // If we couldn't initialize a mouse and it was enabled on the options, then disable it.
-    if ((!mouseInitialized) &&
-        (gGameOptions.enableMouse)) {
-        gGameOptions.enableMouse = false;
-        gGameOptions.optionsVersion = OPTIONS_VERSION_UNSAVED;
-    }
+    initMouse(&gMouseCallbacks);
     
     initJoystick(&gJoyCallbacks);
     

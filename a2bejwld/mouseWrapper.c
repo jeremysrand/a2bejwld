@@ -56,6 +56,12 @@ void shutdownMouse(void)
 }
 
 
+bool hasMouse(void)
+{
+    return gMouseInstalled;
+}
+
+
 bool pollMouse(void)
 {
     static uint16_t mouseDownAtX = 0;
