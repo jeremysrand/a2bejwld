@@ -22,7 +22,10 @@ extern void __fastcall__ mixedTextMode(void);
 // The Apple //e card does not implement double lores correctly.  The colours
 // used on the aux bank need to be shifted but the //e card expects unshifted
 // colour values (ie the same as those on the main.  This function is called
-// when the game detects it is runing on a //e card which causes the graphics
+// when the game detects it is not running on a //c or //gs.  I would like to
+// get_ostype() from the cc65 runtime but it doesn't work reliably for detecting
+// the //e card.  So I put in my own detection based on the technote.  If the
+// function detects it is runing on a //e card, it causes the graphics
 // routines to use the same colours in the main and aux banks.
 extern void __fastcall__ setBuggyDblLoRes(void);
 

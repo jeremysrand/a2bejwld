@@ -912,6 +912,20 @@ square:     .BYTE $0
 .endproc
 
 .proc _setBuggyDblLoRes
+    bit $c082
+    
+    lda $fbb3
+    cmp #$6
+    bne @L3
+    
+    lda $fbc0
+    cmp #$e0
+    bne @L3
+    
+    lda $fbdd
+    cmp #$02
+    bne @L3
+    
     ldx #63
 @L1:
     lda bgColor,X
@@ -925,7 +939,9 @@ square:     .BYTE $0
     sta gemAuxColours,X
     dex
     bpl @L2
-    
+
+@L3:
+    bit $c080
     rts
 .endproc
 

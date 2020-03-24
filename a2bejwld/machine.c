@@ -94,8 +94,7 @@ void initMachine(void)
     } else if (machineIs2GS(machineType)) {
         vblInit2gs();
         gOldSpeed = setGSSpeed(GS_SPEED_SLOW);
-    }
-    else if (machineType == APPLE_IIECARD)
+    } else
         setBuggyDblLoRes();
 }
 
