@@ -19,6 +19,13 @@ extern void __fastcall__ clearDblLoRes(void);
 extern void __fastcall__ unshowDblLoRes(void);
 extern void __fastcall__ mixedTextMode(void);
 
+// The Apple //e card does not implement double lores correctly.  The colours
+// used on the aux bank need to be shifted but the //e card expects unshifted
+// colour values (ie the same as those on the main.  This function is called
+// when the game detects it is runing on a //e card which causes the graphics
+// routines to use the same colours in the main and aux banks.
+extern void __fastcall__ setBuggyDblLoRes(void);
+
 extern void __fastcall__ drawBgSquare(tSquare square);
 
 extern void __fastcall__ drawGem(tSquare square);

@@ -17,6 +17,8 @@
     .export _explodeGemFrame1, _explodeGemFrame2
     .export _explodeGemFrame3, _explodeGemFrame4
     .export _explodeGemFrame5, _explodeGemFrame6
+    
+    .export _setBuggyDblLoRes
 
     .include "apple2.inc"
 
@@ -907,6 +909,24 @@ square:     .BYTE $0
 
 xPos:       .BYTE $0
 square:     .BYTE $0
+.endproc
+
+.proc _setBuggyDblLoRes
+    ldx #63
+@L1:
+    lda bgColor,X
+    sta bgAuxColor,X
+    dex
+    bpl @L1
+    
+    ldx #8
+@L2:
+    lda gemColours,X
+    sta gemAuxColours,X
+    dex
+    bpl @L2
+    
+    rts
 .endproc
 
 

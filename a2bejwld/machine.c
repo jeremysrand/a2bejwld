@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "dbllores.h"
 #include "machine.h"
 #include "vbl.h"
 
@@ -32,9 +33,9 @@ static tMachineGSSpeed gOldSpeed = GS_SPEED_SLOW;
 // Implementation
 
 
-static bool machineIs2c(void)
+static bool machineIs2c(uint8_t machineType)
 {
-    switch (get_ostype()) {
+    switch (machineType) {
         case APPLE_IIC:
         case APPLE_IIC35:
         case APPLE_IICEXP:
@@ -47,9 +48,9 @@ static bool machineIs2c(void)
 }
 
 
-static bool machineIs2GS(void)
+static bool machineIs2GS(uint8_t machineType)
 {
-    switch (get_ostype()) {
+    switch (machineType) {
         case APPLE_IIGS:
         case APPLE_IIGS1:
         case APPLE_IIGS3:
@@ -86,18 +87,22 @@ static tMachineGSSpeed setGSSpeed(tMachineGSSpeed newSpeed)
 
 void initMachine(void)
 {
-    if (machineIs2c()) {
+    uint8_t machineType = get_ostype();
+    
+    if (machineIs2c(machineType)) {
         gVblWait = vblWait2c;
-    } else if (machineIs2GS()) {
+    } else if (machineIs2GS(machineType)) {
         vblInit2gs();
         gOldSpeed = setGSSpeed(GS_SPEED_SLOW);
     }
+    else if (machineType == APPLE_IIECARD)
+        setBuggyDblLoRes();
 }
 
 
 void uninitMachine(void)
 {
-    if (machineIs2GS()) {
+    if (machineIs2GS(get_ostype())) {
         setGSSpeed(gOldSpeed);
     }
 }
