@@ -912,6 +912,26 @@ square:     .BYTE $0
 .endproc
 
 .proc _setBuggyDblLoRes
+
+; Unfortunately, there is a bug in get_ostype() in cc65 with detecting the Apple //e card.
+; There is a version byte in the ROM of the Apple //e card and the tech note describing
+; machine detection implies it is 0.  The first version of the Mac SW for the card maybe used
+; 0 but for sure there are versions 2 and 3 out there also.  But cc65 tests for 0 specifically.
+; That causes it to detect a Apple //e card with version greater than 0 as an Apple //e
+; enhanced.
+;
+; Combine this with the fact that double lores graphics on the //e card is broken and I have
+; a problem.  So, rather than use get_ostype() to detect the //e card, I am detecting it myself
+; below based on what the tech note says.  If I find the game is running on the //e card, then
+; I remap the colours used in aux memory to look correct on that HW.
+;
+; The bug in cc65 has been sent as a pull request back to that project for a fix here:
+;    https://github.com/cc65/cc65/pull/1013
+; Once this is fixed and I adopt a newer version of cc65 in this project, I can clean up the
+; HW detection problem.
+;
+; Next I will need to contact Apple to get a fix for the double lores graphics on the //e card...
+
     bit $c082
     
     lda $fbb3
