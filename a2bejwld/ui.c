@@ -965,6 +965,14 @@ void playGame(void)
     drawBoard();
     speakGo();
     while (true) {
+        if (gameIsOver()) {
+            endGame();
+            showAndClearDblLoRes();
+            refreshScore(0);
+            startNewGame();
+            gShouldSave = false;
+        }
+        
         resetStarAnim();
         
         while (true) {
@@ -983,14 +991,6 @@ void playGame(void)
                 (pollMouse())) {
                 break;
             }
-        }
-        
-        if (gameIsOver()) {
-            endGame();
-            showAndClearDblLoRes();
-            refreshScore(0);
-            startNewGame();
-            gShouldSave = false;
         }
     }
 }
