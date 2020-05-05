@@ -216,7 +216,7 @@ bool mockingBoardSpeak(uint8_t *data, uint16_t dataLen)
         return false;
     
     mockingBoardSpeechData = data;
-    mockingBoardSpeechLen = dataLen + 1;
+    mockingBoardSpeechLen = dataLen;
     mockingBoardSpeakPriv();
     
     return true;
