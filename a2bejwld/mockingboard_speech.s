@@ -99,14 +99,14 @@ readChip:
              lda   #$00
              sta   $80
              sta   $82                  ; type
-             ldx   #$C1
+             ldx   #$C7
 @slotLoop:
              stx   $81
              ldy   #$04                  ; 6522 #1 $Cx04
              jsr   @timercheck
              beq   @foundI
-             inx
-             cpx   #$C8
+             dex
+             cpx   #$C0
              bne   @slotLoop
              ldx   #00                   ; not found
              jmp   @cleanup
@@ -117,12 +117,12 @@ readChip:
              beq   @foundII
              
              ldy   #$0C
-             sty   @mb_smc3 + 1
+             sty   @mb_smc1 + 1
              iny
-             sty   @mb_smc8 + 1
+             sty   @mb_smc10 + 1
              iny
-             sty   @mb_smc7 + 1
-             sty   @mb_smc11 + 1
+             sty   @mb_smc5 + 1
+             sty   @mb_smc14 + 1
              
              .BYTE $2C                   ; Hide next 2 bytes using a BIT opcode
 @foundII:    ; stereo
@@ -142,6 +142,7 @@ readChip:
              sta   @mb_smc11 + 2
              sta   @mb_smc12 + 2
              sta   @mb_smc13 + 2
+             sta   @mb_smc14 + 2
              
              ; detect speech chip
              
@@ -151,25 +152,20 @@ readChip:
              lda   #>@mb_irq
              sta   $3ff
              
-             lda   #0
-@mb_smc1:
-             sta   $c403
-@mb_smc2:
-             sta   $c402
              lda   #$0c
-@mb_smc3:
+@mb_smc1:
              sta   $c48c
              lda   #$80
-@mb_smc4:
+@mb_smc2:
              sta   $c443
              lda   #$c0
-@mb_smc5:
+@mb_smc3:
              sta   $c440
              lda   #$70
-@mb_smc6:
+@mb_smc4:
              sta   $c443
              lda   #$82
-@mb_smc7:
+@mb_smc5:
              sta   $c48e
              
              ldx   #0
@@ -191,11 +187,33 @@ readChip:
              sei
              ror   $82
              
-             lda   $81
-             and   #7
+             ldy   #$ff
+@mb_smc6:
+             sty   $c403
+             lda   #$7
+@mb_smc7:
+             sta   $c402
+@mb_smc8:
+             sty   $c483
+@mb_smc9:
+             sta   $c482
+             
+             and   $81
              ora   $82
              tax
              
+             iny
+             sty   $80
+             tya
+             sta   ($80),y
+             lda   #4
+             sta   ($80),y
+             tya
+             ldy   #$80
+             sta   ($80),y
+             lda   #4
+             sta   ($80),y
+            
 @cleanup:
              lda   zp80Backup
              sta   $80
@@ -223,24 +241,21 @@ readChip:
 
 @mb_irq:
              lda   #2
-@mb_smc8:
+@mb_smc10:
              sta   $c48d
+             lda   #$80
+@mb_smc11:
+             sta   $c443
              lda   #0
-@mb_smc9:
+@mb_smc12:
              sta   $c440
              lda   #$70
-@mb_smc10:
+@mb_smc13:
              sta   $c443
              sta   $80
              lda   #2
-@mb_smc11:
+@mb_smc14:
              sta   $c48e
-             lda   #$ff
-@mb_smc12:
-             sta   $c403
-             lda   #7
-@mb_smc13:
-             sta   $c402
              lda   $45
              rti
 
@@ -287,11 +302,6 @@ irq2Backup: .BYTE $00
 
 .proc _mockingBoardSpeakPriv
     sei
-    lda #$00
-    ldx #DDRA
-    jsr writeChip
-    ldx #DDRB
-    jsr writeChip
 
 ; Get the starting address of the data and store in the work pointer
     lda _mockingBoardSpeechData+1
@@ -376,6 +386,9 @@ irq2Backup: .BYTE $00
 @L5:
 
 ; If at the end, turn everything off.  Store a pause phoneme.
+    lda #$80
+    ldx #CTTRAMP
+    jsr writeChip
     lda #$00
     ldx #DURPHON
     jsr writeChip
@@ -393,12 +406,6 @@ irq2Backup: .BYTE $00
 ; Clear interrupt enable in 6522
     lda #$02
     ldx #IER
-    jsr writeChip
-    lda #$FF
-    ldx #DDRA
-    jsr writeChip
-    lda #$07
-    ldx #DDRB
     jsr writeChip
 
 @L2:
