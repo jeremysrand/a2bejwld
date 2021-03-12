@@ -26,21 +26,14 @@
 #define JOY_POS_DOWN_RIGHT 8
 #define NUM_JOY_POSITIONS 9
 
-#define JOY_BUTTON_0 0
-#define JOY_BUTTON_1 1
-#define NUM_JOY_BUTTONS 2
-
 
 // Typedefs
-
-typedef int8_t tJoyButtonNum;
 
 typedef int8_t tJoyPos;
 
 typedef struct tJoyState {
     tJoyPos position;
-    bool button0;
-    bool button1;
+    bool button;
 } tJoyState;
 
 typedef struct tJoyCallbacks {
@@ -64,6 +57,6 @@ typedef struct tJoyCallbacks {
 
 extern void initJoystick(tJoyCallbacks *callbacks);
 
-extern bool isButtonPressed(tJoyButtonNum buttonNum);
+extern bool isButtonPressed(void);
 
 extern bool pollJoystick(void);

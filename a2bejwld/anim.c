@@ -265,17 +265,6 @@ void swapSquares(tSquare square1, tGemType gemType1, bool starred1,
         temp = y2;
         y2 = y1;
         y1 = temp;
-
-#if 0
-        // We don't need to swap square numbers.  The code from here on
-        // doesn't distinguish between the two square numbers.  So, save
-        // some time and don't swap.
-        //
-        // Be careful if this assumption is no longer true.
-        temp = square2;
-        square2 = square1;
-        square1 = temp;
-#endif
         
         temp = gemType2;
         gemType2 = gemType1;

@@ -33,21 +33,6 @@ static tMachineGSSpeed gOldSpeed = GS_SPEED_SLOW;
 // Implementation
 
 
-static bool machineIs2c(uint8_t machineType)
-{
-    switch (machineType) {
-        case APPLE_IIC:
-        case APPLE_IIC35:
-        case APPLE_IICEXP:
-        case APPLE_IICREV:
-        case APPLE_IICPLUS:
-            return true;
-    }
-    
-    return false;
-}
-
-
 static bool machineIs2GS(uint8_t machineType)
 {
     switch (machineType) {
@@ -89,7 +74,11 @@ void initMachine(void)
 {
     uint8_t machineType = get_ostype();
     
-    if (machineIs2c(machineType)) {
+    if ((machineType == APPLE_IIC) ||
+        (machineType == APPLE_IIC35) ||
+        (machineType == APPLE_IICEXP) ||
+        (machineType == APPLE_IICREV) ||
+        (machineType == APPLE_IICPLUS)) {
         gVblWait = vblWait2c;
     } else if (machineIs2GS(machineType)) {
         vblInit2gs();

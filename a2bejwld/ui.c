@@ -8,6 +8,7 @@
 
 
 #include <conio.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -26,20 +27,36 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "A2BEJWLD.OPTS"
-#define VERSION "v2.6"
+#define VERSION "v2.7"
 
 #define OPTIONS_VERSION_UNSAVED 0
-#define OPTIONS_VERSION 2
+#define OPTIONS_VERSION_V2 2
+#define OPTIONS_VERSION 3
+
+#define OPTION_JOYSTICK_ENABLED            (1 << 0)
+#define OPTION_MOUSE_ENABLED               (1 << 1)
+#define OPTION_SOUND_ENABLED               (1 << 2)
+#define OPTION_MOCKINGBOARD_ENABLED        (1 << 3)
+#define OPTION_MOCKINGBOARD_SPEECH_ENABLED (1 << 4)
 
 // Typedefs
 
-typedef struct tGameOptions {
+typedef struct tGameOptionsV2 {
     uint8_t optionsVersion;
     bool enableJoystick;
     bool enableMouse;
     bool enableSound;
     bool enableMockingboard;
     bool enableMockingboardSpeech;
+} tGameOptionsV2;
+
+typedef struct tGameOptions {
+    uint8_t optionsVersion;
+    uint8_t flags;
+    char upChar;
+    char downChar;
+    char leftChar;
+    char rightChar;
 } tGameOptions;
 
 
@@ -104,16 +121,24 @@ static bool gShouldSave = false;
 
 static tGameOptions gGameOptions = {
     OPTIONS_VERSION_UNSAVED,     // optionsVersion
-    false,                       // enableJoystick
-    true,                        // enableMouse
-    true,                        // enableSound
-    true,                        // enableMockingboard
-    true                         // enableMockingboardSpeech
+    (OPTION_MOUSE_ENABLED | OPTION_SOUND_ENABLED | OPTION_MOCKINGBOARD_ENABLED | OPTION_MOCKINGBOARD_SPEECH_ENABLED), // flags
+    'I',                        // upChar
+    'M',                        // downChar
+    'J',                        // leftChar
+    'K'                         // rightChar
 };
 
 
 // Implementation
 
+
+static void printChar (char ch)
+{
+    if (ch == '\n')
+        ch = '\r';
+    ch |= 0x80;
+    cout(ch);
+}
 
 static void printString(char * buffer)
 {
@@ -121,10 +146,7 @@ static void printString(char * buffer)
     
     while (*buffer != '\0') {
         ch = *buffer;
-        if (ch == '\n')
-            ch = '\r';
-        ch |= 0x80;
-        cout(ch);
+        printChar(ch);
         buffer++;
     }
 }
@@ -140,7 +162,7 @@ static void printInteger(uint16_t val)
 
 static void badThingHappened(void)
 {
-    if (gGameOptions.enableSound)
+    if ((gGameOptions.flags & OPTION_SOUND_ENABLED) != 0)
         printString("\007");
 }
 
@@ -179,7 +201,7 @@ static bool loadOptions(void)
     
     fclose(optionsFile);
     
-    // If we are upgrading from v1 of the options file, then:
+    // If we are upgrading from v1 to v2 of the options file, then:
     //   - Force the mouse option on.  This option is now only used to disable the mouse when one is
     //     present.  When no mouse is installed, this option does nothing.
     //   - There used to be a tSlot of the mockingboard where we now have the enableMockingboard boolean.
@@ -188,9 +210,31 @@ static bool loadOptions(void)
     //     true if the user enabled it.  Now that we can detect the speech chip, the value is default true
     //     and the user can disable speech if they want.
     if (gGameOptions < OPTIONS_VERSION) {
-        gGameOptions.enableMouse = true;
-        gGameOptions.enableMockingboard = true;
-        gGameOptions.enableMockingboardSpeech = true;
+        tGameOptionsV2 * oldOptions = (tGameOptionsV2 *)&gGameOptions;
+        if (oldOptions->enableJoystick)
+            gGameOptions.flags = OPTION_JOYSTICK_ENABLED;
+        else
+            gGameOptions.flags = 0;
+        
+        if (oldOptions->enableMouse)
+            gGameOptions.flags |= OPTION_MOUSE_ENABLED;
+        
+        if (oldOptions->enableSound)
+            gGameOptions.flags |= OPTION_SOUND_ENABLED;
+        
+        if (oldOptions->enableMockingboard)
+            gGameOptions.flags |= OPTION_MOCKINGBOARD_ENABLED;
+        
+        if (oldOptions->enableMockingboardSpeech)
+            gGameOptions.flags |= OPTION_MOCKINGBOARD_SPEECH_ENABLED;
+        
+        if (gGameOptions < OPTIONS_VERSION_V2)
+            gGameOptions.flags |= (OPTION_MOUSE_ENABLED | OPTION_MOCKINGBOARD_ENABLED | OPTION_MOCKINGBOARD_SPEECH_ENABLED);
+        
+        gGameOptions.upChar = 'I';
+        gGameOptions.downChar = 'M';
+        gGameOptions.leftChar = 'J';
+        gGameOptions.rightChar = 'K';
     }
     
     return true;
@@ -206,11 +250,12 @@ static void applyNewOptions(tGameOptions *newOptions)
     
     printString("\n\n\n   Saving options...");
     
-    if ((gGameOptions.enableSound != newOptions->enableSound) ||
-        (gGameOptions.enableMockingboard != newOptions->enableMockingboard) ||
-        (gGameOptions.enableMockingboardSpeech != newOptions->enableMockingboardSpeech)) {
+    if ((gGameOptions.flags & (OPTION_SOUND_ENABLED | OPTION_MOCKINGBOARD_ENABLED | OPTION_MOCKINGBOARD_SPEECH_ENABLED)) !=
+        (newOptions->flags & (OPTION_SOUND_ENABLED | OPTION_MOCKINGBOARD_ENABLED | OPTION_MOCKINGBOARD_SPEECH_ENABLED))) {
         // If the sound parameters have changed, then re-init sounds
-        soundInit(newOptions->enableSound, newOptions->enableMockingboard, newOptions->enableMockingboardSpeech);
+        soundInit(((newOptions->flags & OPTION_SOUND_ENABLED) != 0),
+                  ((newOptions->flags & OPTION_MOCKINGBOARD_ENABLED) != 0),
+                  ((newOptions->flags & OPTION_MOCKINGBOARD_SPEECH_ENABLED) !=0));
     }
     
     memcpy(&gGameOptions, newOptions, sizeof(gGameOptions));
@@ -228,7 +273,13 @@ static void showCursor(void)
 static void replaceCursor(char ch)
 {
     cout(CH_CURS_LEFT);
-    cout(ch | 0x80);
+    printChar(ch);
+}
+
+
+static char getKey(void)
+{
+    return toupper(cgetc());
 }
 
 
@@ -239,16 +290,14 @@ static bool yorn(void)
     
     showCursor();
     while (true) {
-        ch = cgetc();
+        ch = getKey();
         
-        if ((ch == 'N') ||
-            (ch == 'n')) {
+        if (ch == 'N') {
             result = false;
             break;
         }
         
-        if ((ch == 'Y') ||
-            (ch == 'y'))
+        if (ch == 'Y')
             break;
         
         badThingHappened();
@@ -265,9 +314,12 @@ static void getSoundOptions(tGameOptions *newOptions)
     tSlot slot;
     
     printString("\n\nEnable sounds? (Y/N) ");
-    newOptions->enableSound = yorn();
-    if (!newOptions->enableSound)
+    if (yorn()) {
+        newOptions->flags |= OPTION_SOUND_ENABLED;
+    } else {
+        newOptions->flags &= ~OPTION_SOUND_ENABLED;
         return;
+    }
     
     // If no mockingboard present, don't bother to ask whether to enable/disable it.
     slot = mockingBoardSlot();
@@ -277,9 +329,12 @@ static void getSoundOptions(tGameOptions *newOptions)
     printString("\nEnable MockingBoard sound found in slot ");
     printInteger(slot);
     printString("? (Y/N) ");
-    newOptions->enableMockingboard = yorn();
-    if (!newOptions->enableMockingboard)
+    if (yorn()) {
+        newOptions->flags |= OPTION_MOCKINGBOARD_ENABLED;
+    } else {
+        newOptions->flags &= ~OPTION_MOCKINGBOARD_ENABLED;
         return;
+    }
     
     // If the mockingboard does not have a speech chip, do not prompt whether to
     // enable/disable it.
@@ -287,7 +342,50 @@ static void getSoundOptions(tGameOptions *newOptions)
         return;
     
     printString("\nEnable speech on the Mockingboard? (Y/N) ");
-    newOptions->enableMockingboardSpeech = yorn();
+    if (yorn()) {
+        newOptions->flags |= OPTION_MOCKINGBOARD_SPEECH_ENABLED;
+    } else {
+        newOptions->flags &= ~OPTION_MOCKINGBOARD_SPEECH_ENABLED;
+    }
+}
+
+
+static char getKeyDirection(char *dir, char current, char other1, char other2, char other3)
+{
+    char ch;
+    
+    printString("\nKey for ");
+    printString(dir);
+    printString(" movement (current ");
+    printChar(current);
+    printString(") ");
+    showCursor();
+    while (true) {
+        ch = getKey();
+        if ((isalnum(ch)) &&
+            (ch != 'Q') &&
+            (ch != 'R') &&
+            (ch != 'O') &&
+            (ch != 'H') &&
+            (ch != other1) &&
+            (ch != other2) &&
+            (ch != other3))
+            break;
+        
+        badThingHappened();
+    }
+    replaceCursor(ch);
+    
+    return ch;
+}
+
+static void getKeyboardOptions(tGameOptions *newOptions)
+{
+    printChar('\n');
+    newOptions->upChar = getKeyDirection("up", newOptions->upChar, 0, 0, 0);
+    newOptions->downChar = getKeyDirection("down", newOptions->downChar, newOptions->upChar, 0, 0);
+    newOptions->leftChar = getKeyDirection("left", newOptions->leftChar, newOptions->upChar, newOptions->downChar, 0);
+    newOptions->rightChar = getKeyDirection("right", newOptions->rightChar, newOptions->upChar, newOptions->downChar, newOptions->leftChar);
 }
 
 
@@ -302,6 +400,9 @@ static void selectOptions(void)
     memcpy(&newOptions, &gGameOptions, sizeof(newOptions));
     
     while (true) {
+        bool enableSound = ((newOptions.flags & OPTION_SOUND_ENABLED) != 0);
+        bool enableMockingboard = ((newOptions.flags & OPTION_MOCKINGBOARD_ENABLED) != 0);
+        
         clrscr();
         printString(
                //      0000000001111111111222222222233333333334444444444555555555566666666667
@@ -309,19 +410,31 @@ static void selectOptions(void)
                "                               Apple // Bejeweled\n"
                "                                    Options\n"
                "\n"
+               "                        K - Keyboard control -  ");
+        printChar(newOptions.upChar);
+        printChar('\n');
+        printString("                                               ");
+        printChar(newOptions.leftChar);
+        printChar(' ');
+        printChar(newOptions.rightChar);
+        printChar('\n');
+        printString("                                                ");
+        printChar(newOptions.downChar);
+        printChar('\n');
+        printString(
                "                        J - Joystick control - ");
-        printString(newOptions.enableJoystick ? "Enabled\n" : "Disabled\n");
+        printString(((newOptions.flags & OPTION_JOYSTICK_ENABLED) != 0) ? "Enabled\n" : "Disabled\n");
         if (hasMouse())
         {
             printString(
                "                        M - Mouse control    - ");
-            printString(newOptions.enableMouse ? "Enabled\n" : "Disabled\n");
+            printString(((newOptions.flags & OPTION_MOUSE_ENABLED) != 0) ? "Enabled\n" : "Disabled\n");
         }
         printString(
                "                        S - Sound            - ");
-        printString(newOptions.enableSound ? "Enabled\n" : "Disabled\n");
+        printString(enableSound ? "Enabled\n" : "Disabled\n");
         
-        if (newOptions.enableSound) {
+        if (enableSound) {
             tSlot slot = mockingBoardSlot();
             
             if (slot != 0) {
@@ -329,18 +442,18 @@ static void selectOptions(void)
                        //      0000000001111111111222222222233333333334444444444555555555566666666667
                        //      1234567890123456789012345678901234567890123456789012345678901234567890
                        "                                MockingBoard - ");
-                printString(newOptions.enableMockingboard ? "Enabled (Slot " : "Disabled (Slot ");
+                printString(enableMockingboard ? "Enabled (Slot " : "Disabled (Slot ");
                 printInteger(slot);
                 printString(")\n");
                 
-                if ((newOptions.enableMockingboard) &&
+                if ((enableMockingboard) &&
                     (mockingBoardHasSpeechChip()))
                 {
                     printString(
                     //      0000000001111111111222222222233333333334444444444555555555566666666667
                     //      1234567890123456789012345678901234567890123456789012345678901234567890
                     "                                      Speech - ");
-                    printString(newOptions.enableMockingboardSpeech ? "Enabled\n" : "Disabled\n");
+                    printString(((newOptions.flags & OPTION_MOCKINGBOARD_SPEECH_ENABLED) != 0) ? "Enabled\n" : "Disabled\n");
                 }
             }
         }
@@ -351,21 +464,22 @@ static void selectOptions(void)
                "       Type a letter to change a setting or any other key to save settings\n"
                "       and continue");
         
-        switch (cgetc()) {
-            case 'j':
+        switch (getKey()) {
             case 'J':
-                newOptions.enableJoystick = !newOptions.enableJoystick;
+                newOptions.flags ^= OPTION_JOYSTICK_ENABLED;
                 break;
                 
-            case 's':
             case 'S':
                 getSoundOptions(&newOptions);
                 break;
+                
+            case 'K':
+                getKeyboardOptions(&newOptions);
+                break;
 
-            case 'm':
             case 'M':
                 if (hasMouse()) {
-                    newOptions.enableMouse = !newOptions.enableMouse;
+                    newOptions.flags ^= OPTION_MOUSE_ENABLED;
                     break;
                 }
                 // Fall through.  If no mouse, then pressing m is a fall through into the save code.
@@ -392,7 +506,18 @@ void printInstructions(void)
            "                              Apple // Bejeweled             (" VERSION ")\n"
            "                                by Jeremy Rand\n"
            "\n"
-           "     Use I-J-K-M, the arrow keys, joystick or mouse to move your selection.\n"
+           "     Use ");
+    
+    printChar(gGameOptions.upChar);
+    printChar('-');
+    printChar(gGameOptions.leftChar);
+    printChar('-');
+    printChar(gGameOptions.rightChar);
+    printChar('-');
+    printChar(gGameOptions.downChar);
+    
+    printString(
+                           " the arrow keys, joystick or mouse to move your selection.\n"
            "     Hold either apple key, joystick or mouse button and move your selection\n"
            "     to swap two jewels and match 3 or more jewels.  When you match three\n"
            "     jewels, they disappear and new jewels will drop from the top.\n"
@@ -420,8 +545,7 @@ void printInstructions(void)
     
     srand(seed);
     
-    switch (cgetc()) {
-        case 'o':
+    switch (getKey()) {
         case 'O':
             selectOptions();
             break;
@@ -609,12 +733,6 @@ static bool swapDir(tDirection dir)
 }
 
 
-static bool isAppleButtonPressed(void)
-{
-    return (isButtonPressed(JOY_BUTTON_0) || isButtonPressed(JOY_BUTTON_1));
-}
-
-
 static void endGame(void)
 {
     char ch;
@@ -632,18 +750,15 @@ static void endGame(void)
     
     showCursor();
     while (true) {
-        ch = cgetc();
+        ch = getKey();
         switch (ch) {
-            case 'y':
             case 'Y':
                 replaceCursor(ch);
                 printString("\n");
                 return;
                 
-            case 'n':
             case 'N':
             case CH_ESC:
-            case 'q':
             case 'Q':
                 replaceCursor(ch);
                 quitGame();
@@ -717,7 +832,9 @@ void initUI(void)
     
     optionsLoaded = loadOptions();
     
-    soundInit(gGameOptions.enableSound, gGameOptions.enableMockingboard, gGameOptions.enableMockingboardSpeech);
+    soundInit(((gGameOptions.flags & OPTION_SOUND_ENABLED) != 0),
+              ((gGameOptions.flags & OPTION_MOCKINGBOARD_ENABLED) != 0),
+              ((gGameOptions.flags & OPTION_MOCKINGBOARD_SPEECH_ENABLED) != 0));
     
     initGameEngine(&gCallbacks);
     
@@ -789,8 +906,7 @@ static bool joystickChangedCallback(tJoyState *oldState, tJoyState *newState)
     if (oldState->position != JOY_POS_CENTER)
         return false;
     
-    if ((newState->button0) ||
-        (newState->button1)) {
+    if (newState->button) {
         switch (newState->position) {
             case JOY_POS_UP:
                 return swapDir(DIR_UP);
@@ -818,10 +934,7 @@ static bool joystickChangedCallback(tJoyState *oldState, tJoyState *newState)
 
 static bool joystickNoChangeCallback(tJoyState *oldState)
 {
-    if (oldState->button0)
-        return false;
-    
-    if (oldState->button1)
+    if (oldState->button)
         return false;
     
     joystickMove(oldState->position);
@@ -837,60 +950,55 @@ static bool pollKeyboard(void)
     if (!kbhit())
         return result;
     
-    ch = cgetc();
+    ch = getKey();
+    if (ch == gGameOptions.upChar)
+        ch = 0x0b;
+    else if (ch == gGameOptions.downChar)
+        ch = 0x0a;
+    else if (ch == gGameOptions.leftChar)
+        ch = CH_CURS_LEFT;
+    else if (ch == gGameOptions.rightChar)
+        ch = CH_CURS_RIGHT;
+    
+    if (isButtonPressed())
+        ch += 128;
+    
     switch (ch) {
-        case 'i':
-        case 'I':
         // case CH_CURS_UP:
         case 0x0b:
-            if (!isAppleButtonPressed()) {
-                moveDir(DIR_UP);
-                break;
-            }
-            // Fallthrough...
+            moveDir(DIR_UP);
+            break;
+            
         case 139:
             result = swapDir(DIR_UP);
             break;
             
-        case 'j':
-        case 'J':
         case CH_CURS_LEFT:
-            if (!isAppleButtonPressed()) {
-                moveDir(DIR_LEFT);
-                break;
-            }
-            // Fallthrough...
+            moveDir(DIR_LEFT);
+            break;
+            
         case 136:
             result = swapDir(DIR_LEFT);
             break;
             
-        case 'k':
-        case 'K':
         case CH_CURS_RIGHT:
-            if (!isAppleButtonPressed()) {
-                moveDir(DIR_RIGHT);
-                break;
-            }
-            // Fallthrough...
+            moveDir(DIR_RIGHT);
+            break;
+            
         case 149:
             result = swapDir(DIR_RIGHT);
             break;
             
-        case 'm':
-        case 'M':
         // case CH_CURS_DOWN:
         case 0x0a:
-            if (!isAppleButtonPressed()) {
-                moveDir(DIR_DOWN);
-                break;
-            }
-            // Fallthrough...
+            moveDir(DIR_DOWN);
+            break;
+            
         case 138:
             result = swapDir(DIR_DOWN);
             break;
             
         case CH_ESC:
-        case 'q':
         case 'Q':
             if (gShouldSave) {
                 videomode(0x12);
@@ -901,21 +1009,18 @@ static bool pollKeyboard(void)
             quitGame();
             break;
             
-        case 'r':
         case 'R':
             refreshScore(0);
             startNewGame();
             gShouldSave = false;
             return true;
             
-        case 'o':
         case 'O':
             selectOptions();
             showAndClearDblLoRes();
             drawBoard();
             break;
             
-        case 'h':
         case 'H':
             getHint();
             break;
@@ -982,12 +1087,12 @@ void playGame(void)
                 break;
             }
             
-            if ((gGameOptions.enableJoystick) &&
+            if (((gGameOptions.flags & OPTION_JOYSTICK_ENABLED) != 0) &&
                 (pollJoystick())) {
                 break;
             }
             
-            if ((gGameOptions.enableMouse) &&
+            if (((gGameOptions.flags & OPTION_MOUSE_ENABLED) != 0) &&
                 (pollMouse())) {
                 break;
             }

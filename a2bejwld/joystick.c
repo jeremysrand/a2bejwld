@@ -32,7 +32,6 @@ static tJoyCallbacks *gJoyCallbacks = NULL;
 
 static tJoyState gJoyState = {
     JOY_POS_CENTER,
-    false,
     false
 };
 
@@ -52,17 +51,15 @@ void initJoystick(tJoyCallbacks *callbacks)
 }
 
 
-bool isButtonPressed(tJoyButtonNum buttonNum)
+bool isButtonPressed(void)
 {
-    if (buttonNum == JOY_BUTTON_0) {
-        __asm__ volatile("LDA %w", BTN0);
-        __asm__ volatile("STA %v", gJoystickTemp);
-    } else if (buttonNum == JOY_BUTTON_1) {
-        __asm__ volatile("LDA %w", BTN1);
-        __asm__ volatile("STA %v", gJoystickTemp);
-    } else {
-        return false;
-    }
+    __asm__ volatile("LDA %w", BTN0);
+    __asm__ volatile("STA %v", gJoystickTemp);
+    if (gJoystickTemp > 127)
+        return true;
+    
+    __asm__ volatile("LDA %w", BTN1);
+    __asm__ volatile("STA %v", gJoystickTemp);
     return ((gJoystickTemp > 127) ? true : false);
 }
 
@@ -123,8 +120,7 @@ static void readJoystickState(tJoyState *state)
         pos = JOY_POS_RIGHT;
     }
 
-    state->button0 = isButtonPressed(0);
-    state->button1 = isButtonPressed(1);
+    state->button = isButtonPressed();
 
     if (axisUpDown < LOWER_THRESHOLD) {
         switch (pos) {
@@ -157,8 +153,7 @@ static void readJoystickState(tJoyState *state)
 
 static bool joystickStateChanged(tJoyState *state1, tJoyState *state2) {
     if ((state1->position != state2->position) ||
-        (state1->button0 != state2->button0) ||
-        (state1->button1 != state2->button1)) {
+        (state1->button != state2->button)) {
         return true;
     }
     return false;
