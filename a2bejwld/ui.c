@@ -960,7 +960,8 @@ static bool pollKeyboard(void)
     else if (ch == gGameOptions.rightChar)
         ch = CH_CURS_RIGHT;
     
-    if (isButtonPressed())
+    if ((ch < 128) &&
+        (isButtonPressed()))
         ch += 128;
     
     switch (ch) {
