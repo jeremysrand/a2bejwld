@@ -27,7 +27,7 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "A2BEJWLD.OPTS"
-#define VERSION "v2.7"
+#define VERSION "v2.7b1"
 
 #define OPTIONS_VERSION_UNSAVED 0
 #define OPTIONS_VERSION_V2 2
@@ -209,7 +209,7 @@ static bool loadOptions(void)
     //   - There used to be a boolean to enable/disable the speech chip on the mockingboard.  It was only
     //     true if the user enabled it.  Now that we can detect the speech chip, the value is default true
     //     and the user can disable speech if they want.
-    if (gGameOptions < OPTIONS_VERSION) {
+    if (gGameOptions.optionsVersion < OPTIONS_VERSION) {
         tGameOptionsV2 * oldOptions = (tGameOptionsV2 *)&gGameOptions;
         if (oldOptions->enableJoystick)
             gGameOptions.flags = OPTION_JOYSTICK_ENABLED;
@@ -228,13 +228,15 @@ static bool loadOptions(void)
         if (oldOptions->enableMockingboardSpeech)
             gGameOptions.flags |= OPTION_MOCKINGBOARD_SPEECH_ENABLED;
         
-        if (gGameOptions < OPTIONS_VERSION_V2)
+        if (gGameOptions.optionsVersion < OPTIONS_VERSION_V2)
             gGameOptions.flags |= (OPTION_MOUSE_ENABLED | OPTION_MOCKINGBOARD_ENABLED | OPTION_MOCKINGBOARD_SPEECH_ENABLED);
         
         gGameOptions.upChar = 'I';
         gGameOptions.downChar = 'M';
         gGameOptions.leftChar = 'J';
         gGameOptions.rightChar = 'K';
+        
+        gGameOptions.optionsVersion = OPTIONS_VERSION;
     }
     
     return true;
