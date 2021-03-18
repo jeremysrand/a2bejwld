@@ -27,7 +27,7 @@
 // Defines
 
 #define SAVE_OPTIONS_FILE "A2BEJWLD.OPTS"
-#define VERSION "v2.7b1"
+#define VERSION "v2.7"
 
 #define OPTIONS_VERSION_UNSAVED 0
 #define OPTIONS_VERSION_V2 2
